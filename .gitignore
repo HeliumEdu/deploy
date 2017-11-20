@@ -1,0 +1,6 @@
+projects
+.vagrant
+*.retry
+*.log
+.idea/
+*.iml
