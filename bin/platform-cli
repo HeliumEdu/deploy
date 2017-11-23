@@ -1,0 +1,47 @@
+#!/usr/bin/python
+
+import argparse
+import sys
+
+from lib import utils
+from lib.deploy import DeployAction
+from lib.build import BuildAction
+from lib.pull import PullAction
+from lib.tag import TagAction
+from lib.headers import UpdateHeadersAction
+
+__author__ = 'Alex Laird'
+__copyright__ = 'Copyright 2017, Helium Edu'
+__version__ = '0.5.0'
+
+
+def main(argv):
+    actions = {
+        BuildAction(),
+        DeployAction(),
+        PullAction(),
+        TagAction(),
+        UpdateHeadersAction(),
+    }
+
+    parser = argparse.ArgumentParser(prog="platform-cli")
+    subparsers = parser.add_subparsers(title="subcommands")
+
+    print(utils.get_title())
+
+    for action in actions:
+        action.setup(subparsers)
+
+    if len(argv) == 1:
+        parser.print_help()
+
+        return
+
+    args = parser.parse_args()
+    args.action.run(args)
+
+    print("")
+
+
+if __name__ == "__main__":
+    main(sys.argv)

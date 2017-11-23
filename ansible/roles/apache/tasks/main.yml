@@ -1,0 +1,96 @@
+---
+- name: Install repository
+  become: yes
+  apt_repository:
+    repo: 'ppa:ondrej/apache2'
+    state: present
+    update_cache: yes
+    mode: 0644
+
+- name: Install packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - apache2
+    - libapache2-mod-wsgi
+
+- name: Creates SSL directory
+  become: yes
+  file:
+    path: /etc/apache2/ssl
+    state: directory
+
+- name: SSL certificate
+  become: yes
+  copy:
+    src: "../../../private/ssl/apache.crt"
+    dest: "/etc/apache2/ssl/apache.crt"
+  notify: restart apache
+  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
+  tags:
+     - ssl
+
+- name: SSL key
+  become: yes
+  copy:
+    src: "../../../private/ssl/apache.key"
+    dest: "/etc/apache2/ssl/apache.key"
+  notify: restart apache
+  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
+  tags:
+     - ssl
+
+- name: SSL ca-bundle
+  become: yes
+  copy:
+    src: "../../../private/ssl/apache.bundle"
+    dest: "/etc/apache2/ssl/apache.ca-bundle"
+  notify: restart apache
+  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
+  tags:
+     - ssl
+
+- name: Enable WSGI
+  become: yes
+  apache2_module:
+    name: wsgi
+    state: present
+
+- name: Enable Rewrite
+  become: yes
+  apache2_module:
+    name: rewrite
+    state: present
+
+- name: Enable SSL
+  become: yes
+  apache2_module:
+    name: ssl
+    state: present
+
+- name: Disable default site
+  become: yes
+  file:
+    path: /etc/apache2/sites-enabled/000-default.conf
+    state: absent
+  notify: restart apache
+
+- name: Apache user
+  become: yes
+  replace:
+    dest: /etc/apache2/envvars
+    regexp: '^export APACHE_RUN_USER=www-data$'
+    replace: 'export APACHE_RUN_USER=ubuntu'
+    backup: yes
+  notify: restart apache
+  tags:
+     - envvars
+
+- name: Ensure started
+  become: yes
+  service:
+    name: apache2
+    state: started

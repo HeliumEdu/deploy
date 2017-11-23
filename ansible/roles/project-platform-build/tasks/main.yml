@@ -1,0 +1,47 @@
+---
+- name: Pip dependencies
+  become: yes
+  pip:
+    requirements: reqs.txt
+    chdir: "{{ project_root }}/platform"
+
+- name: Install yuglify
+  become: yes
+  npm:
+    global: yes
+    name: yuglify
+
+- name: Test
+  command: python manage.py test
+  args:
+    chdir: "{{ project_root }}/platform"
+
+- name: Static files
+  command: python manage.py collectstatic --noinput
+  args:
+    chdir: "{{ project_root }}/platform"
+  when: platform_code_only is undefined or not platform_code_only
+
+- name: Migrate
+  command: python manage.py migrate
+  args:
+    chdir: "{{ project_root }}/platform"
+  when: platform_code_only is undefined or not platform_code_only
+
+- name: Crontab metrics num_purchases
+  cron:
+    name: "num_purchases metrics"
+    special_time: "hourly"
+    job: "cd {{ project_root}}/platform && python manage.py calculatenumpurchases"
+
+- name: Restart Apache
+  become: yes
+  service:
+    name: apache2
+    state: restarted
+  when: platform_code_only is undefined or not platform_code_only
+
+- include: tasks/letsencrypt_ssl.yml
+  when: letsencrypt_ssl is defined and (platform_code_only is undefined or not platform_code_only)
+  tags:
+    - ssl

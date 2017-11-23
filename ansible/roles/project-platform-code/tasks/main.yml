@@ -1,0 +1,25 @@
+---
+- name: Create directory
+  file:
+    path: "{{ project_root }}/platform"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Clone or pull
+  git:
+    repo: ssh://git@wash.whitefall.io:7999/den/platform.git
+    accept_hostkey: yes
+    dest: "{{ project_root }}/platform_stage"
+    version: "{{ platform_code_version | default('master')  }}"
+
+- name: Delete current directory
+  file:
+    path: "{{ project_root }}/platform_previous"
+    state: absent
+
+- name: Move current folder
+  command: "mv {{ project_root }}/platform {{ project_root }}/platform_previous"
+
+- name: Move staging into place
+  command: "mv {{ project_root }}/platform_stage {{ project_root }}/platform"

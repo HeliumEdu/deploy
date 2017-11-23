@@ -1,0 +1,203 @@
+---
+- name: Install Graphite packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - graphite-web
+    - graphite-carbon
+    - python2.7-mysqldb
+    - libapache2-mod-wsgi
+
+- name: Pip dependencies
+  become: yes
+  pip:
+    name: PyMySQL
+    version: 0.7.10
+
+- name: Create Graphite database
+  become: yes
+  mysql_db:
+    name: graphite
+    state: present
+    login_host: "{{ platform_db_host }}"
+    login_user: "{{ platform_db_user }}"
+    login_password: "{{ platform_db_password }}"
+    encoding: utf8
+    collation: utf8_general_ci
+
+- name: Configure secret key
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "SECRET_KEY = '{{ graphite_secret_key }}'"
+    regexp: "SECRET_KEY"
+  notify: restart graphite-server
+
+- name: Configure time zone
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "TIME_ZONE = 'America/Los_Angeles'"
+    regexp: "TIME_ZONE"
+  notify: restart graphite-server
+
+- name: Configure DB name
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "'NAME': 'graphite',"
+    regexp: "'NAME'"
+  notify: restart graphite-server
+
+- name: Configure DB host
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "'HOST': '{{ platform_db_host }}',"
+    regexp: "'HOST'"
+  notify: restart graphite-server
+
+- name: Configure DB engine
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "'ENGINE': 'django.db.backends.mysql',"
+    regexp: "'ENGINE'"
+  notify: restart graphite-server
+
+- name: Configure DB user
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "'USER': '{{ platform_db_user }}',"
+    regexp: "'USER'"
+  notify: restart graphite-server
+
+- name: Configure DB password
+  become: yes
+  lineinfile:
+    dest: /etc/graphite/local_settings.py
+    line: "'PASSWORD': '{{ platform_db_password }}',"
+    regexp: "'PASSWORD'"
+  notify: restart graphite-server
+
+- name: Migrate auth
+  become: yes
+  command: graphite-manage migrate auth --noinput
+
+- name: Migrate
+  become: yes
+  command: graphite-manage migrate --noinput
+
+- name: Enable carbon on startup
+  become: yes
+  lineinfile:
+    dest: /etc/default/graphite-carbon
+    line: "CARBON_CACHE_ENABLED=true"
+    regexp: "CARBON_CACHE_ENABLED"
+  notify: restart carbon-cache
+
+- name: Configure aggregation
+  become: yes
+  template:
+    src: storage-aggregation.conf
+    dest: /etc/carbon/storage-aggregation.conf
+    mode: 0644
+  notify: restart carbon-cache
+  tags:
+    - conf
+
+- name: Configure schemas
+  become: yes
+  template:
+    src: storage-schemas.conf
+    dest: /etc/carbon/storage-schemas.conf
+    mode: 0644
+  notify: restart carbon-cache
+  tags:
+    - conf
+
+- name: Setup Apache conf
+  template:
+    src: "graphite.apache.conf"
+    dest: "/etc/apache2/sites-enabled/graphite.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: yes
+  vars:
+    url: "{{ graphite_host }}"
+  notify: restart apache
+  tags:
+     - conf
+
+- name: Ensure started
+  become: yes
+  service:
+    name: carbon-cache
+    state: started
+
+- name: Install Grafana repository
+  become: yes
+  apt_repository:
+    repo: 'deb https://packagecloud.io/grafana/stable/debian/ jessie main'
+    state: present
+    update_cache: yes
+    mode: 0644
+
+- name: Install Grafana repository key
+  become: yes
+  apt_key:
+    url: 'https://packagecloud.io/gpg.key'
+    state: present
+
+- name: Install Grafana packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - grafana
+
+- name: Enable proxy
+  become: yes
+  apache2_module:
+    name: proxy
+    state: present
+
+- name: Enable proxy
+  become: yes
+  apache2_module:
+    name: proxy_http
+    state: present
+
+- name: Enable proxy
+  become: yes
+  apache2_module:
+    name: headers
+    state: present
+
+- name: Setup Apache conf
+  template:
+    src: "grafana.apache.conf"
+    dest: "/etc/apache2/sites-enabled/grafana.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: yes
+  vars:
+    url: "{{ grafana_host }}"
+  notify: restart apache
+  tags:
+     - conf
+
+- name: Ensure Grafana started
+  become: yes
+  service:
+    name: grafana-server
+    enabled: yes
+    state: started

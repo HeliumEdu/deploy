@@ -1,0 +1,14 @@
+---
+- name: restart graphite-server
+  become: yes
+  service:
+    name: graphite-server
+    state: restarted
+    enabled: yes
+
+- name: restart carbon-cache
+  become: yes
+  service:
+    name: carbon-cache
+    state: restarted
+    enabled: yes

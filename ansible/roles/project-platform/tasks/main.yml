@@ -1,0 +1,51 @@
+---
+- name: Install packages
+  become: yes
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items:
+    - python2.7-mysqldb
+
+- name: Create database
+  become: yes
+  mysql_db:
+    name: "{{ platform_db_name }}"
+    state: present
+    login_host: "{{ platform_db_host }}"
+    login_user: "{{ platform_db_user }}"
+    login_password: "{{ platform_db_password }}"
+    encoding: utf8
+    collation: utf8_general_ci
+  when: platform_code_only is undefined or not platform_code_only
+
+- name: Setup Python/Django Apache conf
+  template:
+    src: "../../apache/templates/python.django.conf"
+    dest: "/etc/apache2/sites-enabled/helium.conf"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+  become: yes
+  vars:
+    url: "{{ platform_host }}"
+    alias_urls: "{{ platform_host_alias }}"
+    srv_dir: "{{ platform_root }}"
+    env: "{{ platform_env_vars }}"
+  notify: restart apache
+  when: platform_code_only is undefined or not platform_code_only
+  tags:
+     - conf
+
+- name: Environment variables
+  become: yes
+  lineinfile:
+    dest: /etc/apache2/envvars
+    line: "export {{ item.key }}=\"{{ item.value }}\""
+    regexp: "export {{ item.key }}="
+  with_dict: "{{ env_vars }}"
+  notify: restart apache
+  when: platform_code_only is undefined or not platform_code_only
+  tags:
+     - envvars
