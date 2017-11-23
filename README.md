@@ -23,7 +23,7 @@ Here is a minimal set of commands that will get a local development environment 
 ```
 git clone ssh://git@github.com:HeliumEdu/deploy.git ~/Developer/helium
 cd ~/Developer/helium
-pip install -r reqs.txt
+make build
 vagrant up
 ```
 
