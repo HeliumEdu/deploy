@@ -22,12 +22,6 @@
       target: migrate
   when: platform_code_only is undefined or not platform_code_only
 
-- name: Crontab metrics num_purchases
-  cron:
-    name: "num_purchases metrics"
-    special_time: "hourly"
-    job: "cd {{ project_root}}/platform && python manage.py calculatenumpurchases"
-
 - name: Restart Apache
   become: yes
   service:
