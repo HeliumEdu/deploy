@@ -123,7 +123,7 @@
 - name: Setup Apache conf
   template:
     src: "graphite.apache.conf"
-    dest: "/etc/apache2/sites-enabled/graphite.conf"
+    dest: "/etc/apache2/sites-available/graphite.conf"
     owner: "root"
     group: "root"
     mode: "0644"
@@ -133,6 +133,11 @@
   notify: restart apache
   tags:
      - conf
+
+- name: Enable Graphite site
+  become: yes
+  command: a2ensite graphite
+  notify: restart apache
 
 - name: Ensure started
   become: yes
@@ -184,7 +189,7 @@
 - name: Setup Apache conf
   template:
     src: "grafana.apache.conf"
-    dest: "/etc/apache2/sites-enabled/grafana.conf"
+    dest: "/etc/apache2/sites-available/grafana.conf"
     owner: "root"
     group: "root"
     mode: "0644"
@@ -194,6 +199,11 @@
   notify: restart apache
   tags:
      - conf
+
+- name: Enable Grafana site
+  become: yes
+  command: a2ensite grafana
+  notify: restart apache
 
 - name: Ensure Grafana started
   become: yes

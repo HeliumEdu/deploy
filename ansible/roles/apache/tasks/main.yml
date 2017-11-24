@@ -72,10 +72,12 @@
     state: present
 
 - name: Enable default site
+  become: yes
   command: a2ensite 000-default
   notify: restart apache
 
 - name: Enable default SSL site
+  become: yes
   command: a2ensite default-ssl
   notify: restart apache
 

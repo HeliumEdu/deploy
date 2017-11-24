@@ -23,7 +23,7 @@
 - name: Setup Python/Django Apache conf
   template:
     src: "../../apache/templates/python.django.conf"
-    dest: "/etc/apache2/sites-enabled/helium.conf"
+    dest: "/etc/apache2/sites-available/helium.conf"
     owner: "root"
     group: "root"
     mode: "0644"
@@ -38,6 +38,11 @@
   when: platform_code_only is undefined or not platform_code_only
   tags:
      - conf
+
+- name: Enable site
+  become: yes
+  command: a2ensite helium
+  notify: restart apache
 
 - name: Environment variables
   become: yes
