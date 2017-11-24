@@ -71,11 +71,11 @@
     name: ssl
     state: present
 
-- name: a2ensite 000-default
+- name: Enable default site
   command: a2ensite 000-default
   notify: restart apache
 
-- name: a2ensite default-ssl
+- name: Enable default SSL site
   command: a2ensite default-ssl
   notify: restart apache
 
