@@ -29,6 +29,7 @@
     mode: "0644"
   become: yes
   vars:
+    email: "{{ project_contact_email }}"
     url: "{{ platform_host }}"
     alias_urls: "{{ platform_host_alias }}"
     srv_dir: "{{ platform_root }}"

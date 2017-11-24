@@ -71,11 +71,12 @@
     name: ssl
     state: present
 
-- name: Disable default site
-  become: yes
-  file:
-    path: /etc/apache2/sites-enabled/000-default.conf
-    state: absent
+- name: a2ensite 000-default
+  command: a2ensite 000-default
+  notify: restart apache
+
+- name: a2ensite default-ssl
+  command: a2ensite default-ssl
   notify: restart apache
 
 - name: Apache user
