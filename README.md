@@ -24,6 +24,7 @@ Here is a minimal set of commands that will get a local development environment 
 git clone ssh://git@github.com:HeliumEdu/deploy.git ~/Developer/helium
 cd ~/Developer/helium
 make build
+cp ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml
 vagrant up
 ```
 
