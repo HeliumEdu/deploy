@@ -1,5 +1,7 @@
 .PHONY: all build
 
-build:
-    cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml
+_env:
+    cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml | true
+
+build: _env
 	pip install -r requirements.txt --user
