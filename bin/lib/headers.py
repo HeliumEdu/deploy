@@ -30,8 +30,8 @@ class UpdateHeadersAction:
         current_version = None
         settings_file = open(os.path.join(projects_dir, "platform", "conf", "configs/common.py"))
         for line in settings_file:
-            if line.startswith("PROJECT_VERSION = "):
-                current_version = line.strip().split("PROJECT_VERSION = '")[1].rstrip("'")
+            if line.startswith("__version__ = "):
+                current_version = line.strip().split("__version__ = '")[1].rstrip("'")
         current_year = unicode(datetime.date.today().year)
 
         if not current_version:
