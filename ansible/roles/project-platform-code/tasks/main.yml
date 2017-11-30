@@ -13,7 +13,7 @@
     dest: "{{ project_root }}/platform_stage"
     version: "{{ platform_code_version | default('master')  }}"
 
-- name: Delete current directory
+- name: Delete previous directory, if it exists
   file:
     path: "{{ project_root }}/platform_previous"
     state: absent
