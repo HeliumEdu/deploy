@@ -52,7 +52,7 @@ vagrant halt
 ## Deployment
 
 The Ansible scripts in this repository, which are used for configuring Vagrant, can also be used to deploy to various other environments. The
-CLI tool in the `bin` folder is useful for this (and many other things). So, for instance, executing `bin/platform-cli deploy v0.1.0 qa`
+CLI tool in the `bin` folder is useful for this (and many other things). So, for instance, executing `bin/helium-cli deploy v0.1.0 qa`
 will deploy the tag `v0.1.0` of all projects to the QA environment, provisioning the nodes as necessary along the way.
 
 Deployments will not work without the `devops` SSH key at `~/.ssh/id_rsa`, an inventory file for the environment in `ansible/group_vars`, and
