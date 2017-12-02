@@ -24,7 +24,7 @@ def main(argv):
         UpdateHeadersAction(),
     }
 
-    parser = argparse.ArgumentParser(prog="platform-cli")
+    parser = argparse.ArgumentParser(prog="helium-cli")
     subparsers = parser.add_subparsers(title="subcommands")
 
     print(utils.get_title())
