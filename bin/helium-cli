@@ -6,7 +6,7 @@ import sys
 from lib import utils
 from lib.deploy import DeployAction
 from lib.build import BuildAction
-from lib.pull import PullAction
+from lib.update import UpdateAction
 from lib.tag import TagAction
 from lib.headers import UpdateHeadersAction
 
@@ -19,7 +19,7 @@ def main(argv):
     actions = {
         BuildAction(),
         DeployAction(),
-        PullAction(),
+        UpdateAction(),
         TagAction(),
         UpdateHeadersAction(),
     }
