@@ -8,7 +8,7 @@ end
 
 system("
   if [ #{ARGV[0]} = 'up' ]; then
-    bin/helium-cli pull
+    bin/helium-cli update
   fi
 ")
 

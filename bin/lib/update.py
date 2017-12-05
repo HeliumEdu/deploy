@@ -5,9 +5,9 @@ import git
 import utils
 
 
-class PullAction:
+class UpdateAction:
     def __init__(self):
-        self.name = "pull"
+        self.name = "update"
         self.help = "Ensure the latest code is checked out for projects"
 
     def setup(self, subparsers):
