@@ -1,8 +1,8 @@
 ---
-- name: Copy worker conf
+- name: Copy beat conf
   template:
-    src: "celeryworker.conf"
-    dest: "/etc/supervisor/conf.d/celeryworker.conf"
+    src: "celerybeat.conf"
+    dest: "/etc/supervisor/conf.d/celerybeat.conf"
     owner: "root"
     group: "root"
     mode: "0644"

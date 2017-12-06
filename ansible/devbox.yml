@@ -10,6 +10,7 @@
     - { role: redis }
     - { role: supervisor }
     - { role: celeryworker }
+    - { role: celerybeat }
 
     # StatsD
     - { role: collectd-agent }
