@@ -71,9 +71,9 @@
     name: ssl
     state: present
 
-- name: Disable default site
+- name: Enable default site
   become: yes
-  command: a2dissite 000-default
+  command: a2ensite 000-default
   notify: restart apache
 
 - name: Disable default SSL site

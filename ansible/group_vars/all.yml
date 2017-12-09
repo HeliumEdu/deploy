@@ -18,7 +18,7 @@ default_env_vars:
   PROJECT_CONTACT_EMAIL: "{{ project_contact_email }}"
   PLATFORM_HOST: "{{ platform_host_protocol }}{{ platform_host }}"
   PLATFORM_HOME_DIR: "{{ platform_root }}"
-  PLATFORM_ALLOWED_HOSTS: "{{ platform_host }} {{ platform_host_alias }}"
+  PLATFORM_ALLOWED_HOSTS: "{{ platform_host }} {{ platform_host_alias }} {{ ip_address }}"
   PLATFORM_DB_NAME: "{{ platform_db_name }}"
   PLATFORM_DB_HOST: "{{ platform_db_host }}"
   PLATFORM_EMAIL_HOST: "email-smtp.us-east-1.amazonaws.com"
