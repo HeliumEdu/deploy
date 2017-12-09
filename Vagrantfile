@@ -6,12 +6,6 @@ unless Vagrant.has_plugin?("vagrant-host-shell")
   system('vagrant plugin install vagrant-host-shell')
 end
 
-system("
-  if [ #{ARGV[0]} = 'up' ]; then
-    bin/helium-cli update
-  fi
-")
-
 Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
   config.ssh.insert_key = true
