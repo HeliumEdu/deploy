@@ -26,6 +26,8 @@ class DeployAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
+        version = "v" + args.version.lstrip("v")
+
         hosts = utils.parse_hosts_file(args.env)
 
         for host in hosts:
@@ -34,7 +36,7 @@ class DeployAction:
             subprocess.call(["ssh", "-t", "ubuntu@" + host,
                              "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"])
 
-        ansible_command = 'ansible-playbook --inventory-file=ansible/hosts -v ansible/' + args.env + '.yml --extra-vars "platform_code_version=' + args.version + '"'
+        ansible_command = 'ansible-playbook --inventory-file=ansible/hosts -v ansible/' + args.env + '.yml --extra-vars "platform_code_version=' + version + '"'
 
         if args.code or args.envvars or args.conf or args.ssl:
             ansible_command += ' --tags "'
