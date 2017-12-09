@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
       "grafana.heliumedu.dev"
     ]
 
-    node.vm.synced_folder "./projects", "/srv/helium", nfs: true
+    node.vm.synced_folder "./projects", "/srv/helium"
 
     node.vm.provider "virtualbox" do |vb|
       vb.name = "helium"

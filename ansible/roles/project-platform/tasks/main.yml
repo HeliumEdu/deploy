@@ -34,6 +34,7 @@
     url: "{{ platform_host }}"
     alias_urls: "{{ platform_host_alias }}"
     srv_dir: "{{ platform_root }}"
+    serve_local: "{{ project_serve_local | default(False) }}"
     env: "{{ platform_env_vars }}"
   notify: restart apache
   when: platform_code_only is undefined or not platform_code_only
