@@ -17,6 +17,7 @@
     - mysql-server-5.7
     - mysql-client-5.7
     - python-mysqldb
+    - libmysqlclient-dev
 
 - name: Configure bind address
   become: yes
