@@ -1,2 +1,5 @@
 *
 !.gitignore
+!apache.devbox.crt
+!apache.devbox.key
+!apache.devbox.ca-bundle

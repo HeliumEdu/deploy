@@ -1,8 +1,9 @@
 projects
 .vagrant
+.venv
 *.retry
 *.log
 .idea/
 *.iml
 *.pyc
-README.md
+*.swp
