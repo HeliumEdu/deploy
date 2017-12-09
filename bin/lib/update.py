@@ -4,6 +4,10 @@ import git
 
 import utils
 
+__author__ = 'Alex Laird'
+__copyright__ = 'Copyright 2017, Helium Edu'
+__version__ = '0.5.0'
+
 
 class UpdateAction:
     def __init__(self):
@@ -35,7 +39,7 @@ class UpdateAction:
 
             if not os.path.exists(os.path.join(project_path, ".git")):
                 print("Cloning repo to ./projects/{}".format(project))
-                git.Repo.clone_from("ssh://git@wash.whitefall.io:7999/den/{}.git".format(project), project_path)
+                git.Repo.clone_from("ssh://git@github.com:HeliumEdu/{}.git".format(project), project_path)
 
             repo = git.cmd.Git(project_path)
 
