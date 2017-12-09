@@ -7,6 +7,7 @@ env:
 
 install: env
 	pip install -r requirements.txt --user
+	bin/helium-cli update
 
 build:
 	bin/helium-cli build
