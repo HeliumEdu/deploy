@@ -8,7 +8,7 @@
 
 - name: Clone or pull
   git:
-    repo: ssh://git@wash.whitefall.io:7999/den/platform.git
+    repo: ssh://git@github.com:HeliumEdu/platform.git
     accept_hostkey: yes
     dest: "{{ project_root }}/platform_stage"
     version: "{{ platform_code_version | default('master')  }}"

@@ -13,7 +13,7 @@ __version__ = '0.5.0'
 
 class UpdateHeadersAction:
     def __init__(self):
-        self.name = "update-headers"
+        self.name = "headers"
         self.help = "Update header information"
 
     def setup(self, subparsers):
