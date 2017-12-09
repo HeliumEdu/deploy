@@ -6,7 +6,8 @@
     state: present
     update_cache: yes
   with_items:
-    - python2.7-mysqldb
+    - python-mysqldb
+    - libmysqlclient-dev
 
 - name: Create database
   become: yes

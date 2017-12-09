@@ -26,7 +26,7 @@
 - name: SSL certificate
   become: yes
   copy:
-    src: "../../../private/ssl/apache.crt"
+    src: "../../../private/ssl/apache.{{ domain_environment }}.crt"
     dest: "/etc/apache2/ssl/apache.crt"
   notify: restart apache
   when: letsencrypt_ssl is undefined or not letsencrypt_ssl
@@ -36,7 +36,7 @@
 - name: SSL key
   become: yes
   copy:
-    src: "../../../private/ssl/apache.key"
+    src: "../../../private/ssl/apache.{{ domain_environment }}.key"
     dest: "/etc/apache2/ssl/apache.key"
   notify: restart apache
   when: letsencrypt_ssl is undefined or not letsencrypt_ssl
@@ -46,7 +46,7 @@
 - name: SSL ca-bundle
   become: yes
   copy:
-    src: "../../../private/ssl/apache.bundle"
+    src: "../../../private/ssl/apache.{{ domain_environment }}.ca-bundle"
     dest: "/etc/apache2/ssl/apache.ca-bundle"
   notify: restart apache
   when: letsencrypt_ssl is undefined or not letsencrypt_ssl
@@ -71,14 +71,14 @@
     name: ssl
     state: present
 
-- name: Enable default site
+- name: Disable default site
   become: yes
-  command: a2ensite 000-default
+  command: a2dissite 000-default
   notify: restart apache
 
-- name: Enable default SSL site
+- name: Disable default SSL site
   become: yes
-  command: a2ensite default-ssl
+  command: a2dissite default-ssl
   notify: restart apache
 
 - name: Apache user

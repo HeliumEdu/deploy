@@ -26,4 +26,4 @@ class BuildAction:
             if dir == ".DS_Store":
                 continue
 
-            subprocess.call('vagrant ssh -c "cd /srv/{}/{} && make build"'.format(project_name, dir), shell=True)
+            subprocess.call('vagrant ssh -c "cd /srv/{}/{} && make"'.format(project_name, dir), shell=True)
