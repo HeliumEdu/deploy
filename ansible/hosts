@@ -1,2 +1,2 @@
-[prod]
-heliumedu.com ansible_user=ubuntu
+[devbox]
+heliumedu.dev ansible_user=ubuntu ip_address=10.1.0.10
