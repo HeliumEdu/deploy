@@ -49,6 +49,12 @@ To power down the VM, execute:
 vagrant halt
 ```
 
+## Offline Development
+
+If you would like to develop using Vagrant fully offline (after the initial provision), the following environment variables should be disabled:
+
+* PROJECT_DISABLE_EMAILS
+
 ## Deployment
 
 The Ansible scripts in this repository, which are used for configuring Vagrant, can also be used to deploy to various other environments. The
