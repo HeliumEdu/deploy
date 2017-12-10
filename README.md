@@ -11,9 +11,9 @@ Before you can initialize the project and all dependencies, ensure you have the 
 * SSH key with access to Git server, stored locally at ~/.ssh/id_rsa
 * Python (>= 2.7)
 * Pip (>= 9.0)
-* Git (>= 1.7.1)
-* VirtualBox (>= 5.0.28)
-* Vagrant (>= 1.8.4)
+* Git (>= 1.7)
+* VirtualBox (>= 5.1)
+* Vagrant (>= 1.9)
 * Ansible (>= 2.2)
 
 ## Getting Started
@@ -21,7 +21,7 @@ Before you can initialize the project and all dependencies, ensure you have the 
 Here is a minimal set of commands that will get a local development environment up and running:
 
 ```
-git clone ssh://git@github.com:HeliumEdu/deploy.git ~/Developer/helium
+git clone git@github.com:HeliumEdu/deploy.git ~/Developer/helium
 cd ~/Developer/helium
 make install
 vagrant up
