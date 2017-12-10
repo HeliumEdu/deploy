@@ -6,7 +6,7 @@ env:
 	cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml | true
 
 install: env
-	pip install -r requirements.txt --user
+	python -m pip install -r requirements.txt --user
 	bin/helium-cli update
 
 build:

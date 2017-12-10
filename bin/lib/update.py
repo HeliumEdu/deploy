@@ -39,7 +39,7 @@ class UpdateAction:
 
             if not os.path.exists(os.path.join(project_path, ".git")):
                 print("Cloning repo to ./projects/{}".format(project))
-                git.Repo.clone_from("ssh://git@github.com:HeliumEdu/{}.git".format(project), project_path)
+                git.Repo.clone_from("git@github.com:HeliumEdu/{}.git".format(project), project_path)
 
             repo = git.cmd.Git(project_path)
 
