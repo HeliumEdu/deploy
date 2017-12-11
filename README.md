@@ -63,3 +63,9 @@ will deploy the tag `v0.1.0` of all projects to the QA environment, provisioning
 
 Deployments will not work without the `devops` SSH key at `~/.ssh/id_rsa`, an inventory file for the environment in `ansible/group_vars`, and
 necessarily private configuration files (for instance, SSL certificates) in `ansible/private`.
+
+## Making a New Domain Environment
+
+Domain environment's are groups of hosts (or just one, if the environment is small enough) and their associated inventory files. For example,
+the deploy command in the section above, `bin/helium-cli deploy v0.1.0 qa` will only work if a `qa` group has been defined under the `ansible`
+folder with the necessary hosts and inventory files. This process is described in more detail [here](ansible/README.md).
