@@ -11,7 +11,7 @@
 
 - name: Install SSL
   become: yes
-  shell: letsencrypt --apache --non-interactive --domains {{ platform_host }}
+  shell: letsencrypt --apache --non-interactive --agree-tos --email {{ project_contact_email }} --domains {{ platform_host }}
   when: letsencrypt_ssl
 
 - name: Restart Apache
