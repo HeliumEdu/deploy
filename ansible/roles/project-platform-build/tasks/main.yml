@@ -35,7 +35,8 @@
     state: restarted
   when: platform_code_only is undefined or not platform_code_only
 
-- include: tasks/letsencrypt_ssl.yml
+- include_role:
+  name: letsencrypt
   when: letsencrypt_ssl is defined and (platform_code_only is undefined or not platform_code_only)
   tags:
     - ssl
