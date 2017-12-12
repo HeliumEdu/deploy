@@ -6,7 +6,12 @@ These Ansible roles and configurations are used to deploy projects to the approp
 
 To create a new group, create a new `.yml` file in this folder and define what it deploys to what hosts. Each host
 referenced in the new group `.yml` should also be defined in the `hosts` file. Each group/host combination should have
-a corresponding `.yml` file under `group_vars`. Creating a new inventory file in is documented [here](group_vars/README.md).
+a corresponding `.yml` file under `group_vars`.
+
+Note that `devbox.yml` sets `clone_code=False`. This is because in the Vagrant environment, project code is mounted
+using shared folders. In all other environments, this flag should be omitted (which will default it to "True").
+
+Creating a new inventory file in is documented [here](group_vars/README.md).
 
 ## Current Risks
 

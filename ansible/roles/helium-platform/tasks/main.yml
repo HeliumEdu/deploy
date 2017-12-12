@@ -1,0 +1,35 @@
+---
+- include_tasks: init.yml
+
+- include_tasks: clone.yml
+  when: clone_code or clone_code is undefined
+  tags:
+    - code
+
+- name: Install yuglify
+  become: yes
+  npm:
+    global: yes
+    name: yuglify
+
+- name: Install
+  make:
+    chdir: "{{ project_root }}/platform"
+    target: install
+  when: clone_code is undefined and not clone_code
+
+- name: Build
+  make:
+    chdir: "{{ project_root }}/platform"
+    target: build
+
+- name: Migrate
+  make:
+      chdir: "{{ project_root }}/platform"
+      target: migrate
+
+- name: Ensure Apache started
+  become: yes
+  service:
+    name: apache2
+    state: started
