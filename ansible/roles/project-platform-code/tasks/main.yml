@@ -13,12 +13,23 @@
     dest: "{{ project_root }}/platform_stage"
     version: "{{ platform_code_version | default('master')  }}"
 
+- name: Install
+  make:
+    chdir: "{{ project_root }}/platform_stage"
+    target: install
+  when: platform_code_only is undefined or not platform_code_only
+
+- name: Test
+  make:
+      chdir: "{{ project_root }}/platform_stage"
+      target: test
+
 - name: Delete previous directory, if it exists
   file:
     path: "{{ project_root }}/platform_previous"
     state: absent
 
-- name: Move current folder
+- name: Move current folder for rollback
   command: "mv {{ project_root }}/platform {{ project_root }}/platform_previous"
 
 - name: Move staging into place

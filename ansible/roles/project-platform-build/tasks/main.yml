@@ -11,11 +11,6 @@
     target: install
   when: platform_code_only is undefined or not platform_code_only
 
-- name: Test
-  make:
-      chdir: "{{ project_root }}/platform"
-      target: test
-
 - name: Build
   make:
     chdir: "{{ project_root }}/platform"
