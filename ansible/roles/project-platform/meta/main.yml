@@ -1,4 +1,0 @@
----
-dependencies:
-    - { role: apache, when: platform_code_only is undefined or not platform_code_only }
-    - { role: pip }

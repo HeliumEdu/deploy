@@ -23,36 +23,6 @@
     path: /etc/apache2/ssl
     state: directory
 
-- name: SSL certificate
-  become: yes
-  copy:
-    src: "../../../private/ssl/apache.{{ domain_environment }}.crt"
-    dest: "/etc/apache2/ssl/apache.crt"
-  notify: restart apache
-  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
-  tags:
-     - ssl
-
-- name: SSL key
-  become: yes
-  copy:
-    src: "../../../private/ssl/apache.{{ domain_environment }}.key"
-    dest: "/etc/apache2/ssl/apache.key"
-  notify: restart apache
-  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
-  tags:
-     - ssl
-
-- name: SSL ca-bundle
-  become: yes
-  copy:
-    src: "../../../private/ssl/apache.{{ domain_environment }}.ca-bundle"
-    dest: "/etc/apache2/ssl/apache.ca-bundle"
-  notify: restart apache
-  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
-  tags:
-     - ssl
-
 - name: Enable WSGI
   become: yes
   apache2_module:
@@ -74,12 +44,12 @@
 - name: Enable default site
   become: yes
   command: a2ensite 000-default
-  notify: restart apache
+  notify: reload apache
 
 - name: Disable default SSL site
   become: yes
   command: a2dissite default-ssl
-  notify: restart apache
+  notify: reload apache
 
 - name: Apache user
   become: yes

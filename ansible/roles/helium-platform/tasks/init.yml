@@ -1,5 +1,5 @@
 ---
-- name: Install packages
+- name: Install dependencies
   become: yes
   apt:
     pkg: "{{ item }}"
@@ -19,7 +19,36 @@
     login_password: "{{ platform_db_password }}"
     encoding: utf8
     collation: utf8_general_ci
-  when: platform_code_only is undefined or not platform_code_only
+
+- name: SSL certificate
+  become: yes
+  copy:
+    src: "../../../private/ssl/apache.{{ domain_environment }}.crt"
+    dest: "/etc/apache2/ssl/apache.crt"
+  notify: restart apache
+  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
+  tags:
+     - ssl
+
+- name: SSL key
+  become: yes
+  copy:
+    src: "../../../private/ssl/apache.{{ domain_environment }}.key"
+    dest: "/etc/apache2/ssl/apache.key"
+  notify: restart apache
+  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
+  tags:
+     - ssl
+
+- name: SSL ca-bundle
+  become: yes
+  copy:
+    src: "../../../private/ssl/apache.{{ domain_environment }}.ca-bundle"
+    dest: "/etc/apache2/ssl/apache.ca-bundle"
+  notify: restart apache
+  when: letsencrypt_ssl is undefined or not letsencrypt_ssl
+  tags:
+     - ssl
 
 - name: Setup Python/Django Apache conf
   template:
@@ -36,24 +65,29 @@
     srv_dir: "{{ platform_root }}"
     serve_local: "{{ project_serve_local | default(False) }}"
     env: "{{ platform_env_vars }}"
-  notify: restart apache
-  when: platform_code_only is undefined or not platform_code_only
+  notify: reload apache
   tags:
      - conf
 
-- name: Enable site
+- name: Enable site conf
   become: yes
   command: a2ensite helium
-  notify: restart apache
+  notify: reload apache
 
-- name: Environment variables
+- name: Apache environment variables
   become: yes
   lineinfile:
     dest: /etc/apache2/envvars
     line: "export {{ item.key }}=\"{{ item.value }}\""
     regexp: "export {{ item.key }}="
   with_dict: "{{ env_vars }}"
-  notify: restart apache
-  when: platform_code_only is undefined or not platform_code_only
+  notify: reload apache
   tags:
      - envvars
+
+- name: Generate SSL
+  include_role:
+    name: letsencrypt
+  when: letsencrypt_ssl is defined and letsencrypt_ssl
+  tags:
+    - ssl

@@ -130,14 +130,14 @@
   become: yes
   vars:
     url: "{{ graphite_host }}"
-  notify: restart apache
+  notify: reload apache
   tags:
      - conf
 
 - name: Enable Graphite site
   become: yes
   command: a2ensite graphite
-  notify: restart apache
+  notify: reload apache
 
 - name: Ensure started
   become: yes
@@ -196,14 +196,14 @@
   become: yes
   vars:
     url: "{{ grafana_host }}"
-  notify: restart apache
+  notify: reload apache
   tags:
      - conf
 
 - name: Enable Grafana site
   become: yes
   command: a2ensite grafana
-  notify: restart apache
+  notify: reload apache
 
 - name: Ensure Grafana started
   become: yes

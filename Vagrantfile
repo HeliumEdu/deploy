@@ -8,7 +8,6 @@ end
 
 Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
-  config.ssh.insert_key = true
 
   config.vm.define "devbox" do |node|
     node.vm.box = "ubuntu/xenial64"
