@@ -20,7 +20,7 @@ class TagAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        tag = "v" + args.version.lstrip("v")
+        tag = args.version.lstrip("v")
 
         root_dir = utils.get_root_dir()
 

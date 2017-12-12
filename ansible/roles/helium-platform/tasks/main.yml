@@ -1,35 +1,33 @@
 ---
 - include_tasks: init.yml
 
+- name: Set code directory
+  set_fact:
+    code_directory: "{{ project_root }}/platform"
+  tags:
+    - code
+    - migrate
+
 - include_tasks: clone.yml
-  when: clone_code or clone_code is undefined
+  when: clone_code is undefined or clone_code
+  tags:
+    - code
+    - migrate
+
+- include_tasks: install.yml
+  tags:
+    - code
+    - migrate
+
+- include_tasks: cleanup.yml
+  when: clone_code is undefined or clone_code
   tags:
     - code
 
-- name: Install yuglify
-  become: yes
-  npm:
-    global: yes
-    name: yuglify
-
-- name: Install
-  make:
-    chdir: "{{ project_root }}/platform"
-    target: install
-  when: clone_code is undefined and not clone_code
-
-- name: Build
-  make:
-    chdir: "{{ project_root }}/platform"
-    target: build
-
-- name: Migrate
-  make:
-      chdir: "{{ project_root }}/platform"
-      target: migrate
-
-- name: Ensure Apache started
+- name: Ensure Apache is reloaded, as we just swapped out code
   become: yes
   service:
     name: apache2
-    state: started
+    state: reloaded
+  tags:
+    - code

@@ -1,0 +1,49 @@
+---
+- name: Install yuglify
+  become: yes
+  npm:
+    global: yes
+    name: yuglify
+
+- name: Set code directory
+  set_fact:
+    code_directory: "{{ project_root }}/platform_stage"
+
+- name: Create directory
+  file:
+    path: "{{ project_root }}/platform"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
+- name: Ensure staging directory doesn't exist
+  file:
+    path: "{{ project_root }}/platform_stage"
+    state: absent
+
+- name: Clone or pull
+  git:
+    repo: ssh://git@github.com:HeliumEdu/platform.git
+    accept_hostkey: yes
+    dest: "{{ code_directory }}"
+    version: "{{ platform_code_version | default('master')  }}"
+
+- name: Install
+  make:
+    chdir: "{{ code_directory }}"
+    target: install
+
+- name: Test
+  make:
+      chdir: "{{ code_directory }}"
+      target: test
+
+- name: Build
+  make:
+    chdir: "{{ code_directory }}"
+    target: build
+
+- name: Migrate
+  make:
+      chdir: "{{ code_directory }}"
+      target: migrate
