@@ -5,7 +5,6 @@ import sys
 
 from lib import utils
 from lib.deploy import DeployAction
-from lib.build import BuildAction
 from lib.update import UpdateAction
 from lib.tag import TagAction
 from lib.headers import UpdateHeadersAction
@@ -17,7 +16,6 @@ __version__ = '0.5.0'
 
 def main(argv):
     actions = {
-        BuildAction(),
         DeployAction(),
         UpdateAction(),
         TagAction(),

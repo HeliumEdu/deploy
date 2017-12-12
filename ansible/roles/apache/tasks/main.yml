@@ -56,7 +56,7 @@
   replace:
     dest: /etc/apache2/envvars
     regexp: '^export APACHE_RUN_USER=www-data$'
-    replace: 'export APACHE_RUN_USER=ubuntu'
+    replace: 'export APACHE_RUN_USER={{ ansible_user }}'
     backup: yes
   notify: restart apache
   tags:

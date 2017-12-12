@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   config.vm.define "devbox" do |node|
-    node.vm.box = "ubuntu/xenial64"
+    node.vm.box = "bento/ubuntu-16.04"
 
     node.vm.network "private_network", ip: "10.1.0.10"
 
@@ -28,21 +28,6 @@ Vagrant.configure("2") do |config|
       vb.gui = false
       vb.memory = "4096"
       vb.cpus = 2
-      vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 1000 ]
-    end
-
-    # Provision
-    node.vm.provision "shell" do |shell|
-      shell.inline = "apt-get install -y python"
-    end
-
-    node.vm.provision "main", type: "ansible" do |ansible|
-      ansible.playbook = "ansible/devbox.yml"
-      ansible.verbose = true
-      ansible.groups = { "devbox" => ["devbox"] }
-      ansible.extra_vars = {
-        ip_address: "10.1.0.10"
-      }
     end
   end
 end

@@ -32,10 +32,16 @@ def parse_hosts_file(env):
     hosts = []
     for section in config.sections():
         if section.startswith(env):
-            for item, value in config.items(section):
-                split = item.split(' ')
-                if len(split) == 2:
-                    hosts.append(split[0])
+            for item, section_vars in config.items(section):
+                host = item.split(' ')[0]
+                section_vars = '{}={}'.format(item.split(' ')[1], section_vars)
+
+                user = 'ubuntu'
+                for var in section_vars.split(' '):
+                    split = var.split('=')
+                    if split[0] == 'ansible_user':
+                        user = split[1]
+                hosts.append([user, host])
 
     return hosts
 
