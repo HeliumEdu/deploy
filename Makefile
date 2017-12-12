@@ -1,6 +1,6 @@
-.PHONY: all env install build
+.PHONY: all env install
 
-all: env install build
+all: env install
 
 env:
 	cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml | true
@@ -8,6 +8,6 @@ env:
 install: env
 	python -m pip install -r requirements.txt --user
 	bin/helium-cli update
-
-build:
-	bin/helium-cli build
+	vagrant up
+	if ! cat ~/.ssh/config | grep -xqFe "Host heliumedu.dev" ; then vagrant ssh-config --host heliumedu.dev >> ~/.ssh/config ; fi
+	bin/helium-cli deploy master devbox

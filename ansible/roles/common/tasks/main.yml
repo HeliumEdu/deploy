@@ -33,13 +33,6 @@
     path: "{{ ansible_env.HOME }}/.ssh"
     state: directory
 
-- name: Setup SSH config
-  become: yes
-  become_user: "{{ ansible_env.HOME|basename }}"
-  template:
-    src: ssh_known_hosts
-    dest: "{{ ansible_env.HOME }}/.ssh/known_hosts"
-
 - name: Setup log folder
   become: yes
   file:

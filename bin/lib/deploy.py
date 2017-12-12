@@ -32,9 +32,7 @@ class DeployAction:
         hosts = utils.parse_hosts_file(args.env)
 
         for host in hosts:
-            subprocess.call(["scp", os.path.expanduser("~/.ssh/id_rsa"), "ubuntu@" + host + ":~/.ssh/id_rsa"])
-
-            subprocess.call(["ssh", "-t", "ubuntu@" + host,
+            subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
                              "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"])
 
         ansible_command = 'ansible-playbook --inventory-file=ansible/hosts -v ansible/' + args.env + '.yml --extra-vars "platform_code_version=' + version + '"'

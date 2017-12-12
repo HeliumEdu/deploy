@@ -14,7 +14,7 @@ __version__ = '0.5.0'
 class UpdateHeadersAction:
     def __init__(self):
         self.name = "headers"
-        self.help = "Update header information"
+        self.help = "Update projects' header information"
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
