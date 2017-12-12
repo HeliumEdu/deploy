@@ -31,23 +31,6 @@ Vagrant.configure("2") do |config|
       vb.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 1000 ]
     end
 
-    node.vm.provision :host_shell, run: "always" do |host_shell|
-      host_shell.inline = "./bin/_vagrant_prepare.sh"
-    end
-
-    # Provision environment variables only
-    if ARGV.include? '--provision-with'
-      node.vm.provision "envvars", type: "ansible" do |ansible|
-        ansible.playbook = "ansible/devbox.yml"
-        ansible.verbose = true
-        ansible.groups = { "devbox" => ["devbox"] }
-        ansible.extra_vars = {
-          ip_address: "10.1.0.10"
-        }
-        ansible.tags = ["envvars"]
-      end
-    end
-
     # Provision
     node.vm.provision "shell" do |shell|
       shell.inline = "apt-get install -y python"
