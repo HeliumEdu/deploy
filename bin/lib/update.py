@@ -25,7 +25,7 @@ class UpdateAction:
 
         repo = git.cmd.Git(root_dir)
 
-        print(os.path.basename(root_dir))
+        print("deploy repo")
         repo.fetch(tags=True, prune=True)
         print(repo.pull() + "\n")
 
@@ -33,7 +33,7 @@ class UpdateAction:
             os.mkdir(projects_dir)
 
         for project in utils.get_projects():
-            print(project)
+            print("{} repo".format(project))
 
             project_path = os.path.join(projects_dir, project)
 
