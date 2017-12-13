@@ -1,8 +1,8 @@
 ---
-- name: restart graphite-server
+- name: restart grafana-server
   become: yes
   service:
-    name: graphite-server
+    name: grafana-server
     state: restarted
     enabled: yes
 

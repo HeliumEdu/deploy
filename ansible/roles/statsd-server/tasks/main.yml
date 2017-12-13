@@ -8,7 +8,7 @@
   with_items:
     - graphite-web
     - graphite-carbon
-    - python2.7-mysqldb
+    - python-mysqldb
     - libapache2-mod-wsgi
 
 - name: Pip dependencies
@@ -34,7 +34,7 @@
     dest: /etc/graphite/local_settings.py
     line: "SECRET_KEY = '{{ graphite_secret_key }}'"
     regexp: "SECRET_KEY"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Configure time zone
   become: yes
@@ -42,7 +42,7 @@
     dest: /etc/graphite/local_settings.py
     line: "TIME_ZONE = 'America/Los_Angeles'"
     regexp: "TIME_ZONE"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Configure DB name
   become: yes
@@ -50,7 +50,7 @@
     dest: /etc/graphite/local_settings.py
     line: "'NAME': 'graphite',"
     regexp: "'NAME'"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Configure DB host
   become: yes
@@ -58,7 +58,7 @@
     dest: /etc/graphite/local_settings.py
     line: "'HOST': '{{ platform_db_host }}',"
     regexp: "'HOST'"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Configure DB engine
   become: yes
@@ -66,7 +66,7 @@
     dest: /etc/graphite/local_settings.py
     line: "'ENGINE': 'django.db.backends.mysql',"
     regexp: "'ENGINE'"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Configure DB user
   become: yes
@@ -74,7 +74,7 @@
     dest: /etc/graphite/local_settings.py
     line: "'USER': '{{ platform_db_user }}',"
     regexp: "'USER'"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Configure DB password
   become: yes
@@ -82,7 +82,7 @@
     dest: /etc/graphite/local_settings.py
     line: "'PASSWORD': '{{ platform_db_password }}',"
     regexp: "'PASSWORD'"
-  notify: restart graphite-server
+  notify: reload apache
 
 - name: Migrate auth
   become: yes
