@@ -68,4 +68,4 @@ necessarily private configuration files (for instance, SSL certificates) in `ans
 
 Domain environment's are groups of hosts (or just one, if the environment is small enough) and their associated inventory files. For example,
 the deploy command in the section above, `bin/helium-cli deploy v0.1.0 qa` will only work if a `qa` group has been defined under the `ansible`
-folder with the necessary hosts and inventory files. This process is described in more detail [here](ansible/README.md).
+folder with the necessary hosts and inventory files. This process is described in more detail [here](ansible).
