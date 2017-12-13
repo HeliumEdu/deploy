@@ -11,7 +11,7 @@ a corresponding `.yml` file under `group_vars`.
 Note that `devbox.yml` sets `clone_code=False`. This is because in the Vagrant environment, project code is mounted
 using shared folders. In all other environments, this flag should be omitted (which will default it to "True").
 
-Creating a new inventory file in is documented [here](group_vars/README.md).
+Creating a new inventory file in is documented [here](group_vars).
 
 ## Current Risks
 
