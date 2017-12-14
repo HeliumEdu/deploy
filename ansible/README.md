@@ -2,7 +2,7 @@
 
 These Ansible roles and configurations are used to deploy projects to the appropriate nodes in various environments.
 
-## Making a New Group
+## Making a New Group Configuration
 
 To create a new group, create a new `.yml` file in this folder and define what it deploys to what hosts. Each host
 referenced in the new group `.yml` should also be defined in the `hosts` file. Each group/host combination should have

@@ -23,7 +23,7 @@
 - name: SSL certificate
   become: yes
   copy:
-    src: "../../../private/ssl/apache.{{ domain_environment }}.crt"
+    src: "../../../private/ssl/apache.{{ environment }}.crt"
     dest: "/etc/apache2/ssl/apache.crt"
   notify: restart apache
   when: letsencrypt_ssl is undefined or not letsencrypt_ssl
@@ -33,7 +33,7 @@
 - name: SSL key
   become: yes
   copy:
-    src: "../../../private/ssl/apache.{{ domain_environment }}.key"
+    src: "../../../private/ssl/apache.{{ environment }}.key"
     dest: "/etc/apache2/ssl/apache.key"
   notify: restart apache
   when: letsencrypt_ssl is undefined or not letsencrypt_ssl
@@ -43,7 +43,7 @@
 - name: SSL ca-bundle
   become: yes
   copy:
-    src: "../../../private/ssl/apache.{{ domain_environment }}.ca-bundle"
+    src: "../../../private/ssl/apache.{{ environment }}.ca-bundle"
     dest: "/etc/apache2/ssl/apache.ca-bundle"
   notify: restart apache
   when: letsencrypt_ssl is undefined or not letsencrypt_ssl
