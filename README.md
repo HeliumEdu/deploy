@@ -28,9 +28,10 @@ make install
 
 Done!
 
-All projects should now be accessible via https://heliumedu.dev. When changes are made to deployment scripts (project's
-contain environmental changes, for instances new migrations), you should use the command below to ensure the `devbox` is
-working with the latest environment.
+All projects should now be accessible via https://heliumedu.dev, and API documentation should be accessible at API
+documentation can now also be viewed at https://heliumedu.dev/docs. When changes are made to deployment scripts
+(project's contain environmental changes, for instances new migrations), you should use the command below to ensure
+the `devbox` is working with the latest environment.
 
 ```
 bin/helium-cli deploy master devbox
