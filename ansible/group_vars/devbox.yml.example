@@ -1,5 +1,5 @@
 ---
-environment: "devbox"
+domain_environment: "devbox"
 
 graphite_host: "graphite.heliumedu.dev"
 graphite_secret_key: ")3&j*zsc3i=t%6o^mhoee2++*&%7^e@lvp=maq@c3*+k_7_z+!"

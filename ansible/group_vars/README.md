@@ -25,6 +25,6 @@ Aside from the obvious updates that need to be made to any host or credentials v
 Note that if the new inventory calls for SSL but does not [Let's Encrypt](https://letsencrypt.org/), the following
 corresponding SSL files will need to be in `ansible/private/ssl`:
 
-* apache.{{ environment }}.crt
-* apache.{{ environment }}.key
-* apache.{{ environment }}.ca-bundle
+* apache.{{ domain_environment }}.crt
+* apache.{{ domain_environment }}.key
+* apache.{{ domain_environment }}.ca-bundle
