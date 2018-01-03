@@ -1,10 +1,4 @@
 ---
-- name: Install yuglify
-  become: yes
-  npm:
-    global: yes
-    name: yuglify
-
 - name: Set code directory
   set_fact:
     code_directory: "{{ project_root }}/platform_stage"
