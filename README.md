@@ -1,4 +1,4 @@
-# Deployment Environment
+# Deploy Environment
 
 This repository contains everything that is necessary to get a development environment setup on a local machine in
 minimal time and to deploy code to other environments.
