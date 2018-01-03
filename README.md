@@ -58,6 +58,12 @@ For the changes to take within the box, execute:
 
 `bin/helium-cli deploy master devbox --envvars`
 
+## Security Note
+
+In any non-dev environment, the `project_serve_local` and `PROJECT_SERVE_LOCAL` variables should be _removed_, and
+`PLATFORM_AWS_S3_ACCESS_KEY_ID` and `PLATFORM_AWS_S3_SECRET_ACCESS_KEY` _must be set_. Doing this will cause the
+platform to rely on S3 to serve up static content and media files reliably and securely. See the [S3 Setup](https://github.com/HeliumEdu/deploy/wiki/S3-Setup) guide for instructions on how to do this.
+
 ## Documentation
 
 Additional documentation for development, deployment, setting up environments, and more can be found on the [Deploy Wiki](https://github.com/HeliumEdu/deploy/wiki).
