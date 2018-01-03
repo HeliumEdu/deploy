@@ -69,3 +69,47 @@ in `ansible/group_vars`, and the necessary private configuration files (for inst
 Environment's are groups of hosts (or just one, if the environment is a small, all-in-one host) and their associated inventory files. For example,
 the deploy command in the section above `bin/helium-cli deploy v0.1.0 qa` will only work if a `qa` group has been defined under the `ansible`
 folder with the necessary hosts and inventory files. This process is described in more detail [here](ansible).
+
+## Serving Static and Media Securely from S3
+
+In any non-dev environment, the `project_serve_local` and `PROJECT_SERVE_LOCAL` variables should be _removed_, and
+`PLATFORM_AWS_S3_ACCESS_KEY_ID` and `PLATFORM_AWS_S3_SECRET_ACCESS_KEY` must be _set_. Doing this will cause the
+platform to rely on S3 to serving up static and media files reliably and securely.
+
+Before this will work fully, a few things need to be setup. First, the buckets
+`heliumedu.{{ domain_environment }}.static` and `heliumedu.{{ domain_environment }}.media` must exist (change the
+environment variables to use different names).
+
+Lastly, the `static` bucket must be setup to allow public reads. To do this, set the following Bucket Policy:
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+       {
+           "Sid": "AddPerm",
+           "Effect": "Allow",
+           "Principal": "*",
+           "Action": "s3:GetObject",
+           "Resource": "arn:aws:s3:::heliumedu.{{ domain_environment }}.static/*"
+       }
+    ]
+}
+```
+
+And the follow CORS Configuration:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+    <AllowedHeader>Authorization</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
+
+Now you're all setup. Rerun the `bin/helium-cli` deployment command and the environment will be reprovisioned to rely on
+this new configuration.
