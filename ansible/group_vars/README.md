@@ -20,7 +20,7 @@ Aside from the obvious updates that need to be made to any host or credentials v
 * Any "secret" or "key" should be regenerated; do NOT reuse these between environments
 * "platform_host_protocol" should be updated if the new group supports SSL
 * "letsencrypt_ssl" can be added and set to "True" if you want to auto-generate and renew SSL certificates and your hosts are resolvable externally
-* "project_serve_local", "PROJECT_SERVE_LOCAL", and "PROJECT_DISABLE_EMAILS" can simply be removed from non-dev environments, as they fallback on safe defaults
+* "project_serve_local", "PROJECT_SERVE_LOCAL", and "PROJECT_DISABLE_EMAILS" should be removed from non-dev environments, as they fallback on safe defaults
 
 Note that if the new inventory calls for SSL but does not [Let's Encrypt](https://letsencrypt.org/), the following
 corresponding SSL files will need to be in `ansible/private/ssl`:
