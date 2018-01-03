@@ -28,10 +28,9 @@ make install
 
 Done!
 
-All projects should now be accessible via https://heliumedu.dev, and API documentation should be accessible at API
-documentation can now also be viewed at https://heliumedu.dev/docs. When changes are made to deployment scripts
-(project's contain environmental changes, for instances new migrations), you should use the command below to ensure
-the `devbox` is working with the latest environment.
+All projects should now be accessible via https://heliumedu.dev, and API documentation can now also be viewed at
+https://heliumedu.dev/docs. When changes are made to deployment scripts (project's contain environmental changes, for instances
+new migrations), you should use the command below to ensure the `devbox` is working with the latest environment.
 
 ```
 bin/helium-cli deploy master devbox
@@ -51,19 +50,19 @@ vagrant halt
 
 ## Offline Development
 
-If you would like to develop using Vagrant fully offline (after the initial provision), the following environment variables should be disabled:
+To develop using Vagrant fully offline (after the initial provision), the following environment variables should be set to `False`:
 
 * PROJECT_DISABLE_EMAILS
 
 ## Deployment
 
-The Ansible scripts in this repository, which are also used for configuring Vagrant, are used to deploy to various other environments. The
-CLI tool in the `bin` folder is useful for this (and many other things). So, for instance, executing `bin/helium-cli deploy 0.1.0 qa`
-will deploy the tag `0.1.0` of all projects to the QA environment, provisioning the nodes as necessary along the way.You can also specify
-branches and/or deploy against Vagrant (which is the `devbox` environment), for example `bin/helium-cli deploy feature-27-branch devbox`.
+The Ansible scripts in this repository can be used to deploy to any environment, production to a local Vagrant—the CLI tool
+in the `bin` folder is useful for this and many other things. So, for instance, executing `bin/helium-cli deploy 0.1.0 qa`
+will deploy the tag `0.1.0` of all projects to the QA environment, provisioning the nodes as necessary along the way.
+Alternatively, a branch can also be specified, for example `bin/helium-cli deploy feature-27-branch devbox`.
 
-Deployments will not work without an SSH key with permissions at `~/.ssh/id_rsa`, an inventory file for the environment in `ansible/group_vars`, and
-necessarily private configuration files (for instance, SSL certificates) in `ansible/private`.
+Remote deployments will not work without a permissioned SSH key at `~/.ssh/id_rsa`, an inventory file for the given environment
+in `ansible/group_vars`, and the necessary private configuration files (for instance, SSL certificates) in `ansible/private`.
 
 ## Making a New Environment Configuration
 
