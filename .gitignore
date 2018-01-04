@@ -7,3 +7,4 @@ projects
 *.iml
 *.pyc
 *.swp
+.DS_Store
