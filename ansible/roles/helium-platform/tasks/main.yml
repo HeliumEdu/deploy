@@ -1,5 +1,5 @@
 ---
-- include_tasks: init.yml
+- import_tasks: init.yml
 
 - name: Set code directory
   set_fact:
@@ -8,18 +8,18 @@
     - code
     - migrate
 
-- include_tasks: clone.yml
+- import_tasks: clone.yml
   when: clone_code is undefined or clone_code
   tags:
     - code
     - migrate
 
-- include_tasks: install.yml
+- import_tasks: install.yml
   tags:
     - code
     - migrate
 
-- include_tasks: cleanup.yml
+- import_tasks: cleanup.yml
   when: clone_code is undefined or clone_code
   tags:
     - code
