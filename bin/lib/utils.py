@@ -65,4 +65,5 @@ def get_project_name():
 def get_projects():
     return [
         "platform",
+        "frontend",
     ]
