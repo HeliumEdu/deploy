@@ -4,10 +4,10 @@ import yaml
 from configparser import ConfigParser
 
 __author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2017, Helium Edu'
-__version__ = '0.5.0'
+__copyright__ = 'Copyright 2018, Helium Edu'
+__version__ = '1.0.0'
 
-VERSION = "1.0"
+VERSION = __version__
 
 
 def get_title():
