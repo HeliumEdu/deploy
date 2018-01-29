@@ -1,4 +1,3 @@
-import os
 import subprocess
 
 import utils
@@ -17,6 +16,7 @@ class DeployAction:
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument("version", help="The tag version to be deployed")
         parser.add_argument("env", help="The environment to deploy to")
+        parser.add_argument('--hosts', action='store', type=str, nargs='*', help="Limit the hosts to be deployed")
         parser.add_argument("--migrate", action="store_true", help="Install code dependencies and run migrations")
         parser.add_argument("--code", action="store_true", help="Only deploy code")
         parser.add_argument("--envvars", action="store_true", help="Only deploy environment variables")
@@ -38,17 +38,20 @@ class DeployAction:
         ansible_command = 'ansible-playbook --inventory-file=ansible/hosts -v ansible/' + args.env + '.yml --extra-vars "platform_code_version=' + version + '"'
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
-            ansible_command += ' --tags "'
+            tags = []
             if args.code:
-                ansible_command += "code,"
+                tags.append("code")
             if args.migrate:
-                ansible_command += "migrate,"
+                tags.append("migrate")
             if args.envvars:
-                ansible_command += "envvars,"
+                tags.append("envvars")
             if args.conf:
-                ansible_command += "conf,"
+                tags.append("conf")
             if args.ssl:
-                ansible_command += "ssl,"
-            ansible_command = ansible_command.rstrip(',') + '"'
+                tags.append("ssl")
+            ansible_command += ' --tags "{}"'.format(",".join(tags))
+
+        if args.hosts:
+            ansible_command += ' --limit "{}"'.format(",".join(args.hosts))
 
         subprocess.call(ansible_command, shell=True)
