@@ -9,6 +9,7 @@
     - vim
     - ssh
     - htop
+    - bash-completion
 
 - name: Configure vim
   become: yes
