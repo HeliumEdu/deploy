@@ -97,3 +97,18 @@
   when: letsencrypt_ssl is defined and letsencrypt_ssl
   tags:
     - ssl
+
+- name: Set code directory
+  set_fact:
+    code_directory: "{{ project_root }}/platform_stage"
+  tags:
+    - code
+    - migrate
+
+- name: Set code directory
+  set_fact:
+    code_directory: "{{ project_root }}/platform"
+  tags:
+    - code
+    - migrate
+  when: domain_environment == "devbox"
