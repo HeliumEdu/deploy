@@ -13,8 +13,9 @@
     - { role: celerybeat }
 
     # StatsD
+    - { role: graphite }
+    - { role: grafana }
     - { role: collectd-agent }
-    - { role: statsd-server }
     - { role: statsd-agent }
 
     # Projects
