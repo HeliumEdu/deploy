@@ -98,6 +98,13 @@
   tags:
     - ssl
 
+- name: Create directory
+  file:
+    path: "{{ project_root }}/platform"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+
 - name: Set code directory
   set_fact:
     code_directory: "{{ project_root }}/platform_stage"
@@ -113,8 +120,8 @@
     - migrate
   when: domain_environment == "devbox"
 
-- import_tasks: clone.yml
-  when: clone_code is undefined or clone_code
+- import_tasks: download.yml
+  when: download_code is undefined or download_code
   tags:
     - code
     - migrate
@@ -125,7 +132,7 @@
     - migrate
 
 - import_tasks: cleanup.yml
-  when: clone_code is undefined or clone_code
+  when: download_code is undefined or download_code
   tags:
     - code
 

@@ -19,5 +19,5 @@
     - { role: statsd-agent }
 
     # Projects
-    - { role: helium-platform, clone_code: False }
+    - { role: helium-platform, download_code: False }
   environment: "{{ env_vars }}"
