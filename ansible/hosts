@@ -1,8 +1,2 @@
 [devbox]
 heliumedu.dev ansible_user=vagrant ip_address=10.1.0.10
-
-[prod_graphite]
-graphite.heliumedu.com ansible_user=ubuntu ip_address=34.232.203.31
-
-[prod_platform]
-prod.heliumedu.com ansible_user=ubuntu ip_address=35.169.122.249
