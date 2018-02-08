@@ -1,34 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_GRAPHITE",
-      "label": "Graphite",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "graphite",
-      "pluginName": "Graphite"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "4.6.3"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "graphite",
-      "name": "Graphite",
-      "version": "1.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -46,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "hideControls": false,
-  "id": null,
+  "id": 1,
   "links": [],
   "refresh": "5m",
   "rows": [
@@ -59,7 +29,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_GRAPHITE}",
+          "datasource": "Graphite",
           "fill": 2,
           "id": 1,
           "legend": {
@@ -150,7 +120,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_GRAPHITE}",
+          "datasource": "Graphite",
           "fill": 2,
           "id": 4,
           "legend": {
@@ -178,22 +148,22 @@
           "targets": [
             {
               "refId": "A",
-              "target": "alias(summarize(stats.counters.platform.action.homework.deleted.count, '1h', 'sum', false), 'Homework Created')",
+              "target": "alias(summarize(stats.counters.platform.action.homework.deleted.count, '1h', 'sum', false), 'Homework Deleted')",
               "textEditor": false
             },
             {
               "refId": "D",
-              "target": "alias(summarize(stats.counters.platform.action.category.deleted.count, '1h', 'sum', false), 'Category Created')",
+              "target": "alias(summarize(stats.counters.platform.action.category.deleted.count, '1h', 'sum', false), 'Category Deleted')",
               "textEditor": false
             },
             {
               "refId": "E",
-              "target": "alias(summarize(stats.counters.platform.action.event.deleted.count, '1h', 'sum', false), 'Event Created')",
+              "target": "alias(summarize(stats.counters.platform.action.event.deleted.count, '1h', 'sum', false), 'Event Deleted')",
               "textEditor": false
             },
             {
               "refId": "C",
-              "target": "alias(summarize(stats.counters.platform.action.user.deleted.count, '1h', 'sum', false), 'User Created')",
+              "target": "alias(summarize(stats.counters.platform.action.user.deleted.select metric, '1h', 'sum', false), 'User Deleted')",
               "textEditor": false
             }
           ],
@@ -250,7 +220,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_GRAPHITE}",
+          "datasource": "Graphite",
           "fill": 2,
           "id": 3,
           "legend": {
@@ -343,7 +313,7 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
-          "datasource": "${DS_GRAPHITE}",
+          "datasource": "Graphite",
           "fill": 2,
           "id": 2,
           "legend": {
@@ -467,5 +437,5 @@
   },
   "timezone": "",
   "title": "Helium Dashboard",
-  "version": 7
+  "version": 8
 }
