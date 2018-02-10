@@ -270,6 +270,18 @@
               "refId": "E",
               "target": "alias(summarize(stats.counters.platform.view.grades.count, '1h', 'sum', false), 'Grades')",
               "textEditor": false
+            },
+            {
+              "refId": "F",
+              "target": "alias(summarize(stats.counters.platform.view.settings.count, '1h', 'sum', false), 'Settings')"
+            },
+            {
+              "refId": "G",
+              "target": "alias(summarize(stats.counters.platform.view.support.count, '1h', 'sum', false), 'Support')"
+            },
+            {
+              "refId": "H",
+              "target": "alias(summarize(sumSeries(stats.counters.platform.view.privatefeed.*.count), '1h', 'sum', false), 'Private Feed Read')"
             }
           ],
           "thresholds": [],
@@ -360,10 +372,6 @@
             {
               "refId": "E",
               "target": "alias(summarize(stats.counters.platform.action.user.imported.count, '1h', 'sum', false), 'Schedule Imported')"
-            },
-            {
-              "refId": "F",
-              "target": "alias(summarize(stats.counters.platform.action.privatefeed.*.count, '1h', 'sum', false), 'Private Feed Read')"
             }
           ],
           "thresholds": [],
@@ -449,5 +457,5 @@
   },
   "timezone": "",
   "title": "Helium Dashboard",
-  "version": 10
+  "version": 11
 }
