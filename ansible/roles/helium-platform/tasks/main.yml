@@ -144,10 +144,10 @@
   tags:
     - code
 
-- name: Ensure Supervisor is reloaded
+- name: Ensure Supervisor is restarted
   become: yes
   service:
     name: supervisor
-    state: reloaded
+    state: restarted
   tags:
     - code
