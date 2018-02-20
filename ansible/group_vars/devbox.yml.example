@@ -9,8 +9,12 @@ grafana_admin_password: "fixmystats"
 # NOTE: THIS IS INSECURE AND SHOULD NEVER BE DONE OUTSIDE OF DEVELOPMENT
 project_serve_local: True
 
-platform_host: "heliumedu.dev"
-platform_host_alias: "www.heliumedu.dev"
+frontend_host: "heliumedu.dev"
+frontend_host_alias: "www.heliumedu.dev"
+frontend_host_protocol: "http://"
+
+platform_host: "api.heliumedu.dev"
+platform_host_alias: "www.api.heliumedu.dev"
 platform_ssl: True
 platform_host_protocol: "http://"
 platform_db_host: "localhost"
