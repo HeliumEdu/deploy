@@ -40,6 +40,7 @@
   vars:
     email: "{{ project_contact_email }}"
     url: "{{ frontend_host }}"
+    platform_url: "{{ platform_host }}"
     alias_urls: "{{ frontend_host_alias }}"
     srv_dir: "{{ frontend_root }}"
     serve_local: "{{ project_serve_local | default(False) }}"
