@@ -4,6 +4,7 @@ project_root: "/srv/helium"
 project_admin_email: "admin@heliumedu.com"
 project_contact_email: "contact@heliumedu.com"
 
+frontend_root: "{{ project_root }}/frontend"
 platform_root: "{{ project_root }}/platform"
 
 platform_db_name: "platform_{{ domain_environment }}"
