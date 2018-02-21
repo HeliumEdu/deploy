@@ -11,12 +11,13 @@ project_serve_local: True
 
 frontend_host: "heliumedu.dev"
 frontend_host_alias: "www.heliumedu.dev"
-frontend_host_protocol: "http://"
+frontend_ssl: True
+frontend_host_protocol: "https://"
 
 platform_host: "api.heliumedu.dev"
 platform_host_alias: "www.api.heliumedu.dev"
 platform_ssl: True
-platform_host_protocol: "http://"
+platform_host_protocol: "https://"
 platform_db_host: "localhost"
 platform_db_user: "helium"
 platform_db_password: "fixmyhomework"
