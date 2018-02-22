@@ -116,11 +116,3 @@
     state: reloaded
   tags:
     - code
-
-- name: Ensure Supervisor is restarted
-  become: yes
-  service:
-    name: supervisor
-    state: restarted
-  tags:
-    - code
