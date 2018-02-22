@@ -26,5 +26,10 @@ Vagrant.configure('2') do |config|
       vb.memory = '4096'
       vb.cpus = 2
     end
+
+    node.hostsupdater.aliases.each do |i|
+      node.vm.provision "shell", privileged: true, run: "always",
+                        inline: "grep -q -F '127.0.0.1 #{i}' /etc/hosts || echo '127.0.0.1 #{i}' >> /etc/hosts"
+    end
   end
 end
