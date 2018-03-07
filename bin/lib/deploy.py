@@ -1,6 +1,6 @@
 import subprocess
 
-import utils
+from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
