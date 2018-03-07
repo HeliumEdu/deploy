@@ -57,8 +57,8 @@ class UpdateHeadersAction:
             latest_tag = versions_list[-1]
             changes = latest_tag.commit.diff(None)
 
-            print("Checking the " + str(len(
-                    changes)) + ' file(s) in "' + project + '" that have been modified since ' + latest_tag.tag.tag + " was tagged ...")
+            print("Checking the " + str(len(changes)) + ' file(s) in "' +
+                  project + '" that have been modified since ' + latest_tag.tag.tag + " was tagged ...")
             print("-------------------------------")
 
             count = 0
