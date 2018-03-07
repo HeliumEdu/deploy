@@ -63,7 +63,7 @@ class UpdateHeadersAction:
 
             count = 0
             for change in changes:
-                file_path = os.path.join(project_dir, str(change.b_rawpath))
+                file_path = os.path.join(project_dir, change.b_rawpath.decode("utf-8"))
 
                 if os.path.exists(file_path) and not os.path.isdir(file_path):
                     change = open(file_path, "r")
