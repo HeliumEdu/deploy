@@ -31,7 +31,7 @@
 
 - name: Setup React Apache conf
   template:
-    src: "../../apache/templates/react.conf"
+    src: "../../apache/templates/static.conf"
     dest: "/etc/apache2/sites-available/helium-frontend.conf"
     owner: "root"
     group: "root"
@@ -44,6 +44,8 @@
     alias_urls: "{{ frontend_host_alias }}"
     srv_dir: "{{ frontend_root }}"
     serve_local: "{{ project_serve_local | default(False) }}"
+    # TODO: when the frontend is migrated to React, simply remove this line to serve a single-page application
+    serve_from_index: False
   notify: reload apache
   tags:
      - conf
