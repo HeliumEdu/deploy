@@ -16,7 +16,7 @@ Vagrant.configure('2') do |config|
 
     node.vm.hostname = 'heliumedu.dev'
 
-    node.hostsupdater.aliases = %w(api.heliumedu.dev graphite.heliumedu.dev grafana.heliumedu.dev)
+    node.hostsupdater.aliases = %w(www.heliumedu.dev api.heliumedu.dev graphite.heliumedu.dev grafana.heliumedu.dev)
 
     node.vm.synced_folder './projects', '/srv/helium'
 
