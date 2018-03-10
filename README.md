@@ -27,8 +27,8 @@ make install
 
 Done!
 
-All projects should now be accessible via https://heliumedu.dev. The `platform` project, which powers the backend and
-API endpoints as well as the /admin area, lives at https://api.heliumedu.dev. When changes are made to deployment
+All projects should now be accessible via https://heliumedu.test. The `platform` project, which powers the backend and
+API endpoints as well as the /admin area, lives at https://api.heliumedu.test. When changes are made to deployment
 scripts (project's contain environmental changes, for instances new migrations), you should use the command below to
 ensure the `devbox` is working with the latest environment.
 
