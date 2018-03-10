@@ -29,7 +29,7 @@
   tags:
      - ssl
 
-- name: Setup React Apache conf
+- name: Setup static Apache conf
   template:
     src: "../../apache/templates/static.conf"
     dest: "/etc/apache2/sites-available/helium-frontend.conf"
@@ -69,6 +69,8 @@
 - name: Generate SSL
   include_role:
     name: letsencrypt
+  vars:
+    host: "{{ frontend_host }}"
   when: letsencrypt_ssl is defined and letsencrypt_ssl
   tags:
     - ssl
