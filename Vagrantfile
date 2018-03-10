@@ -14,9 +14,9 @@ Vagrant.configure('2') do |config|
 
     node.vm.network 'private_network', ip: '10.1.0.10'
 
-    node.vm.hostname = 'heliumedu.dev'
+    node.vm.hostname = 'heliumedu.test'
 
-    node.hostsupdater.aliases = %w(www.heliumedu.dev api.heliumedu.dev graphite.heliumedu.dev grafana.heliumedu.dev)
+    node.hostsupdater.aliases = %w(www.heliumedu.test api.heliumedu.test graphite.heliumedu.test grafana.heliumedu.test)
 
     node.vm.synced_folder './projects', '/srv/helium'
 
