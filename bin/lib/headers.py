@@ -16,6 +16,10 @@ class UpdateHeadersAction:
         self.name = "headers"
         self.help = "Update projects' header information"
 
+        self.__project_name = utils.get_project_name()
+        self.__current_year = str(datetime.date.today().year)
+        self.__current_version = None
+
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.set_defaults(action=self)
@@ -23,18 +27,14 @@ class UpdateHeadersAction:
     def run(self, args):
         root_dir = utils.get_root_dir()
 
-        project_name = utils.get_project_name()
-
         projects_dir = os.path.join(root_dir, "projects")
 
-        current_version = None
-        settings_file = open(os.path.join(projects_dir, "platform", "conf", "configs/common.py"))
+        settings_file = open(os.path.join(projects_dir, "platform", "conf", "configs", "common.py"))
         for line in settings_file:
             if line.startswith("__version__ = "):
-                current_version = line.strip().split("__version__ = '")[1].rstrip("'")
-        current_year = str(datetime.date.today().year)
+                self.__current_version = line.strip().split("__version__ = '")[1].rstrip("'")
 
-        if not current_version:
+        if not self.__current_version:
             print("An error exists in platform/conf/common.py, as no PROJECT_VERSION was found.")
 
             return
@@ -65,55 +65,84 @@ class UpdateHeadersAction:
             for change in changes:
                 file_path = os.path.join(project_dir, change.b_rawpath.decode("utf-8"))
 
-                if os.path.exists(file_path) and not os.path.isdir(file_path):
-                    change = open(file_path, "r")
-                    new_file = open(file_path + ".tmp", "w")
-
-                    updated = False
-                    for line in change:
-                        if utils.update(line, "__version__ = '" + current_version + "'", "__version__ = "):
-                            print("Updating " + file_path)
-
-                            line = "__version__ = '" + current_version + "'\n"
-
-                            updated = True
-                            count += 1
-                        elif utils.update(line, "* @version " + current_version, "* @version "):
-                            print("Updating " + file_path)
-
-                            line = " * @version " + current_version + "\n"
-
-                            updated = True
-                            count += 1
-
-                        if utils.update(line, "__copyright__ = 'Copyright " + current_year + ", {}'".format(
-                                project_name),
-                                        "__copyright__ = ", "{}.".format(project_name)):
-                            print("Updating " + file_path)
-
-                            line = "__copyright__ = 'Copyright " + current_year + ", {}'\n".format(project_name)
-
-                            updated = True
-                            count += 1
-                        elif utils.update(line, "* Copyright (c) " + current_year + " {}.".format(project_name),
-                                          "* Copyright (c) ",
-                                          "{}.".format(project_name)):
-                            print("Updating " + file_path)
-
-                            line = " * Copyright (c) " + current_year + " {}.\n".format(project_name)
-
-                            updated = True
-                            count += 1
-
-                        new_file.write(line)
-
-                    change.close()
-                    new_file.close()
-
-                    if updated:
-                        shutil.copy(file_path + ".tmp", file_path)
-                    os.remove(file_path + ".tmp")
+                if os.path.exists(file_path) and not os.path.isdir(file_path) and \
+                                os.path.splitext(file_path)[1] in [".py", ".js", ".jsx", ".css", ".scss"]:
+                    count = self.__process_file(count, file_path)
 
             print("-------------------------------")
-            print("Updated " + str(count) + " version number(s).")
+            print("Updated " + str(count) + " version and copyright header(s).")
             print("")
+
+        self.__process_file(0, os.path.join(projects_dir, "frontend", "package.json"))
+
+    def __process_file(self, count, file_path):
+        change = open(file_path, "r")
+        new_file = open(file_path + ".tmp", "w")
+
+        updated = False
+        for line in change:
+            if file_path.endswith(".py"):
+                line, count, updated = self.__process_python_line(count, updated, file_path, line)
+            elif file_path.endswith(".js") or file_path.endswith(".jsx") or \
+                    file_path.endswith(".css") or file_path.endswith(".scss"):
+                line, count, updated = self.__process_js_or_css_line(count, updated, file_path, line)
+            elif os.path.basename(file_path) == "package.json":
+                line, count, updated = self.__process_package_json(count, updated, file_path, line)
+
+            new_file.write(line)
+
+        change.close()
+        new_file.close()
+
+        if updated:
+            shutil.copy(file_path + ".tmp", file_path)
+        os.remove(file_path + ".tmp")
+
+        return count
+
+    def __process_python_line(self, count, updated, file_path, line):
+        if utils.should_updated(line, "__version__ = '{}'".format(self.__current_version), "__version__ ="):
+            print("Updating " + file_path)
+
+            line = "__version__ = '{}'\n".format(self.__current_version)
+            count += 1
+            updated = True
+        elif utils.should_updated(line,
+                                  "__copyright__ = 'Copyright {}, {}'".format(self.__current_year, self.__project_name),
+                                  "__copyright__ = ", "{}'".format(self.__project_name)):
+            print("Updating " + file_path)
+
+            line = "__copyright__ = 'Copyright {}, {}'\n".format(self.__current_year, self.__project_name)
+            count += 1
+            updated = True
+
+        return line, count, updated
+
+    def __process_js_or_css_line(self, count, updated, file_path, line):
+        if utils.should_updated(line, "* @version " + self.__current_version, "* @version"):
+            print("Updating " + file_path)
+
+            line = " * @version {}\n".format(self.__current_version)
+            count += 1
+            updated = True
+        elif utils.should_updated(line, "* Copyright (c) {} {}.".format(self.__current_year, self.__project_name),
+                                  "* Copyright (c)", "{}.".format(self.__project_name)):
+            print("Updating " + file_path)
+
+            line = " * Copyright (c) {} {}.\n".format(self.__current_year, self.__project_name)
+            print self.__current_year
+            print(line)
+            count += 1
+            updated = True
+
+        return line, count, updated
+
+    def __process_package_json(self, count, updated, file_path, line):
+        if utils.should_updated(line, "\"version\": \"{}\",".format(self.__current_version), "\"version\": \""):
+            print("Updating version in " + file_path)
+
+            line = "  \"version\": \"{}\",\n".format(self.__current_version)
+            count += 1
+            updated = True
+
+        return line, count, updated
