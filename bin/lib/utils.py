@@ -46,7 +46,7 @@ def parse_hosts_file(env):
     return hosts
 
 
-def update(line, verification, start_needle, end_needle=""):
+def should_updated(line, verification, start_needle, end_needle=""):
     needs_update = False
 
     if line.strip().startswith(start_needle) and line.strip().endswith(end_needle):
@@ -59,7 +59,7 @@ def update(line, verification, start_needle, end_needle=""):
 def get_project_name():
     with open(os.path.join(get_root_dir(), "ansible", "group_vars", "all.yml"), 'r') as stream:
         data = yaml.load(stream)
-        return data["default_env_vars"]["PROJECT_NAME"]
+        return data["project_developer"]
 
 
 def get_projects():
