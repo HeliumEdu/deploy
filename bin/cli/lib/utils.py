@@ -5,7 +5,7 @@ from configparser import ConfigParser
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.0.3'
+__version__ = '1.0.4'
 
 VERSION = __version__
 
@@ -22,7 +22,7 @@ def get_title():
 
 
 def get_root_dir():
-    return os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", ".."))
+    return os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "..", ".."))
 
 
 def parse_hosts_file(env):

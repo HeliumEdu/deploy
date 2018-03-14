@@ -8,10 +8,10 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.0.0'
+__version__ = '1.0.4'
 
 
-class UpdateHeadersAction:
+class HeadersAction:
     def __init__(self):
         self.name = "headers"
         self.help = "Update projects' header information"
@@ -130,8 +130,6 @@ class UpdateHeadersAction:
             print("Updating " + file_path)
 
             line = " * Copyright (c) {} {}.\n".format(self.__current_year, self.__project_name)
-            print self.__current_year
-            print(line)
             count += 1
             updated = True
 
