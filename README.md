@@ -66,7 +66,7 @@ servers can be a simple way to get started with minimal effort. All you need is 
 variable set to "dev", then execute:
 
 ```
-bin/helium-cli start
+bin/helium-cli start-servers
 ```
 
 This single command will launch any necessary services for each project to run in the current environment. See the
