@@ -37,6 +37,8 @@ class BuildReleaseAction:
 
             if repo.untracked_files or repo.is_dirty():
                 dirty_repos.append(project)
+            else:
+                repo.git.checkout("master")
 
         # if len(dirty_repos) > 0:
         #     print("WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
@@ -68,10 +70,12 @@ class BuildReleaseAction:
         if version in repo.tags:
             print("Version already exists, not doing anything")
         else:
-            repo.git.add(u=True)
-            repo.git.commit(m='Release {}'.format(version))
-            print(repo.create_tag(version, m=""))
-            repo.remotes["origin"].push(tags=True)
+            if repo.is_dirty():
+                repo.git.add(u=True)
+                repo.git.commit(m='Release {}'.format(version))
+            repo.remotes["origin"].push("master")
+            tag = repo.create_tag(version, m="")
+            repo.remotes["origin"].push(tag)
 
     def _update_version_file(self, version, path):
         config = utils.get_config()
