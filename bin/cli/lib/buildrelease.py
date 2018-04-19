@@ -28,10 +28,6 @@ class BuildReleaseAction:
 
         # First ensure all repos are in a clean state with all changes committed
         dirty_repos = []
-        repo = git.Repo(root_dir)
-        if repo.untracked_files or repo.is_dirty():
-            dirty_repos.append("deploy")
-
         for project in config["projects"]:
             repo = git.Repo(os.path.join(root_dir, "projects", project))
 
@@ -40,11 +36,11 @@ class BuildReleaseAction:
             else:
                 repo.git.checkout("master")
 
-        # if len(dirty_repos) > 0:
-        #     print("WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
-        #           "repos before proceeding: {}".format(dirty_repos))
-        #
-        #     return
+        if len(dirty_repos) > 0:
+            print("WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
+                  "repos before proceeding: {}".format(dirty_repos))
+
+            return
 
         version = args.version.lstrip("v")
 
@@ -73,7 +69,7 @@ class BuildReleaseAction:
             if repo.is_dirty():
                 repo.git.add(u=True)
                 repo.git.commit(m='Release {}'.format(version))
-            repo.remotes["origin"].push("master")
+                repo.remotes["origin"].push("master")
             tag = repo.create_tag(version, m="")
             repo.remotes["origin"].push(tag)
 
