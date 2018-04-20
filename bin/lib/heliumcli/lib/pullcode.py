@@ -20,7 +20,7 @@ class PullCodeAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_root_dir()
+        root_dir = utils.get_deploy_root_dir()
         projects_dir = os.path.join(root_dir, "projects")
 
         repo = git.cmd.Git(root_dir)
@@ -39,7 +39,7 @@ class PullCodeAction:
 
             if not os.path.exists(os.path.join(project_path, ".git")):
                 print("Cloning repo to ./projects/{}".format(project))
-                git.Repo.clone_from("{}/{}.git".format(config["gitRepo"], project), project_path)
+                git.Repo.clone_from("{}/{}.git".format(config["gitProject"], project), project_path)
 
             repo = git.cmd.Git(project_path)
 

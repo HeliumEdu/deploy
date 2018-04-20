@@ -27,17 +27,47 @@ def get_title():
 """.format(VERSION)
 
 
-def get_cli_dir():
+def _create_default_config(config_path):
+    data = {
+        "gitProject": os.environ.get("HELIUMCLI_GIT_PROJECT", "git@github.com:HeliumEdu"),
+        "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
+        "deployRootRelative": "../../..",
+        "versionInfo": {
+            "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
+            "path": os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
+        },
+    }
+
+    with open(config_path, "w") as config_file:
+        yaml.dump(data, config_file)
+
+
+def get_config():
+    global _config_cache
+
+    config_path = os.path.join(get_heliumcli_dir(), "config.yml")
+
+    if not _config_cache:
+        if not os.path.exists(config_path):
+            _create_default_config(config_path)
+
+        with open(config_path, "r") as lines:
+            _config_cache = yaml.load(lines)
+
+    return _config_cache
+
+
+def get_heliumcli_dir():
     return os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), ".."))
 
 
-def get_root_dir():
-    return os.path.abspath(os.path.join(get_cli_dir(), "..", ".."))
+def get_deploy_root_dir():
+    return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["deployRootRelative"]))
 
 
 def parse_hosts_file(env):
     config = ConfigParser()
-    config.read('ansible/hosts')
+    config.read(os.path.join(get_deploy_root_dir(), 'ansible/hosts'))
 
     hosts = []
     for section in config.sections():
@@ -67,35 +97,6 @@ def should_updated(line, verification, start_needle, end_needle=""):
 
 
 def get_project_name():
-    with open(os.path.join(get_root_dir(), "ansible", "group_vars", "all.yml"), 'r') as lines:
+    with open(os.path.join(get_deploy_root_dir(), "ansible", "group_vars", "all.yml"), 'r') as lines:
         data = yaml.load(lines)
         return data["project_developer"]
-
-
-def _create_default_config(config_path):
-    data = {
-        "gitRepoParent": os.environ.get("HELIUMCLI_GIT_REPO_PARENT", "git@github.com:HeliumEdu"),
-        "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
-        "versionInfo": {
-            "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
-            "path":  os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
-        },
-    }
-
-    with open(config_path, "w") as config_file:
-        yaml.dump(data, config_file)
-
-
-def get_config():
-    global _config_cache
-
-    config_path = os.path.join(get_cli_dir(), "config.yml")
-
-    if not _config_cache:
-        if not os.path.exists(config_path):
-            _create_default_config(config_path)
-
-        with open(config_path, "r") as lines:
-            _config_cache = yaml.load(lines)
-
-    return _config_cache

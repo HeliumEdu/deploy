@@ -21,7 +21,7 @@ class StartServersAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_root_dir()
+        root_dir = utils.get_deploy_root_dir()
 
         # Ensure prerequisites installed
         for project in config["projects"]:

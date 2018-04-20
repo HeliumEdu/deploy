@@ -2,8 +2,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd ${DIR}/..
+cd ${DIR}
 
-source .venv/bin/activate
+source lib/heliumcli/.venv/bin/activate
 
-python -m bin.cli.heliumcli "$@"
+python -m lib.heliumcli.main "$@"
