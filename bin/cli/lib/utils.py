@@ -1,7 +1,9 @@
+import json
 import os
 from configparser import ConfigParser
 
 import yaml
+from dotenv import load_dotenv
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
@@ -10,6 +12,8 @@ __version__ = '1.1.0'
 VERSION = __version__
 
 _config_cache = None
+
+load_dotenv()
 
 
 def get_title():
@@ -70,11 +74,11 @@ def get_project_name():
 
 def _create_default_config(config_path):
     data = {
-        "gitRepo": "git@github.com:HeliumEdu",
-        "projects": ["platform", "frontend"],
+        "gitRepoParent": os.environ.get("HELIUMCLI_GIT_REPO_PARENT", "git@github.com:HeliumEdu"),
+        "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
         "versionInfo": {
-            "project": "platform",
-            "path": os.path.join("conf", "configs", "common.py"),
+            "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
+            "path":  os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
         },
     }
 
