@@ -28,7 +28,7 @@ make install
 ```
 
 Done! For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
-project and provides a useful set of tools for maintaining, building, and deploying the code, has also bee installed.
+project and provides a useful set of tools for maintaining, building, and deploying the code, has also been installed.
 
 All projects should now be accessible via https://heliumedu.test. The `platform` project, which powers the backend and
 API endpoints as well as the /admin area, lives at https://api.heliumedu.test. When changes are made to deployment
