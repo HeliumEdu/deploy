@@ -26,7 +26,7 @@ class UpdateHeadersAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_root_dir()
+        root_dir = utils.get_deploy_root_dir()
         projects_dir = os.path.join(root_dir, "projects")
 
         for line in open(os.path.join(projects_dir, config["versionInfo"]["project"], config["versionInfo"]["path"])):

@@ -1,6 +1,5 @@
 /projects
 .vagrant
-.venv
 *.retry
 *.log
 .idea/
@@ -8,4 +7,3 @@
 *.pyc
 *.swp
 .DS_Store
-bin/cli/config.yml

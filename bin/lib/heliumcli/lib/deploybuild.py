@@ -27,18 +27,18 @@ class DeployBuildAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        subprocess.call('ansible-galaxy install Datadog.datadog', shell=True)
-
+        root_dir = utils.get_deploy_root_dir()
         version = args.version.lstrip("v")
-
         hosts = utils.parse_hosts_file(args.env)
+
+        subprocess.call('ansible-galaxy install Datadog.datadog', shell=True)
 
         for host in hosts:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
                              "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"])
 
-        ansible_command = 'ansible-playbook --inventory-file=ansible/hosts -v ansible/' + args.env + \
-                          '.yml --extra-vars "build_version=' + version + '"'
+        ansible_command = 'ansible-playbook --inventory-file={}/ansible/hosts -v {}/ansible/{}.yml --extra-vars ' \
+                          '"build_version={}"'.format(root_dir, root_dir, args.env, version)
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
             tags = []

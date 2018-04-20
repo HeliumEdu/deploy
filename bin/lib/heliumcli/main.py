@@ -6,8 +6,8 @@ import sys
 from .lib import utils
 from .lib.buildrelease import BuildReleaseAction
 from .lib.deploybuild import DeployBuildAction
-from .lib.startservers import StartServersAction
 from .lib.pullcode import PullCodeAction
+from .lib.startservers import StartServersAction
 from .lib.updateheaders import UpdateHeadersAction
 
 __author__ = 'Alex Laird'

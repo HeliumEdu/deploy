@@ -1,7 +1,7 @@
 .PHONY: all env virtualenv install
 
 SHELL := /usr/bin/env bash
-HELIUM_CLI := $(shell pwd)/bin
+BIN_PATH := $(shell pwd)/bin
 
 all: env virtualenv install
 
@@ -9,18 +9,12 @@ env:
 	cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml | true
 	cp -n ansible/hosts.example ansible/hosts | true
 
-virtualenv:
-	if [ ! -d ".venv" ]; then \
-		python3 -m pip install virtualenv --user; \
-        python3 -m virtualenv .venv; \
-	fi
-
-install: env virtualenv
-	( \
-		source .venv/bin/activate; \
+install: env
+	@( \
 		python -m pip install -r requirements.txt; \
+		make install -C bin/lib/heliumcli; \
 		\
-		if ! cat ~/.bash_profile | grep -q "$(HELIUM_CLI)" ; then echo "export PATH=\"$(HELIUM_CLI):\$$PATH\"" >> ~/.bash_profile ; fi; \
+		if ! cat ~/.bash_profile | grep -q "$(BIN_PATH)" ; then echo "export PATH=\"$(BIN_PATH):\$$PATH\"" >> ~/.bash_profile ; fi; \
 		\
 		bin/helium-cli pull-code; \
 		vagrant up; \

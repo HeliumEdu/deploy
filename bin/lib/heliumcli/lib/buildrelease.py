@@ -23,7 +23,7 @@ class BuildReleaseAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_root_dir()
+        root_dir = utils.get_deploy_root_dir()
         projects_dir = os.path.join(root_dir, "projects")
 
         # First ensure all repos are in a clean state with all changes committed
@@ -75,7 +75,7 @@ class BuildReleaseAction:
 
     def _update_version_file(self, version, path):
         config = utils.get_config()
-        root_dir = utils.get_root_dir()
+        root_dir = utils.get_deploy_root_dir()
         projects_dir = os.path.join(root_dir, "projects")
 
         version_file_path = os.path.join(projects_dir, path)
