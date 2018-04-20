@@ -5,7 +5,7 @@ minimal time and to deploy code to other environments.
 
 ## Prerequisites
 
-* `deploy` SSH key, which appropriate permissions, stored at ~/.ssh/id_rsa
+* A permissioned SSH key at ~/.ssh/id_rsa
 * Python (>= 3.5)
 * Pip (>= 9.0)
 * VirtualBox (>= 5.1)
