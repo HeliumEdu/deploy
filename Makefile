@@ -13,7 +13,7 @@ install: env
 	@python -m pip install -r requirements.txt
 
 	mkdir -p bin/lib
-	@if [ ! -d "bin/lib/heliumcli" ]; then git clone git@github.com:HeliumEdu/heliumcli.git bin/lib/heliumcli ; else git -C bin/lib/heliumcli pull ; fi
+	@if [ ! -d "bin/lib/heliumcli" ]; then git clone git@github.com:HeliumEdu/heliumcli.git bin/lib/heliumcli ; fi
 	@make install -C bin/lib/heliumcli;
 	@ln -sf lib/heliumcli/bin/helium-cli bin/helium-cli
 
