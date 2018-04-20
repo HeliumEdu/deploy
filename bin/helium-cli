@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-cd ${DIR}
-
-source lib/heliumcli/.venv/bin/activate
-
-python -m lib.heliumcli.main "$@"
