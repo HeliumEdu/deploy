@@ -5,15 +5,11 @@ minimal time and to deploy code to other environments.
 
 ## Prerequisites
 
-Before you can initialize the project and all dependencies, ensure you have the following prerequisites:
-
-* HTTP access to Git server
-* SSH key with access to Git server, stored locally at ~/.ssh/id_rsa
+* `deploy` SSH key, which appropriate permissions, stored at ~/.ssh/id_rsa
 * Python (>= 3.5)
 * Pip (>= 9.0)
-* Git (>= 1.7)
 * VirtualBox (>= 5.1)
-* Vagrant (>= 1.9)
+* Vagrant (>= 2.0)
 
 ## Getting Started
 
@@ -86,8 +82,10 @@ reprovisioned). If developing locally, this would need to be set in the `.env` f
 
 In any non-dev environment, the `project_serve_local` and `PROJECT_SERVE_LOCAL` variables should be _removed_, and
 `PLATFORM_AWS_S3_ACCESS_KEY_ID` and `PLATFORM_AWS_S3_SECRET_ACCESS_KEY` _must be set_. Doing this will cause the
-platform to rely on S3 to serve up static content and media files reliably and securely. See the [AWS Setup](https://github.com/HeliumEdu/deploy/wiki/AWS-Setup) guide for instructions on how to do this.
+platform to rely on S3 to serve up static content and media files reliably and securely. See the [AWS Setup](https://github.com/HeliumEdu/deploy/wiki/AWS-Setup)
+guide for instructions on how to do this.
 
 ## Documentation
 
-Auto-generated API documentation is accessible via any environment at /docs. Additional documentation for development, deployment, setting up environments, and more can be found on the [Deploy Wiki](https://github.com/HeliumEdu/deploy/wiki).
+Auto-generated API documentation is accessible via any environment at /docs. Additional documentation for development,
+deployment, setting up environments, and more can be found on the [Deploy Wiki](https://github.com/HeliumEdu/deploy/wiki).
