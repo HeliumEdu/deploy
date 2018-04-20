@@ -10,15 +10,18 @@ env:
 	cp -n ansible/hosts.example ansible/hosts | true
 
 install: env
-	@( \
-		python -m pip install -r requirements.txt; \
-		make install -C bin/lib/heliumcli; \
-		\
-		if ! cat ~/.bash_profile | grep -q "$(BIN_PATH)" ; then echo "export PATH=\"$(BIN_PATH):\$$PATH\"" >> ~/.bash_profile ; fi; \
-		\
-		bin/helium-cli pull-code; \
-		vagrant up; \
-		mkdir -p ~/.ssh; \
-		if ! cat ~/.ssh/config | grep -xqFe "Host heliumedu.test" ; then vagrant ssh-config --host heliumedu.test >> ~/.ssh/config ; fi; \
-		bin/helium-cli deploy-build master devbox; \
-	)
+	@python -m pip install -r requirements.txt
+
+	@mkdir -p bin/lib
+	@if [ ! -d "bin/lib/heliumcli" ]; then git clone git@github.com:HeliumEdu/heliumcli.git bin/lib/heliumcli ; fi
+	@git -C bin/lib/heliumcli pull
+	@make install -C bin/lib/heliumcli;
+	@ln -sf lib/heliumcli/bin/helium-cli bin/helium-cli
+
+	@if ! cat ~/.bash_profile | grep -q "$(BIN_PATH)" ; then echo "export PATH=\"$(BIN_PATH):\$$PATH\"" >> ~/.bash_profile ; fi
+
+	@bin/helium-cli pull-code
+	@vagrant up
+	@mkdir -p ~/.ssh
+	@if ! cat ~/.ssh/config | grep -xqFe "Host heliumedu.test" ; then vagrant ssh-config --host heliumedu.test >> ~/.ssh/config ; fi
+	@bin/helium-cli deploy-build master devbox
