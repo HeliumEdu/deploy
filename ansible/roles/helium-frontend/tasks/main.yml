@@ -93,7 +93,7 @@
   tags:
     - code
     - migrate
-  when: domain_environment == "devbox"
+  when: inventory_file == "devbox"
 
 - import_tasks: download.yml
   when: download_code is undefined or download_code
