@@ -1,0 +1,9 @@
+sudo: required
+language: python
+python:
+- '3.6'
+install:
+- sudo apt-get install vagrant
+- python -m pip install -r requirements.txt
+script:
+- make env test
