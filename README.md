@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/HeliumEdu/deploy.svg?branch=master)](https://travis-ci.org/HeliumEdu/deploy)
+
+
 # Deploy Environment
 
 This repository contains everything that is necessary to get a development environment setup on a local machine in
