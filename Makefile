@@ -32,7 +32,6 @@ test:
 	@if [ ! -f ansible/hosts/devbox ]; then echo "ansible/hosts/devbox not found" & exit 1 ; fi
 
 	@python -c "import heliumcli" || (echo "helium-cli not installed"; exit 1)
-	@helium-cli update-projects
 
 	@ansible-playbook ansible/devbox.yml --syntax-check
 	@vagrant validate
