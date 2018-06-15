@@ -26,8 +26,7 @@ cd ~/Developer/helium
 make
 ```
 
-Done! This runs `make install` followed by `make start`, but for future reference (now that the environment has been
-initialized), the Vagrant box can be simply brought up with `make start`.
+Done! Now your environment has been initialized, to quickly bring up your Vagrant box in the future, simply run `make start`.
 
 For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
 project and provides a useful set of tools for maintaining, building, and deploying the code, has also been installed.
