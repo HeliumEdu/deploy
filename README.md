@@ -23,7 +23,7 @@ development environment up and running:
 ```
 git clone git@github.com:HeliumEdu/deploy.git ~/Developer/helium
 cd ~/Developer/helium
-make install
+make
 ```
 
 Done! For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
