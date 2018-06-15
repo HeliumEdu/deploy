@@ -21,12 +21,15 @@ Here is a minimal set of commands that will get a Vagrant, which most closely em
 development environment up and running:
 
 ```
-git clone git@github.com:HeliumEdu/deploy.git ~/Developer/helium
+git clone https://github.com/HeliumEdu/deploy.git ~/Developer/helium
 cd ~/Developer/helium
 make
 ```
 
-Done! For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
+Done! This runs `make install` followed by `make start`, but for future reference (now that the environment has been
+initialized), the Vagrant box can be simply brought up with `make start`.
+
+For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
 project and provides a useful set of tools for maintaining, building, and deploying the code, has also been installed.
 
 All projects should now be accessible via https://heliumedu.test. The `platform` project, which powers the backend and
@@ -38,7 +41,7 @@ ensure the `devbox` is working with the latest environment.
 helium-cli deploy-build master devbox
 ```
 
-The shell into the VM, execute:
+The get to the VMs shell, execute:
 
 ```
 vagrant ssh
