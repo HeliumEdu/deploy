@@ -1,4 +1,4 @@
-.PHONY: all env virtualenv install
+.PHONY: all env install test
 
 SHELL := /usr/bin/env bash
 BIN_PATH := $(shell pwd)/bin
@@ -7,7 +7,7 @@ HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
 all: env virtualenv install
 
 env:
-	cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/aio.yml | true
+	cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml | true
 
 install: env
 	@python -m pip install -r requirements.txt
@@ -20,3 +20,11 @@ install: env
 	@mkdir -p ~/.ssh
 	@if ! cat ~/.ssh/config | grep -xqFe "Host heliumedu.test" ; then vagrant ssh-config --host heliumedu.test >> ~/.ssh/config ; fi
 	@helium-cli deploy-build master devbox
+
+test:
+	@if [ ! -f ansible/devbox.yml ]; then echo "ansible/devbox.yml not found" & exit 1 ; fi
+	@if [ ! -f ansible/group_vars/devbox.yml ]; then echo "ansible/group_vars/devbox.yml not found" & exit 1 ; fi
+	@if [ ! -f ansible/hosts/devbox ]; then echo "ansible/hosts/devbox not found" & exit 1 ; fi
+	@python -c "import heliumcli" || (echo "helium-cli not installed"; exit 1)
+	@ansible-playbook ansible/devbox.yml --syntax-check
+	@vagrant validate
