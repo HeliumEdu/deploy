@@ -10,7 +10,7 @@ env:
 	cp -n ansible/group_vars/devbox.yml.example ansible/group_vars/devbox.yml | true
 
 install: env
-	@python -m pip install -r requirements.txt
+	@python -m pip install -r requirements.txt --user
 	@ansible-galaxy install Datadog.datadog
 
 	@if ! cat ~/.bash_profile | grep -q "$(BIN_PATH)" ; then echo "export PATH=\"$(BIN_PATH):\$$PATH\"" >> ~/.bash_profile ; fi
