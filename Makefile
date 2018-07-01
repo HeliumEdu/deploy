@@ -1,7 +1,6 @@
 .PHONY: all env install start test
 
 SHELL := /usr/bin/env bash
-BIN_PATH := $(shell pwd)/bin
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
 
 all: env install start
@@ -12,8 +11,6 @@ env:
 install: env
 	@python -m pip install -r requirements.txt
 	@ansible-galaxy install Datadog.datadog
-
-	@if ! cat ~/.bash_profile | grep -q "$(BIN_PATH)" ; then echo "export PATH=\"$(BIN_PATH):\$$PATH\"" >> ~/.bash_profile ; fi
 
 	@HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
