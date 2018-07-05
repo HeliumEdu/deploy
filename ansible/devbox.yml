@@ -11,12 +11,7 @@
     - { role: supervisor }
     - { role: celeryworker }
     - { role: celerybeat }
-
-    # Metrics
-    - { role: graphite }
-    - { role: grafana }
-    - { role: collectd-agent }
-    - { role: statsd-agent }
+    - { role: Datadog.datadog, become: yes, datadog_api_key: "{{ project_datadog_api_key }}" }
 
     # Projects
     - { role: helium-platform, download_code: False }
