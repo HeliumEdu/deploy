@@ -24,12 +24,12 @@ start:
 	@helium-cli deploy-build master devbox
 
 test:
-	@if [ ! -f ansible/devbox.yml ]; then echo "ansible/devbox.yml not found" & exit 1 ; fi
-	@if [ ! -f ansible/group_vars/devbox.yml ]; then echo "ansible/group_vars/devbox.yml not found" & exit 1 ; fi
-	@if [ ! -f ansible/hosts/devbox ]; then echo "ansible/hosts/devbox not found" & exit 1 ; fi
+	@if [ ! -f ansible/devbox.yml ] ; then echo "ansible/devbox.yml not found" & exit 1 ; fi
+	@if [ ! -f ansible/group_vars/devbox.yml ] ; then echo "ansible/group_vars/devbox.yml not found" & exit 1 ; fi
+	@if [ ! -f ansible/hosts/devbox ] ; then echo "ansible/hosts/devbox not found" & exit 1 ; fi
 
 	@python -c "import heliumcli" || (echo "helium-cli not installed"; exit 1)
-	@if [ ! -d projects ]; then echo "projects directory not found" & exit 1 ; fi
+	@if [ ! -d projects ] ; then echo "projects directory not found" & exit 1 ; fi
 
 	@ansible-playbook ansible/devbox.yml --syntax-check
 	@vagrant validate
