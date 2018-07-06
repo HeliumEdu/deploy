@@ -23,7 +23,6 @@ platform_db_user: "helium"
 platform_db_password: "fixmyhomework"
 
 ci_env_vars:
-  ENV_API_HOST: "{{ platform_host_protocol }}{{ platform_host }}"
   CI_TWILIO_RECIPIENT_PHONE_NUMBER: "<TWILIO_RECIPIENT_PHONE_NUMBER>"
 
 platform_env_vars:
