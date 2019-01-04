@@ -32,8 +32,8 @@ Done! Now your environment has been initialized, to quickly bring up your Vagran
 For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
 project and provides a useful set of tools for maintaining, building, and deploying the code, has also been installed.
 
-All projects should now be accessible via https://heliumedu.test. The [platform](https://github.com/HeliumEdu/platform) project, which powers the backend and
-API endpoints as well as the /admin area, lives at https://api.heliumedu.test. When changes are made to deployment
+All projects should now be accessible via <https://heliumedu.test>. The [platform](https://github.com/HeliumEdu/platform) project, which powers the backend and
+API endpoints as well as the /admin area, lives at <https://api.heliumedu.test>. When changes are made to deployment
 scripts (project's contain environmental changes, for instances new migrations), you should use the command below to
 ensure the `devbox` is working with the latest environment.
 
