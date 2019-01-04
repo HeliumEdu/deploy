@@ -9,11 +9,11 @@ minimal time and to deploy code to other environments using [Ansible](https://ww
 
 ## Prerequisites
 
-  - A permissioned SSH key at ~/.ssh/id_rsa
-  - Python (>= 3.5)
-  - Pip (>= 9.0)
-  - VirtualBox (>= 5.1)
-  - Vagrant (>= 2.0)
+- A permissioned SSH key at ~/.ssh/id_rsa
+- Python (>= 3.5)
+- Pip (>= 9.0)
+- VirtualBox (>= 5.1)
+- Vagrant (>= 2.0)
 
 ## Getting Started
 
@@ -81,7 +81,7 @@ This single command will launch any necessary services for each project to run i
 
 To develop fully offline (after the initial provision), the following should be set to `False`:
 
-  - `PROJECT_DISABLE_EMAILS`
+- `PROJECT_DISABLE_EMAILS`
 
 If using Vagrant, this would be in the `ansible/group_vars/devbox.yml` file (and `--envvars` would need to be
 reprovisioned). If developing locally, this would need to be set in the `.env` file.
