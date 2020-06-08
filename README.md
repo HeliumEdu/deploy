@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/HeliumEdu/deploy.svg?branch=master)](https://travis-ci.org/HeliumEdu/deploy)
-[![Updates](https://pyup.io/repos/github/HeliumEdu/deploy/shield.svg)](https://pyup.io/repos/github/HeliumEdu/deploy/)
 ![GitHub](https://img.shields.io/github/license/heliumedu/deploy)
-[![Python 3](https://pyup.io/repos/github/HeliumEdu/deploy/python-3-shield.svg)](https://pyup.io/repos/github/HeliumEdu/deploy/)
 
 # Deploy Environment
 
