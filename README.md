@@ -3,6 +3,8 @@
 
 # Deploy Environment
 
+<p align="center"><img src="https://www.heliumedu.com/assets/img/logo_full_blue.png" /></p>
+
 This repository contains everything that is necessary to get a development environment setup on a local machine in
 minimal time and to deploy code to other environments using [Ansible](https://www.ansible.com/).
 
