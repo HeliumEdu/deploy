@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/HeliumEdu/deploy.svg?branch=master)](https://travis-ci.org/HeliumEdu/deploy)
+[![Build Status](https://travis-ci.com/HeliumEdu/deploy.svg?branch=master)](https://travis-ci.com/HeliumEdu/deploy)
 ![GitHub](https://img.shields.io/github/license/heliumedu/deploy)
 
 # Deploy Environment
