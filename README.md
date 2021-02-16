@@ -1,4 +1,4 @@
-ez[![CI/CD](https://github.com/heliumedu/deploy/workflows/CI/CD/badge.svg)](https://github.com/heliumedu/deploy/actions?query=workflow%3ACI%2FCD)
+[![CI/CD](https://github.com/heliumedu/deploy/workflows/CI/CD/badge.svg)](https://github.com/heliumedu/deploy/actions?query=workflow%3ACI%2FCD)
 ![GitHub License](https://img.shields.io/github/license/heliumedu/deploy)
 
 # Deploy Environment
