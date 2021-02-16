@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/HeliumEdu/deploy.svg?branch=master)](https://travis-ci.com/HeliumEdu/deploy)
-![GitHub](https://img.shields.io/github/license/heliumedu/deploy)
+ez[![CI/CD](https://github.com/heliumedu/deploy/workflows/CI/CD/badge.svg)](https://github.com/heliumedu/deploy/actions?query=workflow%3ACI%2FCD)
+![GitHub License](https://img.shields.io/github/license/heliumedu/deploy)
 
 # Deploy Environment
 
