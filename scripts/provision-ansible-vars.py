@@ -26,7 +26,10 @@ def main():
     for var in ["DOMAIN_ENVIRONMENT",
                 "HELIUM_HOST",
                 "PROJECT_DATADOG_API_KEY",
-                "PROJECT_DATADOG_APP_KEY"]:
+                "PROJECT_DATADOG_APP_KEY",
+                "PLATFORM_DB_HOST",
+                "PLATFORM_DB_USER",
+                "PLATFORM_DB_PASSWORD",]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
     with open(frontend_path, "w") as f:
         f.write(s)
@@ -41,6 +44,7 @@ def main():
                 "PLATFORM_ROLLBAR_POST_SERVER_ITEM_ACCESS_TOKEN",
                 "PLATFORM_DB_HOST",
                 "PLATFORM_DB_USER",
+                "PLATFORM_DB_PASSWORD",
                 "PLATFORM_AWS_S3_ACCESS_KEY_ID",
                 "PLATFORM_AWS_S3_SECRET_ACCESS_KEY",
                 "PLATFORM_TWILIO_ACCOUNT_SID",

@@ -17,6 +17,9 @@ platform_host: "api.{{ helium_host }}"
 platform_host_alias: "www.api.{{ platform_host }}"
 platform_ssl: True
 platform_host_protocol: "https://"
+platform_db_host: "{%PLATFORM_DB_HOST%}"
+platform_db_user: "{%PLATFORM_DB_USER%}"
+platform_db_password: "{%PLATFORM_DB_PASSWORD%}"
 
 letsencrypt_ssl: True
 
