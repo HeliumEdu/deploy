@@ -9,7 +9,7 @@ def main():
     hosts_path = os.path.join(os.path.join(BASE_DIR, "ansible", "hosts", "stage"))
     with open(hosts_path, "r") as f:
         s = f.read()
-    s = s.replace("{%EC2_HOST%}", os.environ.get("EC2_USER"))
+    s = s.replace("{%EC2_USER%}", os.environ.get("EC2_USER"))
     s = s.replace("{%FRONTEND_PUBLIC_DNS%}", os.environ.get("FRONTEND_PUBLIC_DNS"))
     s = s.replace("{%FRONTEND_IP_ADDRESS%}", os.environ.get("FRONTEND_IP_ADDRESS"))
     s = s.replace("{%PLATFORM_WEB_PUBLIC_DNS%}", os.environ.get("PLATFORM_WEB_PUBLIC_DNS"))
