@@ -1,0 +1,54 @@
+---
+- name:  Setup Frontend
+  hosts: frontend
+  roles:
+    # Server setup
+    - { role: common }
+
+    # Projects
+    - { role: helium-frontend }
+  vars:
+    deploy_group: "{{ domain_environment }}"
+    datadog_api_key: "{{ project_datadog_api_key }}"
+    datadog_config:
+      tags: "{{ domain_environment }}"
+  environment: "{{ env_vars }}"
+
+- name:  Setup Platform Web
+  hosts: platform_web
+  roles:
+    # Server setup
+    - { role: common }
+
+    # Infrastructure
+    - { role: Datadog.datadog, become: yes }
+
+    # Projects
+    - { role: helium-platform }
+  vars:
+    deploy_group: "{{ domain_environment }}"
+    datadog_api_key: "{{ project_datadog_api_key }}"
+    datadog_config:
+      tags: "{{ domain_environment }}"
+  environment: "{{ env_vars }}"
+
+- name:  Setup Platform Worker
+  hosts: platform_worker
+  roles:
+    # Server setup
+    - { role: common }
+
+    # Infrastructure
+    - { role: supervisor }
+    - { role: celeryworker }
+    - { role: celerybeat }
+    - { role: Datadog.datadog, become: yes }
+
+    # Projects
+    - { role: helium-platform }
+  vars:
+    deploy_group: "{{ domain_environment }}"
+    datadog_api_key: "{{ project_datadog_api_key }}"
+    datadog_config:
+      tags: "{{ domain_environment }}"
+  environment: "{{ env_vars }}"

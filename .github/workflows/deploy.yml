@@ -49,6 +49,9 @@ jobs:
       - name: Run tests
         run:
           make test
+      - name: Provision Ansible Vars
+        run:
+          make provision_vars
       - name: Deploy
         run:
           helium-cli deploy-build master prod
