@@ -61,4 +61,4 @@ jobs:
           make provision_ansible_vars
       - name: Deploy
         run:
-          helium-cli deploy-build master prod
+          helium-cli deploy-build master stage
