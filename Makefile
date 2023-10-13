@@ -1,4 +1,4 @@
-.PHONY: all env install start test
+.PHONY: all env install start test provision_ansible_vars
 
 SHELL := /usr/bin/env bash
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
@@ -33,3 +33,6 @@ test:
 
 	@ansible-playbook ansible/devbox.yml --syntax-check
 	@vagrant validate
+
+provision_ansible_vars:
+	@python scripts/provision-ansible-vars.py
