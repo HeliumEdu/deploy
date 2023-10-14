@@ -35,7 +35,7 @@ jobs:
       PROJECT_DATADOG_API_KEY: ${{ secrets.PROJECT_DATADOG_API_KEY }}
       PROJECT_DATADOG_APP_KEY: ${{ secrets.PROJECT_DATADOG_APP_KEY }}
       PLATFORM_TWILIO_SMS_FROM: ${{ vars.PLATFORM_TWILIO_SMS_FROM }}
-      HELIUM_HOST: ${{ vars.PROJECT_API_HOST }}
+      HELIUM_HOST: ${{ vars.HELIUM_HOST }}
 
     runs-on: ubuntu-20.04
 
