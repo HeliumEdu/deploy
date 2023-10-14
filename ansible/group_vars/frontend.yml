@@ -14,7 +14,7 @@ frontend_ssl: True
 frontend_host_protocol: "https://"
 
 platform_host: "api.{{ helium_host }}"
-platform_host_alias: "www.api.{{ platform_host }}"
+platform_host_alias: "www.api.{{ helium_host }}"
 platform_ssl: True
 platform_host_protocol: "https://"
 platform_db_host: "{%PLATFORM_DB_HOST%}"
