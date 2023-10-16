@@ -18,6 +18,8 @@
 
 - name:  Setup Platform Web
   hosts: platform_web
+  vars_files:
+   - group_vars/platform.yml
   roles:
     # Server setup
     - { role: common }
@@ -36,6 +38,8 @@
 
 - name:  Setup Platform Worker
   hosts: platform_worker
+  vars_files:
+   - group_vars/platform.yml
   roles:
     # Server setup
     - { role: common }
