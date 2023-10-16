@@ -1,5 +1,5 @@
 /*.yml
 !/all.yml
 !/devbox.yml.example
-!/frontend.yml
-!/platform.yml
+!/frontend.yml.example
+!/platform.yml.example

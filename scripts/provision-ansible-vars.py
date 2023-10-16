@@ -6,8 +6,9 @@ BASE_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file_
 
 
 def main():
-    hosts_path = os.path.join(os.path.join(BASE_DIR, "ansible", "hosts", "stage"))
-    with open(hosts_path, "r") as f:
+    hosts_in_path = os.path.join(os.path.join(BASE_DIR, "ansible", "hosts", "stage.example"))
+    hosts_out_path = os.path.join(os.path.join(BASE_DIR, "ansible", "hosts", "stage"))
+    with open(hosts_in_path, "r") as f:
         s = f.read()
     for var in ["EC2_USER",
                 "FRONTEND_PUBLIC_DNS",
@@ -17,11 +18,12 @@ def main():
                 "PLATFORM_WORKER_PUBLIC_DNS",
                 "PLATFORM_WORKER_IP_ADDRESS"]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
-    with open(hosts_path, "w") as f:
+    with open(hosts_out_path, "w") as f:
         f.write(s)
 
-    frontend_path = os.path.join(os.path.join(BASE_DIR, "ansible", "group_vars", "frontend.yml"))
-    with open(frontend_path, "r") as f:
+    frontend_in_path = os.path.join(os.path.join(BASE_DIR, "ansible", "group_vars", "frontend.yml.example"))
+    frontend_out_path = os.path.join(os.path.join(BASE_DIR, "ansible", "group_vars", "frontend.yml"))
+    with open(frontend_in_path, "r") as f:
         s = f.read()
     for var in ["DOMAIN_ENVIRONMENT",
                 "HELIUM_HOST",
@@ -31,11 +33,12 @@ def main():
                 "PLATFORM_DB_USER",
                 "PLATFORM_DB_PASSWORD",]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
-    with open(frontend_path, "w") as f:
+    with open(frontend_out_path, "w") as f:
         f.write(s)
 
-    platform_path = os.path.join(os.path.join(BASE_DIR, "ansible", "group_vars", "platform.yml"))
-    with open(platform_path, "r") as f:
+    platform_in_path = os.path.join(os.path.join(BASE_DIR, "ansible", "group_vars", "platform.yml.example"))
+    platform_out_path = os.path.join(os.path.join(BASE_DIR, "ansible", "group_vars", "platform.yml"))
+    with open(platform_in_path, "r") as f:
         s = f.read()
     for var in ["DOMAIN_ENVIRONMENT",
                 "HELIUM_HOST",
@@ -56,7 +59,7 @@ def main():
                 "PLATFORM_EMAIL_HOST_PASSWORD",
                 "PLATFORM_REDIS_HOST"]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
-    with open(platform_path, "w") as f:
+    with open(platform_out_path, "w") as f:
         f.write(s)
 
 
