@@ -5,8 +5,7 @@
     # Server setup
     - { role: common }
 
-    # Infrastructure
-    - { role: Datadog.datadog, become: yes }
+    - { role: datadog.datadog, become: yes }
 
     # Projects
     - { role: helium-frontend }
@@ -24,7 +23,7 @@
     - { role: common }
 
     # Infrastructure
-    - { role: Datadog.datadog, become: yes }
+    - { role: datadog.datadog, become: yes }
 
     # Projects
     - { role: helium-platform }
@@ -45,7 +44,7 @@
     - { role: supervisor }
     - { role: celeryworker }
     - { role: celerybeat }
-    - { role: Datadog.datadog, become: yes }
+    - { role: datadog.datadog, become: yes }
 
     # Projects
     - { role: helium-platform }

@@ -10,7 +10,7 @@ env:
 
 install: env
 	@python -m pip install -r requirements.txt
-	@ansible-galaxy install --force Datadog.datadog,2.2.0
+	@ansible-galaxy install --force datadog.datadog
 
 	@HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
