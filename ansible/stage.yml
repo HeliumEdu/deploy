@@ -5,6 +5,9 @@
     # Server setup
     - { role: common }
 
+    # Infrastructure
+    - { role: Datadog.datadog, become: yes }
+
     # Projects
     - { role: helium-frontend }
   vars:
