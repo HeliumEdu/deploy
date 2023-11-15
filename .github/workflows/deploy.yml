@@ -2,6 +2,12 @@ name: "CD"
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+      code-arg:
+        type: boolean
+      env-vars-arg:
+        type: boolean
   release:
     types: [ created ]
 
@@ -68,4 +74,4 @@ jobs:
           if_key_exists: replace
       - name: Deploy
         run:
-          helium-cli deploy-build master stage
+          helium-cli deploy-build master stage ${{ github.event.inputs.code-arg == 'true' && '--code' || '' }} ${{ github.event.inputs.env-vars-arg == 'true' && '--envvars' || '' }}
