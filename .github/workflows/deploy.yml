@@ -73,4 +73,4 @@ jobs:
           if_key_exists: replace
       - name: Deploy
         run:
-          helium-cli deploy-build master stage ${{ github.event.inputs.code-arg == 'true' && '--code' || '' }} ${{ github.event.inputs.envvars-arg == 'true' && '--envvars' || '' }}
+          helium-cli deploy-build ${{ github.ref_name }} stage ${{ github.event.inputs.code-arg == 'true' && '--code' || '' }} ${{ github.event.inputs.envvars-arg == 'true' && '--envvars' || '' }}
