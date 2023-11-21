@@ -58,7 +58,7 @@ jobs:
           sudo dpkg -i vagrant_2.2.10_x86_64.deb
       - name: Install dependencies
         run:
-          make install
+          make SKIP_UPDATE=true install
       - name: Run tests
         run:
           make test
