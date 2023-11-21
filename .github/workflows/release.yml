@@ -20,7 +20,7 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run:
-          make SKIP_UPDATE=true install
+          python -m pip install -r requirements.txt
       - name: Release
         run:
           helium-cli build-release ${{ github.event.inputs.version }}
