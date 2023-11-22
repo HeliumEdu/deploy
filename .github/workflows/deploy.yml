@@ -10,6 +10,8 @@ on:
   release:
     types: [ created ]
 
+run-name: "Deploy ${{ github.ref_name }} to stage"
+
 jobs:
   deploy:
     name: Deploy
