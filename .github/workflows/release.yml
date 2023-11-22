@@ -32,12 +32,6 @@ jobs:
           sudo apt-get install -y virtualbox
           wget https://releases.hashicorp.com/vagrant/2.2.10/vagrant_2.2.10_x86_64.deb
           sudo dpkg -i vagrant_2.2.10_x86_64.deb
-      - name: Install dependencies
-        run:
-          make install
-      - name: Run tests
-        run:
-          make test
       - name: Setup git
         run: |
           git config --global user.name "GitHub Release Bot"
@@ -48,6 +42,12 @@ jobs:
           key: ${{ secrets.SSH_KEY_GITHUB }}
           known_hosts: ${{ secrets.KNOWN_HOSTS_GITHUB }}
           if_key_exists: replace
+      - name: Install dependencies
+        run:
+          make install
+      - name: Run tests
+        run:
+          make test
       - name: Release
         run:
           helium-cli build-release ${{ github.event.inputs.version }}
