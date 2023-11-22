@@ -3,7 +3,7 @@
   register: local_username
 
 - name: Get revision from tag
-  local_action: "command git -C {{ playbook_dir }}/../projects/{{ rollbar_project }} rev-list -n 1 {{ build_version | default('master') }}"
+  local_action: "command git -C {{ playbook_dir }}/../projects/{{ rollbar_project }} rev-list -n 1 {{ build_version | default('main') }}"
   register: project_tag_revision
 
 - name: Rollbar deploy
