@@ -22,7 +22,7 @@ start:
 	@vagrant up
 	@mkdir -p ~/.ssh
 	@if ! cat ~/.ssh/config | grep -xqFe "Host heliumedu.test" ; then vagrant ssh-config --host heliumedu.test >> ~/.ssh/config ; fi
-	@helium-cli deploy-build master devbox
+	@helium-cli deploy-build main devbox
 
 test:
 	@if [ ! -f ansible/devbox.yml ] ; then echo "ansible/devbox.yml not found" & exit 1 ; fi
