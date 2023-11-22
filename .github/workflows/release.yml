@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ssh-key: ${{ secrets.SSH_KEY_GITHUB }}
       - name: Set up Node 14
         uses: actions/setup-node@v4
         with:
@@ -40,6 +42,12 @@ jobs:
         run: |
           git config --global user.name "GitHub Release Bot"
           git config --global user.email "<contact@alexlaird.com>"
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY_GITHUB }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS_GITHUB }}
+          if_key_exists: replace
       - name: Release
         run:
           helium-cli build-release ${{ github.event.inputs.version }}
