@@ -1,5 +1,7 @@
 name: "CD"
 
+run-name: "Deploy ${{ github.ref_name }} to stage"
+
 on:
   workflow_dispatch:
     inputs:
@@ -9,8 +11,6 @@ on:
         type: boolean
   release:
     types: [ created ]
-
-run-name: "Deploy ${{ github.ref_name }} to stage"
 
 jobs:
   deploy:
