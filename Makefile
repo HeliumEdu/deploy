@@ -13,7 +13,7 @@ install: env
 	@python -m pip install -r requirements.txt
 	@ansible-galaxy install --force datadog.datadog
 
-	@if [ $(SKIP_UPDATE) != "true" ] ; then HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects ; fi
+	@HELIUMCLI_FORCE_FETCH=True HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
 	@vagrant plugin install vagrant-hostsupdater
 	@vagrant plugin install vagrant-host-shell
