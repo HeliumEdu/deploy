@@ -52,6 +52,9 @@
 
     # Projects
     - { role: helium-platform }
+
+    # Notify Rollbar (last step)
+    - { role: rollbar-deploy }
   vars:
     deploy_group: "{{ domain_environment }}"
     datadog_api_key: "{{ project_datadog_api_key }}"
