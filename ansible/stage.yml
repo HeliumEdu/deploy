@@ -25,6 +25,7 @@
     - { role: common }
 
     # Infrastructure
+    - { role: apache }
     - { role: datadog.datadog, become: yes }
 
     # Projects
