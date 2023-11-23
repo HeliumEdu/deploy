@@ -10,6 +10,8 @@ project_tagline: "Lightening Your Course Load"
 project_admin_email: "admin@heliumedu.com"
 project_contact_email: "contact@heliumedu.com"
 
+rollbar_project: "platform"
+
 frontend_root: "{{ project_root }}/frontend"
 platform_root: "{{ project_root }}/platform"
 
