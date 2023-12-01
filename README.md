@@ -1,4 +1,4 @@
-[![CI Tests](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml/badge.svg)](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml)
+[![Build](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml/badge.svg)](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml)
 ![GitHub License](https://img.shields.io/github/license/heliumedu/deploy)
 
 # Deploy Environment
