@@ -15,6 +15,7 @@ minimal time and to deploy code to other environments using [Ansible](https://ww
 - Pip (>= 9.0)
 - VirtualBox (>= 5.1)
 - Vagrant (>= 2.0)
+- Hosts Ubuntu 22.04
 
 ## Getting Started
 
