@@ -6,7 +6,6 @@
     state: present
     update_cache: yes
   with_items:
-    - python-mysqldb
     - python3-mysqldb
     - libmysqlclient-dev
     - libjpeg-dev
