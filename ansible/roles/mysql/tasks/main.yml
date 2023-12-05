@@ -10,6 +10,8 @@
     - mysql-client
     - python3-mysqldb
     - libmysqlclient-dev
+    - default-libmysqlclient-dev
+    - pkg-config
 
 - name: Configure bind address
   become: yes
