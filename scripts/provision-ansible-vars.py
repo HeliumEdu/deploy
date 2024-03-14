@@ -54,13 +54,9 @@ def main():
                 "PLATFORM_DB_PASSWORD",
                 "PLATFORM_AWS_S3_ACCESS_KEY_ID",
                 "PLATFORM_AWS_S3_SECRET_ACCESS_KEY",
-                "PLATFORM_TWILIO_ACCOUNT_SID",
-                "PLATFORM_TWILIO_AUTH_TOKEN",
                 "PLATFORM_TWILIO_SMS_FROM",
                 "PLATFORM_SECRET_KEY",
                 "PLATFORM_CSRF_MIDDLEWARE_SECRET",
-                "PLATFORM_EMAIL_HOST_USER",
-                "PLATFORM_EMAIL_HOST_PASSWORD",
                 "PLATFORM_REDIS_HOST"]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
     with open(platform_out_path, "w") as f:
