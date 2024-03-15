@@ -58,7 +58,8 @@ def main():
                 "PLATFORM_SECRET_KEY",
                 "PLATFORM_CSRF_MIDDLEWARE_SECRET",
                 "PLATFORM_REDIS_HOST",
-                "PLATFORM_AWS_SECRET_MANAGER_SECRET_NAME"]:
+                "PLATFORM_AWS_SECRET_MANAGER_SECRET_NAME",
+                "PLATFORM_AWS_SECRET_MANAGER_REGION"]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
     with open(platform_out_path, "w") as f:
         f.write(s)
