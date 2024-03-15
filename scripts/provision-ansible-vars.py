@@ -32,7 +32,10 @@ def main():
                 "HELIUM_HOST",
                 "PROJECT_DATADOG_API_KEY",
                 "PROJECT_DATADOG_APP_KEY",
-                "PLATFORM_ROLLBAR_POST_SERVER_ITEM_ACCESS_TOKEN"]:
+                "PLATFORM_ROLLBAR_POST_SERVER_ITEM_ACCESS_TOKEN",
+                "PLATFORM_DB_HOST",
+                "PLATFORM_DB_USER",
+                "PLATFORM_DB_PASSWORD"]:
         s = s.replace("{%" + var + "%}", os.environ.get(var))
     with open(frontend_out_path, "w") as f:
         f.write(s)
@@ -47,6 +50,8 @@ def main():
                 "PROJECT_DATADOG_APP_KEY",
                 "PLATFORM_ROLLBAR_POST_SERVER_ITEM_ACCESS_TOKEN",
                 "PLATFORM_DB_HOST",
+                "PLATFORM_DB_USER",
+                "PLATFORM_DB_PASSWORD",
                 "PLATFORM_TWILIO_SMS_FROM",
                 "PLATFORM_REDIS_HOST",
                 "PLATFORM_AWS_SECRET_MANAGER_SECRET_NAME",
