@@ -11,14 +11,10 @@ minimal time and to deploy code to other environments using [Docker](https://doc
 
 ## Prerequisites
 
-- A permissioned SSH key at ~/.ssh/id_rsa
-- Python (>= 3.10)
 - Docker
-- Hosts Ubuntu 22.04
 
-## Getting Started
-
-### Docker Development
+## Development
+### Docker Setup
 Here is a minimal set of commands that will get a Docker environment setup locally.
 
 ```sh
@@ -27,20 +23,9 @@ cd ~/Developer/helium
 make
 ```
 
-Done! Now your environment has been initialized, to quickly bring up Docker in the future, simply run `make start`.
+Done! Now that your environment has been initialized, to quickly bring up Docker in the future, simply run `make start`.
 
-For convenience, [helium-cli](https://github.com/HeliumEdu/heliumcli#readme), which is compatible with this
-project and provides a useful set of tools for maintaining, building, and deploying the code, has also been installed.
-
-```sh
-helium-cli deploy-build main stage --envvars
-```
-
-Python projects are run from within their virtualenvs. To run the `python manage.py createsuperuser` command then,
-for example, in `/srv/helium/platform`, you need to first activate the virtualenv for the platform. You can do this by
-execute like `source $PLATFORM_VENV/bin/activate`.
-
-## Documentation
-
-Auto-generated API documentation is accessible via any environment at /docs. Additional documentation for development,
-deployment, setting up environments, and more can be found on the [Deploy Wiki](https://github.com/HeliumEdu/deploy/wiki).
+This project was previous deployed using Ansible. However, now that the project has been Dockerized, we will be
+migrating to use Terraform instead. Since the Terraform resources have not yet been added to this project, presently
+this project is primarily a placeholder for getting started with the project in Docker and deploying the containers
+manually.
