@@ -15,6 +15,7 @@ minimal time and to deploy code to other environments using [Docker](https://doc
 
 ## Development
 ### Docker Setup
+
 Here is a minimal set of commands that will get a Docker environment setup locally.
 
 ```sh
@@ -25,7 +26,6 @@ make
 
 Done! Now that your environment has been initialized, to quickly bring up Docker in the future, simply run `make start`.
 
-This project was previous deployed using Ansible. However, now that the project has been Dockerized, we will be
-migrating to use Terraform instead. Since the Terraform resources have not yet been added to this project, presently
-this project is primarily a placeholder for getting started with the project in Docker and deploying the containers
-manually.
+## Deployment
+
+To understand the deployment process, have a look at the [Wiki](https://github.com/HeliumEdu/deploy/wiki).
