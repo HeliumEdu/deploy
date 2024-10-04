@@ -1,10 +1,10 @@
-.PHONY: all env install start test provision_ansible_vars
+.PHONY: all install start
 
 SHELL := /usr/bin/env bash
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
 SKIP_UPDATE ?= 'false'
 
-all: env install start
+all: install start
 
 install:
 	@python -m pip install -r requirements.txt
