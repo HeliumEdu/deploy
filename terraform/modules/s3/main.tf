@@ -1,5 +1,5 @@
-module "s3" {
-  source         = "./ci-bucket"
+module "ci_bucket" {
+  source         = "./ci_bucket"
   aws_account_id = var.aws_account_id
   environment    = var.environment
 }

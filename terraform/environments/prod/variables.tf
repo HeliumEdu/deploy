@@ -13,11 +13,6 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
-variable "area_code" {
-  description = "The area code for the phone number"
-  default     = "650"
-}
-
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
 
 variable "aws_account_id" {
