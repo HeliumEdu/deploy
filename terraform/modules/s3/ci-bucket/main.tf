@@ -27,8 +27,9 @@ data "aws_iam_policy_document" "allow_ses_ci_dump" {
     ]
 
     condition = {
-      test = "StringEquals"
-      variable = "\"aws:Referer\": \"${var.aws_account_id}\""
+      test     = "StringEquals"
+      variable = "aws:Referer"
+      value = [var.aws_account_id]
     }
   }
 }
