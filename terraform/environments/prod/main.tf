@@ -5,9 +5,11 @@ module "route53" {
 }
 
 module "certificatemanager" {
-  source             = "../../modules/certificatemanager"
-  environment        = var.environment
-  environment_prefix = var.environment_prefix
+  source                        = "../../modules/certificatemanager"
+  environment                   = var.environment
+  environment_prefix            = var.environment_prefix
+  route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
+  route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
 }
 
 module "vpc" {
@@ -28,9 +30,11 @@ module "vpc" {
 # TODO: add S3 buckets
 
 module "ses" {
-  source             = "../../modules/ses"
-  environment        = var.environment
-  environment_prefix = var.environment_prefix
+  source                        = "../../modules/ses"
+  environment                   = var.environment
+  environment_prefix            = var.environment_prefix
+  route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
+  route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
 }
 
 module "twilio" {
