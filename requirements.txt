@@ -1,1 +1,1 @@
-heliumcli>=1.6.13
+heliumcli>=1.6.26
