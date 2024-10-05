@@ -20,5 +20,5 @@ start:
 	cd projects/frontend && ./bin/runserver
 
 publish:
-	cd projects/platform && make push-docker
-	cd projects/frontend && make push-docker
+	cd projects/platform && make publish-docker
+	cd projects/frontend && make publish-docker
