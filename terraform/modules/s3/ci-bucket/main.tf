@@ -18,18 +18,18 @@ data "aws_iam_policy_document" "allow_ses_ci_dump" {
       identifiers = ["ses.amazonaws.com"]
     }
 
-    actions = [
-      "s3:PutObject"
-    ]
-
     resources = [
       "arn:aws:s3:::heliumedu-${var.environment}/ci.email/*",
     ]
 
-    condition = {
+    actions = [
+      "s3:PutObject"
+    ]
+
+    condition {
       test     = "StringEquals"
       variable = "aws:Referer"
-      value = [var.aws_account_id]
+      values = [var.aws_account_id]
     }
   }
 }
