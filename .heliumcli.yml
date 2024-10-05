@@ -5,9 +5,9 @@ gitProject: git@github.com:HeliumEdu
 hostProvisionCommand: sudo apt-get update && sudo apt-get install -y python && sudo
   apt-get -y autoremove
 projects:
-  - platform
-  - frontend
-  - ci-tests
+- platform
+- frontend
+- ci-tests
 projectsRelativeDir: projects
 remoteName: origin
 serverBinFilename: bin/runserver
