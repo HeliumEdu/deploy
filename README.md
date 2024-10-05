@@ -28,4 +28,6 @@ Done! Now that your environment has been initialized, to quickly bring up Docker
 
 ## Deployment
 
-To understand the deployment process, have a look at the [Wiki](https://github.com/HeliumEdu/deploy/wiki).
+When a tag is pushed to this repository, a release is cut, and container images published to
+[AWS ECR](https://aws.amazon.com/ecr/). To deploy this new release, bump the Image URI in [the Terraform for each AWS ECS Task Definition](https://github.com/HeliumEdu/deploy/blob/main/terraform/modules/ecs/main.tf).
+Pushing this change trigger the fleet to roll to this release when the Terraform is applied.
