@@ -17,8 +17,8 @@
 ###########################################################################
 
 resource "twilio_api_accounts_incoming_phone_numbers" "helium_phone_number" {
-  area_code     = "415"
-  friendly_name = "Helium Edu {var.environment}"
+  area_code     = var.area_code
+  friendly_name = "Helium Edu (${var.environment})"
   sms_url       = ""
   voice_url     = ""
 }
@@ -28,8 +28,8 @@ output "helium_phone_number" {
 }
 
 resource "twilio_api_accounts_incoming_phone_numbers" "ci_phone_number" {
-  area_code     = "605"
-  friendly_name = "CI Test Number {var.environment}"
+  area_code     = var.area_code
+  friendly_name = "CI Test Number (${var.environment})"
   sms_url       = ""
   voice_url     = ""
 }

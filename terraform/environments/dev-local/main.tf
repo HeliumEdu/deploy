@@ -6,4 +6,5 @@ module "ses" {
 module "twilio" {
   source      = "../../modules/phonenumbers"
   environment = var.environment
+  area_code   = var.area_code
 }
