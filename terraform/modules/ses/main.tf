@@ -18,11 +18,6 @@ resource "aws_iam_policy" "ses_sender" {
   policy      = data.aws_iam_policy_document.ses_sender.json
 }
 
-resource "aws_iam_user_policy_attachment" "test_attach" {
-  user       = aws_iam_user.smtp_user.name
-  policy_arn = aws_iam_policy.ses_sender.arn
-}
-
 output "smtp_username" {
   value = aws_iam_access_key.smtp_user.id
 }
