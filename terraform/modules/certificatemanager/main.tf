@@ -22,7 +22,7 @@ resource "aws_route53_record" "heliumedu_com" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = module.route53.heliumedu_com_zone_id
+  zone_id         = var.route53_heliumedu_com_zone_id
 }
 
 resource "aws_acm_certificate" "heliumedu_dev" {
@@ -48,5 +48,5 @@ resource "aws_route53_record" "heliumedu_dev" {
   records         = [each.value.record]
   ttl             = 60
   type            = each.value.type
-  zone_id         = module.route53.heliumedu_dev_zone_id
+  zone_id         = var.route53_heliumedu_dev_zone_id
 }
