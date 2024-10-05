@@ -19,11 +19,11 @@ module "vpc" {
 
 # TODO: add load balancer and target groups
 
-# TODO: add secrets manager
-
 # TODO: add RDS
 
 # TODO: add Elasticache
+
+# TODO: add secrets manager
 
 # TODO: add ECS clusters
 
