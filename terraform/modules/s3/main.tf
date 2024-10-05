@@ -1,24 +1,9 @@
-# TODO: provision base bucket (for CI emails) with
-# {
-#    "Version": "2012-10-17",
-#    "Statement": [
-#        {
-#            "Sid": "AllowSESPuts",
-#            "Effect": "Allow",
-#            "Principal": {
-#                "Service": "ses.amazonaws.com"
-#            },
-#            "Action": "s3:PutObject",
-#            "Resource": "arn:aws:s3:::heliumedu-<ENVIRONMENT>/ci.email/*",
-#            "Condition": {
-#                "StringEquals": {
-#                    "aws:Referer": "<ACCOUNT_ID>"
-#                }
-#            }
-#        }
-#    ]
-# }
-#
+module "s3" {
+  source         = "./ci-bucket"
+  aws_account_id = var.aws_account_id
+  environment    = var.environment
+}
+
 # TODO: provision static bucket with policy
 # {
 #    "Version": "2012-10-17",
