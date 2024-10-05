@@ -5,5 +5,5 @@
 *.pyc
 *.swp
 .DS_Store
-/terraform/.terraform
+*.terraform
 *.lock.hcl
