@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "heliumedu" {
   bucket = "heliumedu-${var.environment}"
 }
 
-resource "aws_s3_bucket_public_access_block" "example" {
+resource "aws_s3_bucket_public_access_block" "heliumedu_block_public" {
   bucket = aws_s3_bucket.heliumedu.id
 
   block_public_acls       = true

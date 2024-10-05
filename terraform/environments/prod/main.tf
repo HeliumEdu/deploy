@@ -39,12 +39,13 @@ module "ses" {
   environment_prefix            = var.environment_prefix
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
+
+  depends_on = [module.s3]
 }
 
 module "twilio" {
   source                   = "../../modules/twilio"
   environment              = var.environment
-  area_code                = var.area_code
   helium_twiml_handler_url = var.helium_twiml_handler_url
   ci_twiml_handler_url     = var.ci_twiml_handler_url
 }
