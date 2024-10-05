@@ -4,7 +4,7 @@ variable "environment" {
 }
 
 variable "environment_prefix" {
-  description = "Env when used as a prefix for things like hostname (empty when prod)"
+  description = "Prefix used for env in hostnames (empty string when `prod`)"
   default     = ""
 }
 
