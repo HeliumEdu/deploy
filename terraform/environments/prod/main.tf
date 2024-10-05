@@ -27,7 +27,11 @@ module "vpc" {
 
 # TODO: add ECS clusters
 
-# TODO: add S3 buckets
+module "s3" {
+  source         = "../../modules/s3"
+  aws_account_id = var.aws_account_id
+  environment    = var.environment
+}
 
 module "ses" {
   source                        = "../../modules/ses"
