@@ -28,26 +28,26 @@ variable "ci_twiml_handler_url" {
 }
 
 variable "DD_API_KEY" {
-  default = "The DataDog API key"
+  description = "The DataDog API key"
 }
 variable "DD_APP_KEY" {
-  default = "The DataDog app key"
+  description = "The DataDog app key"
 }
 variable "PLATFORM_DB_USER" {
-  default = "The MySQL DB username"
+  description = "The MySQL DB username"
 }
 variable "PLATFORM_DB_PASSWORD" {
-  default = "The MySQL DB password"
+  description = "The MySQL DB password"
 }
 variable "PLATFORM_SECRET_PROD" {
-  default = "The Django secret"
+  description = "The Django secret"
 }
 variable "ROLLBAR_API_KEY" {
-  default = "The Rollbar API key"
+  description = "The Rollbar API key"
 }
 variable "TWILIO_ACCOUNT_SID" {
-  default = "The Twilio account SID"
+  description = "The Twilio account SID"
 }
 variable "TWILIO_AUTH_TOKEN" {
-  default = "The Twilio auth token"
+  description = "The Twilio auth token"
 }
