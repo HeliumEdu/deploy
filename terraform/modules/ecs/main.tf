@@ -1,5 +1,13 @@
 # TODO: add provisioning for IAM roles
 
+resource "aws_cloudwatch_log_group" "helium_frontend" {
+  name = "/ecs/helium_frontend"
+}
+
+resource "aws_cloudwatch_log_group" "helium_platform" {
+  name = "/ecs/helium_platform_${var.environment}"
+}
+
 resource "aws_ecs_task_definition" "frontend_service" {
   family = "helium_frontend"
   container_definitions = jsonencode([
