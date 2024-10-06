@@ -3,7 +3,7 @@ resource "aws_elasticache_cluster" "helium" {
   engine          = "redis"
   node_type       = "cache.t3.micro"
   num_cache_nodes = 1
-  engine_version  = "7.1.0"
+  engine_version  = "7.1"
   security_group_ids = [var.elasticache_sg]
 }
 
