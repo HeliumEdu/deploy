@@ -2,7 +2,7 @@
 
 resource "aws_db_instance" "helium" {
   allocated_storage          = 20
-  db_name                    = "platform_${var.environment}"
+  db_name                    = "helium-platform-${var.environment}"
   engine                     = "mysql"
   engine_version             = "8.0"
   instance_class             = "db.t3.micro"
