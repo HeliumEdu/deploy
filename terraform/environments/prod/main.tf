@@ -34,7 +34,19 @@ module "alb" {
 
 # TODO: add Elasticache
 
-# TODO: add ECS clusters
+module "ecs" {
+  source = "../../modules/ecs"
+
+  environment           = var.environment
+  aws_account_id        = var.aws_account_id
+  aws_region            = var.aws_region
+  datadog_api_key       = var.DD_API_KEY
+  http_frontend         = module.vpc.http_sg_frontend
+  http_platform         = module.vpc.http_sg_platform
+  frontend_target_group = module.alb.frontend_target_group
+  platform_target_group = module.alb.platform_target_group
+  subnet_ids            = module.vpc.subnet_ids
+}
 
 module "s3" {
   source = "../../modules/s3"
@@ -55,21 +67,24 @@ module "ses" {
 module "secretsmanager" {
   source = "../../modules/secretsmanager"
 
-  environment    = var.environment
-  aws_account_id = var.aws_account_id
-  aws_region     = var.aws_region
-  datadog_api_key = var.DD_API_KEY
-  datadog_app_key = var.DD_APP_KEY
-  db_password = var.PLATFORM_DB_USER
-  db_user = var.PLATFORM_DB_PASSWORD
-  platform_secret = var.PLATFORM_SECRET_PROD
-  rollbar_access_token = var.ROLLBAR_API_KEY
-  s3_user_access_key_id = module.s3.s3_access_key_id
+  environment               = var.environment
+  aws_account_id            = var.aws_account_id
+  aws_region                = var.aws_region
+  datadog_api_key           = var.DD_API_KEY
+  datadog_app_key           = var.DD_APP_KEY
+  redis_host                = ""
+  db_host                   = ""
+  db_user                   = var.PLATFORM_DB_PASSWORD
+  db_password               = var.PLATFORM_DB_USER
+  platform_secret           = var.PLATFORM_SECRET_PROD
+  rollbar_access_token      = var.ROLLBAR_API_KEY
+  s3_user_access_key_id     = module.s3.s3_access_key_id
   s3_user_secret_access_key = module.s3.s3_access_key_secret
-  smtp_email_password = module.ses.smtp_username
-  smtp_email_user = module.ses.smtp_password
-  twilio_account_sid = var.TWILIO_ACCOUNT_SID
-  twilio_auth_token = var.TWILIO_AUTH_TOKEN
+  smtp_email_password       = module.ses.smtp_username
+  smtp_email_user           = module.ses.smtp_password
+  twilio_account_sid        = var.TWILIO_ACCOUNT_SID
+  twilio_auth_token         = var.TWILIO_AUTH_TOKEN
+  twilio_phone_number       = module.twilio.helium_phone_number
 }
 
 module "twilio" {
