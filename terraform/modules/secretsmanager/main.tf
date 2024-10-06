@@ -33,8 +33,9 @@ resource "aws_secretsmanager_secret_policy" "helium_policy" {
   policy     = data.aws_iam_policy_document.helium_policy.json
 }
 
-variable "helium_secret_value" {
-  default = {
+resource "aws_secretsmanager_secret_version" "helium_secret_version" {
+  secret_id = aws_secretsmanager_secret.helium.id
+  secret_string = jsonencode(sensitive({
     PLATFORM_EMAIL_HOST_USER                       = var.smtp_email_user
     PLATFORM_EMAIL_HOST_PASSWORD                   = var.smtp_email_password
     PLATFORM_TWILIO_ACCOUNT_SID                    = var.twilio_account_sid
@@ -47,12 +48,5 @@ variable "helium_secret_value" {
     PROJECT_DATADOG_API_KEY                        = var.datadog_api_key
     PROJECT_DATADOG_APP_KEY                        = var.datadog_app_key
     PLATFORM_ROLLBAR_POST_SERVER_ITEM_ACCESS_TOKEN = var.rollbar_access_token
-  }
-
-  type = map(string)
-}
-
-resource "aws_secretsmanager_secret_version" "helium_secret_version" {
-  secret_id = aws_secretsmanager_secret.helium.id
-  secret_string = jsonencode(var.helium_secret_value)
+  }))
 }
