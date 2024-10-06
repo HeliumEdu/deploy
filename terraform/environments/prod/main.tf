@@ -21,6 +21,7 @@ module "alb" {
   source = "../../modules/alb"
 
   environment            = var.environment
+  environment_prefix     = var.environment_prefix
   security_group         = module.vpc.http_s_sg_id
   subnet_ids             = module.vpc.subnet_ids
   helium_vpc_id          = module.vpc.vpc_id
