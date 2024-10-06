@@ -62,6 +62,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_https_ipv4" {
   to_port           = 443
 }
 
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound" {
+  security_group_id = aws_security_group.http_s.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 0
+  ip_protocol       = "tcp"
+  to_port           = 65535
+}
+
 resource "aws_security_group" "http_helium_frontend" {
   name   = "http-helium-frontend"
   vpc_id = aws_vpc.helium_vpc.id
@@ -79,6 +87,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_helium_frontend_ipv4"
   to_port           = 3000
 }
 
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound" {
+  security_group_id = aws_security_group.http_helium_frontend.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 0
+  ip_protocol       = "tcp"
+  to_port           = 65535
+}
+
 resource "aws_security_group" "http_helium_platform" {
   name   = "http-helium-platform"
   vpc_id = aws_vpc.helium_vpc.id
@@ -94,6 +110,14 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_helium_platform_ipv4"
   from_port         = 8000
   ip_protocol       = "tcp"
   to_port           = 8000
+}
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_outbound" {
+  security_group_id = aws_security_group.http_helium_platform.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 0
+  ip_protocol       = "tcp"
+  to_port           = 65535
 }
 
 resource "aws_security_group" "mysql" {
