@@ -51,27 +51,47 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.heliumedu_com_cert_arn
 
   default_action {
-    type  = "forward"
-    order = 1
-
-    target_group_arn = aws_lb_target_group.frontend.arn
-  }
-
-  default_action {
-    type  = "forward"
-    order = 2
-
-    target_group_arn = aws_lb_target_group.platform.arn
-  }
-
-  default_action {
-    type  = "fixed-response"
-    order = 3
+    type     = "fixed-response"
+    priority = 3
 
     fixed_response {
       content_type = "text/plain"
       message_body = "Unknown host header."
       status_code  = "400"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "frontend" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 1
+
+  action {
+    type = "forward"
+
+    target_group_arn = aws_lb_target_group.frontend.arn
+  }
+
+  condition {
+    host_header {
+      values = ["heliumedu.com", "www.heliumedu.com"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "frontend" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 2
+
+  action {
+    type = "forward"
+
+    target_group_arn = aws_lb_target_group.platform.arn
+  }
+
+  condition {
+    host_header {
+      values = ["api.heliumedu.com"]
     }
   }
 }
