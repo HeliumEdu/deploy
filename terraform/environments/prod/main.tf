@@ -13,11 +13,19 @@ module "certificatemanager" {
 }
 
 module "vpc" {
-  source      = "../../modules/vpc"
-  environment = var.environment
+  source = "../../modules/vpc"
 }
 
-# TODO: add load balancer and target groups
+
+module "alb" {
+  source = "../../modules/alb"
+
+  environment            = var.environment
+  security_group         = module.vpc.http_s_sg_id
+  subnet_ids             = module.vpc.subnet_ids
+  helium_vpc_id          = module.vpc.vpc_id
+  heliumedu_com_cert_arn = module.certificatemanager.heliumedu_com_cert_arn
+}
 
 # TODO: add RDS
 
