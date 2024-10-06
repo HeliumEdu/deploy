@@ -35,6 +35,7 @@ module "alb" {
 #   source = "../../modules/rds"
 #
 #   environment = var.environment
+#   subnet_ids  = module.vpc.subnet_ids
 #   mysql_sg    = module.vpc.mysql_sg
 #   password    = var.PLATFORM_DB_USER
 #   username    = var.PLATFORM_DB_PASSWORD
@@ -44,6 +45,7 @@ module "elasticache" {
   source = "../../modules/elasticache"
 
   environment    = var.environment
+  subnet_ids     = module.vpc.subnet_ids
   elasticache_sg = module.vpc.elasticache_sg
 }
 
