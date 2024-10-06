@@ -165,7 +165,6 @@ resource "aws_ecs_cluster_capacity_providers" "helium" {
   capacity_providers = ["FARGATE"]
 
   default_capacity_provider_strategy {
-    base              = 1
     weight            = 100
     capacity_provider = "FARGATE"
   }
@@ -177,6 +176,10 @@ resource "aws_ecs_service" "helium_frontend" {
   task_definition                   = aws_ecs_task_definition.frontend_service.arn
   desired_count                     = 1
   health_check_grace_period_seconds = 10
+
+  capacity_provider_strategy {
+    capacity_provider = aws_ecs_cluster_capacity_providers.helium.default_capacity_provider_strategy.capacity_provider
+  }
 
   network_configuration {
     subnets = [for id in var.subnet_ids : id]
@@ -196,6 +199,10 @@ resource "aws_ecs_service" "helium_platform" {
   task_definition                   = aws_ecs_task_definition.platform_service.arn
   desired_count                     = 2
   health_check_grace_period_seconds = 10
+
+  capacity_provider_strategy {
+    capacity_provider = aws_ecs_cluster_capacity_providers.helium.default_capacity_provider_strategy.capacity_provider
+  }
 
   network_configuration {
     subnets = [for id in var.subnet_ids : id]
