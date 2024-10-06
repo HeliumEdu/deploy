@@ -11,9 +11,8 @@ resource "aws_ecs_task_definition" "frontend_service" {
       portMappings = [
         {
           containerPort = 3000
-          hostPort      = 3000
           protocol      = "tcp"
-          app_protocol  = "http"
+          appProtocol   = "http"
         }
       ]
       logConfiguration = {
@@ -71,9 +70,8 @@ resource "aws_ecs_task_definition" "platform_service" {
       portMappings = [
         {
           containerPort = 8000
-          hostPort      = 8000
           protocol      = "tcp"
-          app_protocol  = "http"
+          appProtocol   = "http"
         }
       ]
       environment = [
@@ -89,10 +87,11 @@ resource "aws_ecs_task_definition" "platform_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "/ecs/helium"
-          "mode" : "non-blocking"
-          "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs"
+          awslogs-group         = "/ecs/helium_frontend"
+          mode                  = "non-blocking"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+          awslogs-create-group  = "true"
         }
       }
     },
@@ -114,10 +113,11 @@ resource "aws_ecs_task_definition" "platform_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "/ecs/helium"
-          "mode" : "non-blocking"
-          "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs"
+          awslogs-group         = "/ecs/helium_platform_${var.environment}"
+          mode                  = "non-blocking"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+          awslogs-create-group  = "true"
         }
       }
     },
@@ -185,7 +185,7 @@ resource "aws_ecs_service" "helium_frontend" {
   }
 
   network_configuration {
-    subnets          = [for id in var.subnet_ids : id]
+    subnets = [for id in var.subnet_ids : id]
     security_groups = [var.http_frontend]
   }
 
@@ -210,7 +210,7 @@ resource "aws_ecs_service" "helium_platform" {
   }
 
   network_configuration {
-    subnets          = [for id in var.subnet_ids : id]
+    subnets = [for id in var.subnet_ids : id]
     security_groups = [var.http_platform]
   }
 
