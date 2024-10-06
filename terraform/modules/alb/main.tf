@@ -3,7 +3,7 @@ resource "aws_lb" "helium_prod" {
   internal           = false
   load_balancer_type = "application"
   security_groups = [var.security_group]
-  subnets            = [for subnet in subnet_ids : id]
+  subnets            = [for subnet in var.subnet_ids : id]
 
   enable_deletion_protection = true
 }
