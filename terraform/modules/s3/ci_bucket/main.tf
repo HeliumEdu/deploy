@@ -36,5 +36,5 @@ data "aws_iam_policy_document" "allow_ses_access" {
 
 resource "aws_s3_bucket_policy" "allow_ses_access" {
   bucket = aws_s3_bucket.heliumedu.id
-  policy = data.aws_iam_policy_document.allow_ses_ci_dump.json
+  policy = data.aws_iam_policy_document.allow_ses_access.json
 }
