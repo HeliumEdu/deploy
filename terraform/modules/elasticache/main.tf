@@ -1,5 +1,5 @@
 resource "aws_elasticache_cluster" "helium" {
-  cluster_id      = "helium_${var.environment}"
+  cluster_id      = "helium"
   engine          = "redis"
   node_type       = "cache.t3.micro"
   num_cache_nodes = 1
