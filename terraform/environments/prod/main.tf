@@ -22,12 +22,13 @@ module "vpc" {
 module "alb" {
   source = "../../modules/alb"
 
-  environment            = var.environment
-  environment_prefix     = var.environment_prefix
-  security_group         = module.vpc.http_s_sg_id
-  subnet_ids             = module.vpc.subnet_ids
-  helium_vpc_id          = module.vpc.vpc_id
-  heliumedu_com_cert_arn = module.certificatemanager.heliumedu_com_cert_arn
+  environment                   = var.environment
+  environment_prefix            = var.environment_prefix
+  route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
+  security_group                = module.vpc.http_s_sg_id
+  subnet_ids                    = module.vpc.subnet_ids
+  helium_vpc_id                 = module.vpc.vpc_id
+  heliumedu_com_cert_arn        = module.certificatemanager.heliumedu_com_cert_arn
 }
 
 # TODO: commented out until the multiple database are split off the existing RDS cluster

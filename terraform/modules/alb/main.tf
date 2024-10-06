@@ -8,6 +8,22 @@ resource "aws_lb" "helium_prod" {
   enable_deletion_protection = true
 }
 
+resource "aws_route53_record" "heliumedu_com_lb_cname" {
+  zone_id = var.route53_heliumedu_com_zone_id
+  name    = "${var.environment_prefix}heliumedu.com"
+  type    = "CNAME"
+  ttl     = "600"
+  records = [aws_lb.helium_prod.dns_name]
+}
+
+resource "aws_route53_record" "api_heliumedu_com_lb_cname" {
+  zone_id = var.route53_heliumedu_com_zone_id
+  name    = "api.${var.environment_prefix}heliumedu.com"
+  type    = "CNAME"
+  ttl     = "600"
+  records = [aws_lb.helium_prod.dns_name]
+}
+
 resource "aws_lb_listener" "http_redirect" {
   load_balancer_arn = aws_lb.helium_prod.arn
   port              = "80"
