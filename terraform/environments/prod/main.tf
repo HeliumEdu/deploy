@@ -30,9 +30,21 @@ module "alb" {
   heliumedu_com_cert_arn = module.certificatemanager.heliumedu_com_cert_arn
 }
 
-# TODO: add RDS
+module "rds" {
+  source = "../../modules/rds"
 
-# TODO: add Elasticache
+  environment = var.environment
+  mysql_sg    = module.vpc.mysql_sg
+  password    = var.PLATFORM_DB_USER
+  username    = var.PLATFORM_DB_PASSWORD
+}
+
+module "elasticache" {
+  source = "../../modules/elasticache"
+
+  environment    = var.environment
+  elasticache_sg = module.vpc.elasticache_sg
+}
 
 module "ecs" {
   source = "../../modules/ecs"

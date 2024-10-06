@@ -106,6 +106,10 @@ resource "aws_security_group" "mysql" {
   vpc_id = aws_vpc.helium_vpc.id
 }
 
+output "mysql_sg" {
+  value = aws_security_group.mysql.id
+}
+
 resource "aws_vpc_security_group_ingress_rule" "allow_mysql_ipv4" {
   security_group_id = aws_security_group.mysql.id
   cidr_ipv4         = aws_vpc.helium_vpc.cidr_block
@@ -117,6 +121,10 @@ resource "aws_vpc_security_group_ingress_rule" "allow_mysql_ipv4" {
 resource "aws_security_group" "elasticache" {
   name   = "elasticache"
   vpc_id = aws_vpc.helium_vpc.id
+}
+
+output "elasticache_sg" {
+  value = aws_security_group.mysql.id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_elasticache_ipv4" {
