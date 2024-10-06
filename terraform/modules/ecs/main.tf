@@ -12,15 +12,17 @@ resource "aws_ecs_task_definition" "frontend_service" {
         {
           containerPort = 3000
           hostPort      = 3000
+          protocol      = "tcp"
+          app_protocol  = "http"
         }
       ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "/ecs/helium/frontend"
+          awslogs-group = "/ecs/helium"
           "mode" : "non-blocking"
           "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs"
+          "awslogs-stream-prefix" : "ecs/frontend"
         }
       }
     },
@@ -70,6 +72,8 @@ resource "aws_ecs_task_definition" "platform_service" {
         {
           containerPort = 8000
           hostPort      = 8000
+          protocol      = "tcp"
+          app_protocol  = "http"
         }
       ]
       environment = [
@@ -85,10 +89,10 @@ resource "aws_ecs_task_definition" "platform_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "/ecs/helium/api"
+          awslogs-group = "/ecs/helium"
           "mode" : "non-blocking"
           "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs"
+          "awslogs-stream-prefix" : "ecs-frontend"
         }
       }
     },
@@ -110,10 +114,10 @@ resource "aws_ecs_task_definition" "platform_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "/ecs/helium/worker"
+          awslogs-group = "/ecs/helium"
           "mode" : "non-blocking"
           "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs"
+          "awslogs-stream-prefix" : "ecs-worker"
         }
       }
     },
@@ -135,7 +139,7 @@ resource "aws_ecs_task_definition" "platform_service" {
     }
   ])
 
-  cpu = "2048"
+  cpu    = "2048"
   memory = "4096"
 
   task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"
@@ -153,6 +157,18 @@ resource "aws_ecs_task_definition" "platform_service" {
 
 resource "aws_ecs_cluster" "helium" {
   name = "helium"
+}
+
+resource "aws_ecs_cluster_capacity_providers" "helium" {
+  cluster_name = aws_ecs_cluster.helium.name
+
+  capacity_providers = ["FARGATE"]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = "FARGATE"
+  }
 }
 
 resource "aws_ecs_service" "helium_frontend" {
