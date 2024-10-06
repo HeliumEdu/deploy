@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "allow_static_http_access" {
     }
 
     resources = [
-      "arn:aws:s3:::heliumedu.${var.environment}.static",
+      "arn:aws:s3:::heliumedu.${var.environment}.static/*",
     ]
 
     actions = [
