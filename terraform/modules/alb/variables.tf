@@ -8,6 +8,11 @@ variable "environment_prefix" {
   type = string
 }
 
+variable "route53_heliumedu_com_zone_id" {
+  description = "The Route 53 zone ID"
+  type = string
+}
+
 variable "security_group" {
   description = "The http/s security group ID"
   type        = string

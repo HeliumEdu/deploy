@@ -42,6 +42,7 @@ resource "aws_route53_record" "heliumedu_com_amazonses_verification_record" {
 resource "aws_ses_domain_identity" "heliumedu_dev_identity" {
   domain = "heliumedu.dev"
 }
+
 resource "aws_route53_record" "heliumedu_dev_amazonses_verification_record" {
   zone_id = var.route53_heliumedu_dev_zone_id
   name    = "_amazonses.${var.environment_prefix}heliumedu.dev"
