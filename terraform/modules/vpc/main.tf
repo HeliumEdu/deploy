@@ -7,15 +7,19 @@ output "vpc_id" {
 }
 
 resource "aws_subnet" "subnet_us_east_1a" {
-  vpc_id = aws_vpc.helium_vpc.id
-  cidr_block = "172.30.0.0/24"
+  vpc_id            = aws_vpc.helium_vpc.id
+  cidr_block        = "172.30.0.0/24"
   availability_zone = "us-east-1a"
 }
 
 resource "aws_subnet" "subnet_us_east_1b" {
-  vpc_id = aws_vpc.helium_vpc.id
-  cidr_block = "172.30.1.0/24"
+  vpc_id            = aws_vpc.helium_vpc.id
+  cidr_block        = "172.30.1.0/24"
   availability_zone = "us-east-1b"
+}
+
+output "subnet_ids" {
+  value = [aws_subnet.subnet_us_east_1a.id, aws_subnet.subnet_us_east_1a.id]
 }
 
 resource "aws_internet_gateway" "helium_gateway" {
@@ -32,18 +36,22 @@ resource "aws_route_table" "helium_route_table" {
 }
 
 resource "aws_route_table_association" "subnet_us_east_1a_route_table" {
-  subnet_id = "172.30.0.0/24"
+  subnet_id      = aws_subnet.subnet_us_east_1a.id
   route_table_id = aws_route_table.helium_route_table.id
 }
 
 resource "aws_route_table_association" "subnet_us_east_1b_route_table" {
-  subnet_id = "172.30.1.0/24"
+  subnet_id      = aws_subnet.subnet_us_east_1b.id
   route_table_id = aws_route_table.helium_route_table.id
 }
 
 resource "aws_security_group" "http_s" {
   name   = "http/s"
   vpc_id = aws_vpc.helium_vpc.id
+}
+
+output "http_s_sg_id" {
+  value = aws_security_group.http_s.id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
