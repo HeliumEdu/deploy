@@ -28,9 +28,23 @@ resource "aws_internet_gateway" "helium_gateway" {
   vpc_id = aws_vpc.helium_vpc.id
 }
 
+resource "aws_route_table" "helium_route_table" {
+  vpc_id = aws_vpc.helium_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.helium_gateway.id
+  }
+
+  route {
+    cidr_block       = "172.30.0.0/16"
+    local_gateway_id = "local"
+  }
+}
+
 resource "aws_security_group" "http_s" {
   name   = "http/s"
-  vpc_id = "0.0.0.0/16"
+  vpc_id = "0.0.0.0/0"
 }
 
 output "http_s_sg_id" {
