@@ -51,8 +51,8 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = var.heliumedu_com_cert_arn
 
   default_action {
-    type     = "fixed-response"
-    priority = 3
+    type  = "fixed-response"
+    order = 3
 
     fixed_response {
       content_type = "text/plain"
@@ -74,7 +74,7 @@ resource "aws_lb_listener_rule" "frontend" {
 
   condition {
     host_header {
-      values = ["heliumedu.com", "www.heliumedu.com"]
+      values = ["${var.environment_prefix}heliumedu.com", "www.${var.environment_prefix}heliumedu.com"]
     }
   }
 }
@@ -91,7 +91,7 @@ resource "aws_lb_listener_rule" "platform" {
 
   condition {
     host_header {
-      values = ["api.heliumedu.com"]
+      values = ["api.${var.environment_prefix}heliumedu.com"]
     }
   }
 }

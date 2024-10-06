@@ -3,6 +3,11 @@ variable "environment" {
   type        = string
 }
 
+variable "environment_prefix" {
+  description = "Prefix used for env in hostnames (empty string when `prod`)"
+  type = string
+}
+
 variable "security_group" {
   description = "The http/s security group ID"
   type        = string
