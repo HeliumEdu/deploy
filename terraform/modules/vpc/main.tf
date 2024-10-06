@@ -19,7 +19,7 @@ resource "aws_subnet" "subnet_us_east_1b" {
 }
 
 output "subnet_ids" {
-  value = [aws_subnet.subnet_us_east_1a.id, aws_subnet.subnet_us_east_1a.id]
+  value = [aws_subnet.subnet_us_east_1a.id, aws_subnet.subnet_us_east_1b.id]
 }
 
 resource "aws_internet_gateway" "helium_gateway" {
@@ -84,7 +84,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_helium_frontend_ipv4"
 }
 
 resource "aws_security_group" "http_helium_backend" {
-  name   = "http-8000"
+  name   = "http-helium-backend"
   vpc_id = aws_vpc.helium_vpc.id
 }
 
