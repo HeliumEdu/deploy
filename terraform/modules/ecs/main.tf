@@ -178,7 +178,7 @@ resource "aws_ecs_service" "helium_frontend" {
   health_check_grace_period_seconds = 10
 
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_cluster_capacity_providers.helium.default_capacity_provider_strategy.capacity_provider
+    capacity_provider = "FARGATE"
   }
 
   network_configuration {
@@ -201,7 +201,7 @@ resource "aws_ecs_service" "helium_platform" {
   health_check_grace_period_seconds = 10
 
   capacity_provider_strategy {
-    capacity_provider = aws_ecs_cluster_capacity_providers.helium.default_capacity_provider_strategy.capacity_provider
+    capacity_provider = "FARGATE"
   }
 
   network_configuration {
