@@ -135,6 +135,8 @@ resource "aws_ecs_task_definition" "platform_service" {
   cpu    = "2048"
   memory = "4096"
 
+  # TODO: add this role to provisioning
+  task_role_arn = "arn:arws:iam::${var.aws_account_id}:role/HeliumEduRole"
   execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
@@ -173,7 +175,7 @@ resource "aws_ecs_service" "helium_frontend" {
 resource "aws_ecs_service" "helium_platform" {
   name                              = "helium_platform"
   cluster                           = aws_ecs_cluster.helium.id
-  task_definition                   = aws_ecs_task_definition.frontend_service.arn
+  task_definition                   = aws_ecs_task_definition.platform_service.arn
   desired_count                     = 2
   health_check_grace_period_seconds = 10
 
