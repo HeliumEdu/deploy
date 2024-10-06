@@ -18,10 +18,11 @@ resource "aws_ecs_task_definition" "frontend_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group = "/ecs/helium"
-          "mode" : "non-blocking"
-          "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs"
+          awslogs-group         = "/ecs/helium_frontend"
+          mode                  = "non-blocking"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+          awslogs-create-group  = "true"
         }
       }
     },
@@ -87,7 +88,7 @@ resource "aws_ecs_task_definition" "platform_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/ecs/helium_frontend"
+          awslogs-group         = "/ecs/helium_platform_${var.environment}"
           mode                  = "non-blocking"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
