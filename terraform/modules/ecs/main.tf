@@ -184,7 +184,7 @@ resource "aws_ecs_service" "helium_platform" {
 
   load_balancer {
     target_group_arn = var.platform_target_group
-    container_name   = "helium_platform"
+    container_name   = "helium_platform_api"
     container_port   = 3000
   }
 }
