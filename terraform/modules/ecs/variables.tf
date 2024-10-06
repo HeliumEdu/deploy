@@ -1,3 +1,7 @@
+variable "helium_version" {
+  description = "The container versions to deploy"
+}
+
 variable "environment" {
   description = "The environment"
   type        = string

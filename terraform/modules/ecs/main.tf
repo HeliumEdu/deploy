@@ -3,7 +3,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
   container_definitions = jsonencode([
     {
       name      = "helium_frontend"
-      image     = "562129510549.dkr.ecr.us-east-1.amazonaws.com/helium/frontend:1.7.0"
+      image     = "562129510549.dkr.ecr.us-east-1.amazonaws.com/helium/frontend:${var.helium_version}"
       cpu       = 0
       essential = true
       portMappings = [
@@ -60,7 +60,7 @@ resource "aws_ecs_task_definition" "platform_service" {
   container_definitions = jsonencode([
     {
       name      = "helium_platform_api"
-      image     = "562129510549.dkr.ecr.us-east-1.amazonaws.com/helium/platform-api:1.7.0"
+      image     = "562129510549.dkr.ecr.us-east-1.amazonaws.com/helium/platform-api:${var.helium_version}"
       cpu       = 0
       essential = true
       portMappings = [
@@ -91,7 +91,7 @@ resource "aws_ecs_task_definition" "platform_service" {
     },
     {
       name      = "helium_platform_worker"
-      image     = "562129510549.dkr.ecr.us-east-1.amazonaws.com/helium/platform-worker:1.7.0"
+      image     = "562129510549.dkr.ecr.us-east-1.amazonaws.com/helium/platform-worker:${var.helium_version}"
       cpu       = 0
       essential = true
       environment = [

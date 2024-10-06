@@ -52,6 +52,7 @@ module "elasticache" {
 module "ecs" {
   source = "../../modules/ecs"
 
+  helium_version        = var.helium_version
   environment           = var.environment
   aws_account_id        = var.aws_account_id
   aws_region            = var.aws_region

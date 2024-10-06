@@ -1,3 +1,8 @@
+variable "helium_version" {
+  description = "The container versions to deploy"
+  default     = "1.7.0"
+}
+
 variable "environment" {
   description = "The environment"
   default     = "prod"
@@ -10,7 +15,7 @@ variable "environment_prefix" {
 
 variable "aws_region" {
   description = "The AWS region"
-  default = "us-east-1"
+  default     = "us-east-1"
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
