@@ -1,3 +1,5 @@
+# TODO: add provisioning for IAM roles
+
 resource "aws_ecs_task_definition" "frontend_service" {
   family = "helium_frontend"
   container_definitions = jsonencode([
@@ -43,6 +45,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
   cpu    = "256"
   memory = "512"
 
+  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"
   execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
@@ -135,7 +138,6 @@ resource "aws_ecs_task_definition" "platform_service" {
   cpu = "2048"
   memory = "4096"
 
-  # TODO: add this role to provisioning
   task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"
   execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
