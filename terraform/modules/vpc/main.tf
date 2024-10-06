@@ -35,11 +35,6 @@ resource "aws_route_table" "helium_route_table" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.helium_gateway.id
   }
-
-  route {
-    cidr_block       = "172.30.0.0/16"
-    gateway_id = "local"
-  }
 }
 
 resource "aws_security_group" "http_s" {
@@ -61,7 +56,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_https_ipv4" {
   security_group_id = aws_security_group.http_s.id
-  cidr_ipv4         = aws_vpc.helium_vpc.cidr_block
+  cidr_ipv4         = "0.0.0.0/0"
   from_port         = 443
   ip_protocol       = "tcp"
   to_port           = 443
