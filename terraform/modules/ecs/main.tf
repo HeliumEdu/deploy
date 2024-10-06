@@ -132,11 +132,11 @@ resource "aws_ecs_task_definition" "platform_service" {
     }
   ])
 
-  cpu    = "2048"
+  cpu = "2048"
   memory = "4096"
 
   # TODO: add this role to provisioning
-  task_role_arn = "arn:arws:iam::${var.aws_account_id}:role/HeliumEduRole"
+  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"
   execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
@@ -161,7 +161,7 @@ resource "aws_ecs_service" "helium_frontend" {
   health_check_grace_period_seconds = 10
 
   network_configuration {
-    subnets          = [for id in var.subnet_ids : id]
+    subnets = [for id in var.subnet_ids : id]
     security_groups = [var.http_frontend]
   }
 
@@ -180,7 +180,7 @@ resource "aws_ecs_service" "helium_platform" {
   health_check_grace_period_seconds = 10
 
   network_configuration {
-    subnets          = [for id in var.subnet_ids : id]
+    subnets = [for id in var.subnet_ids : id]
     security_groups = [var.http_platform]
   }
 
