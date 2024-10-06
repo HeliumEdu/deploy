@@ -30,14 +30,15 @@ module "alb" {
   heliumedu_com_cert_arn = module.certificatemanager.heliumedu_com_cert_arn
 }
 
-module "rds" {
-  source = "../../modules/rds"
-
-  environment = var.environment
-  mysql_sg    = module.vpc.mysql_sg
-  password    = var.PLATFORM_DB_USER
-  username    = var.PLATFORM_DB_PASSWORD
-}
+# TODO: commented out until the multiple database are split off the existing RDS cluster
+# module "rds" {
+#   source = "../../modules/rds"
+#
+#   environment = var.environment
+#   mysql_sg    = module.vpc.mysql_sg
+#   password    = var.PLATFORM_DB_USER
+#   username    = var.PLATFORM_DB_PASSWORD
+# }
 
 module "elasticache" {
   source = "../../modules/elasticache"
@@ -84,8 +85,8 @@ module "secretsmanager" {
   aws_region                = var.aws_region
   datadog_api_key           = var.DD_API_KEY
   datadog_app_key           = var.DD_APP_KEY
-  redis_host                = ""
-  db_host                   = ""
+  redis_host                = var.PLATFORM_REDIS_HOST
+  db_host                   = var.PLATFORM_DB_HOST
   db_user                   = var.PLATFORM_DB_PASSWORD
   db_password               = var.PLATFORM_DB_USER
   platform_secret           = var.PLATFORM_SECRET_PROD
