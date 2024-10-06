@@ -16,8 +16,8 @@ resource "aws_ecs_task_definition" "frontend_service" {
         logDriver = "awslogs"
         options = {
           awslogs-group = "/ecs/helium/frontend"
-          "mode" : "non-blocking",
-          "awslogs-region" : var.aws_region,
+          "mode" : "non-blocking"
+          "awslogs-region" : var.aws_region
           "awslogs-stream-prefix" : "ecs"
         }
       }
@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
   cpu    = "256"
   memory = "512"
 
-  execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole",
+  execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
     "FARGATE"
@@ -83,8 +83,8 @@ resource "aws_ecs_task_definition" "platform_service" {
         logDriver = "awslogs"
         options = {
           awslogs-group = "/ecs/helium/api"
-          "mode" : "non-blocking",
-          "awslogs-region" : var.aws_region,
+          "mode" : "non-blocking"
+          "awslogs-region" : var.aws_region
           "awslogs-stream-prefix" : "ecs"
         }
       }
@@ -108,8 +108,8 @@ resource "aws_ecs_task_definition" "platform_service" {
         logDriver = "awslogs"
         options = {
           awslogs-group = "/ecs/helium/worker"
-          "mode" : "non-blocking",
-          "awslogs-region" : var.aws_region,
+          "mode" : "non-blocking"
+          "awslogs-region" : var.aws_region
           "awslogs-stream-prefix" : "ecs"
         }
       }
@@ -135,7 +135,7 @@ resource "aws_ecs_task_definition" "platform_service" {
   cpu    = "2048"
   memory = "4096"
 
-  execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole",
+  execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
     "FARGATE"
