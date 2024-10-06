@@ -38,13 +38,13 @@ resource "aws_route_table" "helium_route_table" {
 
   route {
     cidr_block       = "172.30.0.0/16"
-    local_gateway_id = "local"
+    gateway_id = "local"
   }
 }
 
 resource "aws_security_group" "http_s" {
-  name   = "http/s"
-  vpc_id = "0.0.0.0/0"
+  name   = "http/s (public)"
+  vpc_id = aws_vpc.helium_vpc.id
 }
 
 output "http_s_sg_id" {
@@ -53,7 +53,7 @@ output "http_s_sg_id" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
   security_group_id = aws_security_group.http_s.id
-  cidr_ipv4         = aws_vpc.helium_vpc.cidr_block
+  cidr_ipv4         = "0.0.0.0/0"
   from_port         = 80
   ip_protocol       = "tcp"
   to_port           = 80
