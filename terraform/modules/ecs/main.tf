@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
     "FARGATE"
   ]
 
-  runtime_platform = {
+  runtime_platform {
     cpu_architecture        = "ARM64"
     operating_system_family = "LINUX"
   }
@@ -141,7 +141,7 @@ resource "aws_ecs_task_definition" "platform_service" {
     "FARGATE"
   ]
 
-  runtime_platform = {
+  runtime_platform {
     cpu_architecture        = "ARM64"
     operating_system_family = "LINUX"
   }
