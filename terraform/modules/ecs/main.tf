@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
           awslogs-group = "/ecs/helium"
           "mode" : "non-blocking"
           "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs/frontend"
+          "awslogs-stream-prefix" : "ecs"
         }
       }
     },
@@ -92,7 +92,7 @@ resource "aws_ecs_task_definition" "platform_service" {
           awslogs-group = "/ecs/helium"
           "mode" : "non-blocking"
           "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs-frontend"
+          "awslogs-stream-prefix" : "ecs"
         }
       }
     },
@@ -117,7 +117,7 @@ resource "aws_ecs_task_definition" "platform_service" {
           awslogs-group = "/ecs/helium"
           "mode" : "non-blocking"
           "awslogs-region" : var.aws_region
-          "awslogs-stream-prefix" : "ecs-worker"
+          "awslogs-stream-prefix" : "ecs"
         }
       }
     },
