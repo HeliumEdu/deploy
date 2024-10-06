@@ -179,6 +179,8 @@ resource "aws_ecs_service" "helium_frontend" {
   health_check_grace_period_seconds = 10
 
   capacity_provider_strategy {
+    base              = 1
+    weight            = 100
     capacity_provider = "FARGATE"
   }
 
@@ -202,6 +204,8 @@ resource "aws_ecs_service" "helium_platform" {
   health_check_grace_period_seconds = 10
 
   capacity_provider_strategy {
+    base              = 1
+    weight            = 100
     capacity_provider = "FARGATE"
   }
 
