@@ -38,24 +38,39 @@ variable "ci_twiml_handler_url" {
 variable "DD_API_KEY" {
   description = "The DataDog API key"
 }
+
 variable "DD_APP_KEY" {
   description = "The DataDog app key"
 }
+
 variable "PLATFORM_DB_USER" {
   description = "The MySQL DB username"
 }
+
 variable "PLATFORM_DB_PASSWORD" {
   description = "The MySQL DB password"
 }
+
 variable "PLATFORM_SECRET_PROD" {
   description = "The Django secret"
 }
+
 variable "ROLLBAR_API_KEY" {
   description = "The Rollbar API key"
 }
+
 variable "TWILIO_ACCOUNT_SID" {
   description = "The Twilio account SID"
 }
+
 variable "TWILIO_AUTH_TOKEN" {
   description = "The Twilio auth token"
+}
+
+# TODO: ideally we find a way to get these through outputs from the modules so we don't have to run apply twice, but for now defining them here
+variable "PLATFORM_REDIS_HOST" {
+  description = "Redis host"
+}
+variable "PLATFORM_DB_HOST" {
+  description = "MySQL host"
 }
