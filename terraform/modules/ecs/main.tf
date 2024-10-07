@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
   cpu    = "256"
   memory = "512"
 
-  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"
+  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
@@ -153,7 +153,7 @@ resource "aws_ecs_task_definition" "platform_service" {
   cpu    = "2048"
   memory = "4096"
 
-  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"
+  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   network_mode       = "awsvpc"
   requires_compatibilities = [
