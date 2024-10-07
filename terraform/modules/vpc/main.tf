@@ -22,7 +22,7 @@ resource "aws_subnet" "subnet_us_east_1b" {
 
 resource "aws_subnet" "subnet_us_east_1c" {
   vpc_id                  = aws_vpc.helium_vpc.id
-  cidr_block              = "172.30.1.0/24"
+  cidr_block              = "172.30.2.0/24"
   availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
 }
