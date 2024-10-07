@@ -71,11 +71,3 @@ variable "TWILIO_ACCOUNT_SID" {
 variable "TWILIO_AUTH_TOKEN" {
   description = "The Twilio auth token"
 }
-
-# TODO: ideally we find a way to get these through outputs from the modules so we don't have to run apply twice, but for now defining them here
-variable "PLATFORM_REDIS_HOST" {
-  description = "Redis host"
-}
-variable "PLATFORM_DB_HOST" {
-  description = "MySQL host"
-}
