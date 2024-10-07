@@ -1,3 +1,9 @@
+data "aws_caller_identity" "current" {}
+
+locals {
+  aws_account_id = data.aws_caller_identity.current.account_id
+}
+
 module "route53" {
   source = "../../modules/route53"
 
@@ -37,8 +43,6 @@ module "rds" {
   environment = var.environment
   subnet_ids  = module.vpc.subnet_ids
   mysql_sg    = module.vpc.mysql_sg
-  username    = var.PLATFORM_DB_USER
-  password    = var.PLATFORM_DB_PASSWORD
 }
 
 module "elasticache" {
@@ -54,7 +58,7 @@ module "ecs" {
 
   helium_version        = var.helium_version
   environment           = var.environment
-  aws_account_id        = var.aws_account_id
+  aws_account_id        = local.aws_account_id
   aws_region            = var.aws_region
   datadog_api_key       = var.DD_API_KEY
   http_frontend         = module.vpc.http_sg_frontend
@@ -67,7 +71,7 @@ module "ecs" {
 module "s3" {
   source = "../../modules/s3"
 
-  aws_account_id = var.aws_account_id
+  aws_account_id = local.aws_account_id
   environment    = var.environment
 }
 
@@ -84,16 +88,15 @@ module "secretsmanager" {
   source = "../../modules/secretsmanager"
 
   environment               = var.environment
-  aws_account_id            = var.aws_account_id
+  aws_account_id            = local.aws_account_id
   aws_region                = var.aws_region
   task_execution_role_arn   = module.ecs.task_execution_role_arn
   datadog_api_key           = var.DD_API_KEY
   datadog_app_key           = var.DD_APP_KEY
   redis_host                = module.elasticache.elasticache_host
   db_host                   = module.rds.db_host
-  db_user                   = var.PLATFORM_DB_USER
-  db_password               = var.PLATFORM_DB_PASSWORD
-  platform_secret           = var.PLATFORM_SECRET_PROD
+  db_user                   = module.rds.db_username
+  db_password               = module.rds.db_password
   rollbar_access_token      = var.ROLLBAR_API_KEY
   s3_user_access_key_id     = module.s3.s3_access_key_id
   s3_user_secret_access_key = module.s3.s3_access_key_secret

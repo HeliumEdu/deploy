@@ -1,3 +1,21 @@
+resource "random_string" "username" {
+  length = 16
+  special = false
+}
+
+output "db_username" {
+  value = random_string.username.result
+}
+
+resource "random_password" "password" {
+  length = 26
+  special = false
+}
+
+output "db_password" {
+  value = random_password.password.result
+}
+
 resource "aws_db_subnet_group" "helium" {
   name       = "helium"
   subnet_ids = [for id in var.subnet_ids : id]
@@ -10,8 +28,8 @@ resource "aws_db_instance" "helium" {
   engine                     = "mysql"
   engine_version             = "8.0"
   instance_class             = "db.t3.micro"
-  username                   = var.username
-  password                   = var.password
+  username                   = random_string.username
+  password                   = random_password.password
   skip_final_snapshot        = true
   auto_minor_version_upgrade = true
   deletion_protection        = true

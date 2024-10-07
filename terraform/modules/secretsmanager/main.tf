@@ -1,3 +1,8 @@
+resource "random_password" "platform_secret" {
+  length = 50
+  special = true
+}
+
 resource "aws_secretsmanager_secret" "helium" {
   name = "${var.environment}/helium"
 }
@@ -35,7 +40,7 @@ resource "aws_secretsmanager_secret_version" "helium_secret_version" {
     PLATFORM_DB_HOST                               = var.db_host
     PLATFORM_DB_USER                               = var.db_user
     PLATFORM_DB_PASSWORD                           = var.db_password
-    PLATFORM_SECRET_KEY                            = var.platform_secret
+    PLATFORM_SECRET_KEY                            = random_password.platform_secret.result
     PROJECT_DATADOG_API_KEY                        = var.datadog_api_key
     PROJECT_DATADOG_APP_KEY                        = var.datadog_app_key
     PLATFORM_ROLLBAR_POST_SERVER_ITEM_ACCESS_TOKEN = var.rollbar_access_token
