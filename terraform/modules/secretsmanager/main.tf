@@ -8,19 +8,7 @@ data "aws_iam_policy_document" "helium_policy" {
 
     principals {
       type = "AWS"
-      identifiers = ["arn:aws:iam::${var.aws_account_id}:role/HeliumEduRole"]
-    }
-
-    actions = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
-    resources = ["arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*/helium**"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    principals {
-      type = "AWS"
-      identifiers = ["arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"]
+      identifiers = [var.task_execution_role_arn]
     }
 
     actions = ["secretsmanager:GetSecretValue", "secretsmanager:DescribeSecret"]
