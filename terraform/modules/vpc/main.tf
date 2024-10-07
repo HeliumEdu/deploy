@@ -37,6 +37,16 @@ resource "aws_route_table" "helium_route_table" {
   }
 }
 
+resource "aws_route_table_association" "us_east_1a" {
+  subnet_id      = aws_subnet.subnet_us_east_1a.id
+  route_table_id = aws_route_table.helium_route_table.id
+}
+
+resource "aws_route_table_association" "us_east_1b" {
+  subnet_id      = aws_subnet.subnet_us_east_1a.id
+  route_table_id = aws_route_table.helium_route_table.id
+}
+
 resource "aws_security_group" "http_s" {
   name   = "http/s (public)"
   vpc_id = aws_vpc.helium_vpc.id
