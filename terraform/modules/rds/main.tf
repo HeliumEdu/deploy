@@ -39,5 +39,5 @@ resource "aws_db_instance" "helium" {
 }
 
 output "db_host" {
-  value = aws_db_instance.helium.endpoint
+  value = aws_db_instance.helium.address
 }
