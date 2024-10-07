@@ -28,8 +28,8 @@ resource "aws_db_instance" "helium" {
   engine                     = "mysql"
   engine_version             = "8.0"
   instance_class             = "db.t3.micro"
-  username                   = random_string.username
-  password                   = random_password.password
+  username                   = random_string.username.result
+  password                   = random_password.password.result
   skip_final_snapshot        = true
   auto_minor_version_upgrade = true
   deletion_protection        = true
