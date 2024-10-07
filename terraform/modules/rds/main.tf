@@ -5,7 +5,7 @@ resource "aws_db_subnet_group" "helium" {
 
 resource "aws_db_instance" "helium" {
   allocated_storage          = 20
-  db_name                    = "helium-platform-${var.environment}"
+  db_name                    = "platform_${var.environment}"
   engine                     = "mysql"
   engine_version             = "8.0"
   instance_class             = "db.t3.micro"
