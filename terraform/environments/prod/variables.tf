@@ -28,10 +28,6 @@ variable "AWS_SECRET_ACCESS_KEY" {
   description = "The AWS secret access key"
 }
 
-variable "aws_account_id" {
-  description = "The AWS account ID"
-}
-
 variable "helium_twiml_handler_url" {
   description = "The URL for the TwiML Bin"
 }
@@ -46,18 +42,6 @@ variable "DD_API_KEY" {
 
 variable "DD_APP_KEY" {
   description = "The DataDog app key"
-}
-
-variable "PLATFORM_DB_USER" {
-  description = "The MySQL DB username"
-}
-
-variable "PLATFORM_DB_PASSWORD" {
-  description = "The MySQL DB password"
-}
-
-variable "PLATFORM_SECRET_PROD" {
-  description = "The Django secret"
 }
 
 variable "ROLLBAR_API_KEY" {

@@ -64,10 +64,6 @@ variable "db_password" {
   type = string
 }
 
-variable "platform_secret" {
-  type = string
-}
-
 variable "datadog_api_key" {
   type = string
 }
