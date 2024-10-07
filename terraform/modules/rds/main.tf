@@ -3,8 +3,6 @@ resource "aws_db_subnet_group" "helium" {
   subnet_ids = [for id in var.subnet_ids : id]
 }
 
-# TODO: AWS doesn't allow multiple DBs on a single Terraform resource, so this won't work until we split databases out
-
 resource "aws_db_instance" "helium" {
   allocated_storage          = 20
   db_name                    = "helium-platform-${var.environment}"

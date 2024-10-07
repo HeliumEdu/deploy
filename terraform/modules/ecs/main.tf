@@ -1,4 +1,61 @@
-# TODO: add provisioning for IAM roles
+data "aws_iam_policy_document" "ecs_assume_role_policy" {
+  statement {
+    effect = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      identifiers = ["ecs-tasks.amazonaws.com"]
+      type = "Service"
+    }
+  }
+}
+
+resource "aws_iam_role" "ecs_role" {
+  name = "${var.environment}_ecs_task_role"
+
+  assume_role_policy = data.aws_iam_policy_document.ecs_assume_role_policy.json
+}
+
+data "aws_iam_policy_document" "ecs_task_execution_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "ecs_task_execution_policy" {
+  name = "ECSExecutionPolicy"
+  role = aws_iam_role.ecs_role.id
+
+  policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
+}
+
+data "aws_iam_policy_document" "get_secret_policy_document" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret"
+    ]
+    resources = [
+      "arn:aws:secretsmanager:us-east-1:${var.aws_account_id}:secret:*/helium**"
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "get_secret_policy" {
+  name = "GetSecret"
+  role = aws_iam_role.ecs_role.id
+
+  policy = data.aws_iam_policy_document.get_secret_policy_document.json
+}
 
 resource "aws_cloudwatch_log_group" "helium_frontend" {
   name              = "/ecs/helium_frontend"
@@ -57,8 +114,8 @@ resource "aws_ecs_task_definition" "frontend_service" {
   cpu    = "256"
   memory = "512"
 
-  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
-  execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
+  task_role_arn      = aws_iam_role.ecs_role.arn
+  execution_role_arn = aws_iam_role.ecs_role.arn
   network_mode       = "awsvpc"
   requires_compatibilities = [
     "FARGATE"
@@ -153,8 +210,8 @@ resource "aws_ecs_task_definition" "platform_service" {
   cpu    = "2048"
   memory = "4096"
 
-  task_role_arn      = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
-  execution_role_arn = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
+  task_role_arn      = aws_iam_role.ecs_role.arn
+  execution_role_arn = aws_iam_role.ecs_role.arn
   network_mode       = "awsvpc"
   requires_compatibilities = [
     "FARGATE"
