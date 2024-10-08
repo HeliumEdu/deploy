@@ -53,19 +53,26 @@ module "elasticache" {
   elasticache_sg = module.vpc.elasticache_sg
 }
 
+module "ecr" {
+  source = "../../modules/ecr"
+}
+
 module "ecs" {
   source = "../../modules/ecs"
 
-  helium_version        = var.helium_version
-  environment           = var.environment
-  aws_account_id        = local.aws_account_id
-  aws_region            = var.aws_region
-  datadog_api_key       = var.DD_API_KEY
-  http_frontend         = module.vpc.http_sg_frontend
-  http_platform         = module.vpc.http_sg_platform
-  frontend_target_group = module.alb.frontend_target_group
-  platform_target_group = module.alb.platform_target_group
-  subnet_ids            = module.vpc.subnet_ids
+  helium_version                 = var.helium_version
+  frontend_repository_uri        = module.ecr.frontend_repository_uri
+  platform_api_repository_uri    = module.ecr.platform_api_repository_uri
+  platform_worker_repository_uri = module.ecr.platform_worker_repository_uri
+  environment                    = var.environment
+  aws_account_id                 = local.aws_account_id
+  aws_region                     = var.aws_region
+  datadog_api_key                = var.DD_API_KEY
+  http_frontend                  = module.vpc.http_sg_frontend
+  http_platform                  = module.vpc.http_sg_platform
+  frontend_target_group          = module.alb.frontend_target_group
+  platform_target_group          = module.alb.platform_target_group
+  subnet_ids                     = module.vpc.subnet_ids
 }
 
 module "s3" {
