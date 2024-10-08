@@ -1,5 +1,5 @@
 resource "random_string" "username" {
-  length = 16
+  length  = 16
   special = false
 }
 
@@ -8,7 +8,7 @@ output "db_username" {
 }
 
 resource "random_password" "password" {
-  length = 26
+  length  = 26
   special = false
 }
 
@@ -30,6 +30,7 @@ resource "aws_db_instance" "helium" {
   instance_class             = "db.t3.micro"
   username                   = random_string.username.result
   password                   = random_password.password.result
+  storage_encrypted          = true
   skip_final_snapshot        = true
   auto_minor_version_upgrade = true
   deletion_protection        = true
