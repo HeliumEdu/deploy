@@ -250,7 +250,7 @@ resource "aws_ecs_service" "helium_frontend" {
   desired_count                      = 1
   health_check_grace_period_seconds  = 10
   deployment_minimum_healthy_percent = 100
-  deployment_maximum_percent         = 250
+  deployment_maximum_percent         = 200
 
   capacity_provider_strategy {
     base              = 1
@@ -278,7 +278,7 @@ resource "aws_ecs_service" "helium_platform" {
   desired_count                      = 1
   health_check_grace_period_seconds  = 10
   deployment_minimum_healthy_percent = 100
-  deployment_maximum_percent         = 250
+  deployment_maximum_percent         = 200
 
   capacity_provider_strategy {
     base              = 1
