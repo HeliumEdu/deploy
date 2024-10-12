@@ -71,6 +71,11 @@ resource "aws_cloudwatch_log_group" "helium_platform" {
   retention_in_days = 30
 }
 
+resource "aws_cloudwatch_log_group" "helium_platform_beat" {
+  name              = "/ecs/helium_platform_beat_${var.environment}"
+  retention_in_days = 30
+}
+
 resource "aws_ecs_task_definition" "frontend_service" {
   family = "helium_frontend"
   container_definitions = jsonencode([
