@@ -379,7 +379,6 @@ resource "aws_ecs_service" "helium_platform_beat" {
   cluster                            = aws_ecs_cluster.helium.id
   task_definition                    = aws_ecs_task_definition.platform_beat_service.arn
   desired_count                      = 1
-  health_check_grace_period_seconds  = 10
   deployment_minimum_healthy_percent = 0
   deployment_maximum_percent         = 100
 
