@@ -9,21 +9,21 @@ output "vpc_id" {
 resource "aws_subnet" "subnet_us_east_1a" {
   vpc_id                  = aws_vpc.helium_vpc.id
   cidr_block              = "172.30.0.0/24"
-  availability_zone       = "us-east-1a"
+  availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "subnet_us_east_1b" {
   vpc_id                  = aws_vpc.helium_vpc.id
   cidr_block              = "172.30.1.0/24"
-  availability_zone       = "us-east-1b"
+  availability_zone       = "${var.aws_region}b"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "subnet_us_east_1c" {
   vpc_id                  = aws_vpc.helium_vpc.id
   cidr_block              = "172.30.2.0/24"
-  availability_zone       = "us-east-1c"
+  availability_zone       = "${var.aws_region}c"
   map_public_ip_on_launch = true
 }
 
