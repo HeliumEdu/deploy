@@ -82,10 +82,7 @@ resource "aws_route53_record" "heliumedu_dev_inbound_smtp" {
   name    = "${var.environment_prefix}heliumedu.dev"
   type    = "MX"
   ttl     = "600"
-  weighted_routing_policy {
-    weight = 10
-  }
-  records = ["inbound-smtp.us-east-1.amazonaws.com."]
+  records = ["10 inbound-smtp.${var.aws_region}.amazonaws.com"]
 }
 
 resource "aws_ses_receipt_rule_set" "default_rule_set" {

@@ -89,6 +89,7 @@ module "ses" {
 
   environment                   = var.environment
   environment_prefix            = var.environment_prefix
+  aws_region                    = var.aws_region
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
 }
