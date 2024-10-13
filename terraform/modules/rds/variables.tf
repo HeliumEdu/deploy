@@ -10,4 +10,11 @@ variable "subnet_ids" {
 
 variable "mysql_sg" {
   description = "The MySQL security group"
+  type        = string
+}
+
+variable "multi_az" {
+  description = "True if DB should be multi-AZ"
+  type        = bool
+  default     = false
 }
