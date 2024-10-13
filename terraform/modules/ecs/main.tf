@@ -392,7 +392,8 @@ data "aws_ecs_task_execution" "helium_platform_resource" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets = [for id in var.subnet_ids : id]
+    subnets          = [for id in var.subnet_ids : id]
+    assign_public_ip = true
   }
 }
 
