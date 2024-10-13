@@ -4,14 +4,10 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/HeliumEdu/deploy/build.yml)](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml)
 ![GitHub License](https://img.shields.io/github/license/heliumedu/deploy)
 
-# Deploy Environment
+# Helium Deployment
 
-This repository contains everything that is necessary to get a development environment setup on a local machine in
-minimal time and to deploy code to other environments using [Docker](https://docs.docker.com/).
-
-## Prerequisites
-
-- Docker
+This repository contains everything that is necessary to get a development environment setup on a local machine using
+[Docker](https://docs.docker.com/), as well as the [Terraform](https://app.terraform.io/app) code necessary to provision deployment environments.
 
 ## Development
 ### Docker Setup
@@ -28,6 +24,7 @@ Done! Now that your environment has been initialized, to quickly bring up Docker
 
 ## Deployment
 
-When a tag is pushed to this repository, a release is cut, and container images published to
-[AWS ECR](https://aws.amazon.com/ecr/). To deploy this new release, bump the [Image URI version variable in Terraform](https://github.com/HeliumEdu/deploy/blob/main/terraform/environments/prod/variables.tf#L1).
-Pushing this change triggers the Terraform to apply, which in turn will roll the fleet to this new version.
+Use [the Release action](https://github.com/HeliumEdu/deploy/actions/workflows/release.yml) to cut a release and publish container images to
+[AWS ECR](https://aws.amazon.com/ecr/). If a [Terraform Workspace](https://developer.hashicorp.com/terraform/cli/workspaces) has been provisioned
+and hooks to this repo are setup, then bumping the [Image URI version variable in Terraform](https://github.com/HeliumEdu/deploy/blob/main/terraform/environments/prod/variables.tf#L1)
+will trigger a deployment when the Terraform applies, rolling the fleet to this new version.
