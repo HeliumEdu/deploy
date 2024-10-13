@@ -144,7 +144,7 @@ resource "aws_ecs_task_definition" "platform_resource_task" {
       name      = "helium_platform_beat"
       image     = "${var.platform_worker_repository_uri}:${var.helium_version}"
       cpu       = 0
-      essential = false
+      essential = true
       environment = [
         {
           name  = "ENVIRONMENT"
