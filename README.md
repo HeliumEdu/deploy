@@ -4,7 +4,7 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/HeliumEdu/deploy/build.yml)](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml)
 ![GitHub License](https://img.shields.io/github/license/heliumedu/deploy)
 
-# Deploy Environment
+# Helium Deployment
 
 This repository contains everything that is necessary to get a development environment setup on a local machine using
 [Docker](https://docs.docker.com/), as well as the [Terraform](https://app.terraform.io/app) code necessary to provision deployment environments.
