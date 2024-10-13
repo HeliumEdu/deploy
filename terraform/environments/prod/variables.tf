@@ -28,6 +28,14 @@ variable "AWS_SECRET_ACCESS_KEY" {
   description = "The AWS secret access key"
 }
 
+variable "TWILIO_ACCOUNT_SID" {
+  description = "The Twilio account SID"
+}
+
+variable "TWILIO_AUTH_TOKEN" {
+  description = "The Twilio auth token"
+}
+
 variable "helium_twiml_handler_url" {
   description = "The URL for the TwiML Bin"
 }
@@ -46,12 +54,4 @@ variable "DD_APP_KEY" {
 
 variable "ROLLBAR_API_KEY" {
   description = "The Rollbar API key"
-}
-
-variable "TWILIO_ACCOUNT_SID" {
-  description = "The Twilio account SID"
-}
-
-variable "TWILIO_AUTH_TOKEN" {
-  description = "The Twilio auth token"
 }
