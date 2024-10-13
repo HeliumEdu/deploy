@@ -19,5 +19,5 @@ resource "aws_route53_zone" "heliumedu_dev_zone" {
 }
 
 output "heliumedu_dev_zone_id" {
-  value = aws_route53_zone.heliumedu_com_zone.id
+  value = aws_route53_zone.heliumedu_dev_zone.id
 }
