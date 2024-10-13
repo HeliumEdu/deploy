@@ -6,6 +6,10 @@ variable "frontend_repository_uri" {
   description = "Frontend container repo URI"
 }
 
+variable "platform_resource_repository_uri" {
+  description = "Platform Resource container repo URI"
+}
+
 variable "platform_api_repository_uri" {
   description = "Platform API container repo URI"
 }
