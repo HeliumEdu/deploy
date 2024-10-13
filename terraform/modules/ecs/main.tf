@@ -142,7 +142,7 @@ resource "aws_ecs_task_definition" "platform_resource_task" {
   container_definitions = jsonencode([
     {
       name      = "helium_platform_resource"
-      image     = "${var.platform_worker_repository_uri}:${var.helium_version}"
+      image     = "${var.platform_resource_repository_uri}:${var.helium_version}"
       cpu       = 0
       essential = true
       environment = [
