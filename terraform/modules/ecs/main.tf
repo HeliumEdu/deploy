@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "get_secret_policy_document" {
       "secretsmanager:DescribeSecret"
     ]
     resources = [
-      "arn:aws:secretsmanager:us-east-1:${var.aws_account_id}:secret:*/helium**"
+      "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*/helium**"
     ]
   }
 }
