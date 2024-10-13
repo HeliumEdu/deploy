@@ -18,13 +18,13 @@ output "smtp_password" {
 data "aws_iam_policy_document" "ses_sender" {
   statement {
     resources = ["*"]
-    actions   = ["ses:SendRawEmail"]
+    actions = ["ses:SendRawEmail"]
   }
 }
 
 resource "aws_iam_policy" "ses_sender" {
-  name        = "AmazonSesSendingAccess"
-  policy      = data.aws_iam_policy_document.ses_sender.json
+  name   = "AmazonSesSendingAccess"
+  policy = data.aws_iam_policy_document.ses_sender.json
 }
 
 resource "aws_ses_domain_identity" "heliumedu_com_identity" {
@@ -39,8 +39,21 @@ resource "aws_route53_record" "heliumedu_com_amazonses_verification_record" {
   records = [aws_ses_domain_identity.heliumedu_com_identity.verification_token]
 }
 
+resource "aws_ses_domain_dkim" "heliumedu_com_dkim" {
+  domain = aws_ses_domain_identity.heliumedu_com_identity.domain
+}
+
+resource "aws_route53_record" "heliumedu_com_amazonses_dkim_record" {
+  count   = 3
+  zone_id = var.route53_heliumedu_com_zone_id
+  name    = "${aws_ses_domain_dkim.heliumedu_com_dkim.dkim_tokens[count.index]}._domainkey"
+  type    = "CNAME"
+  ttl     = "600"
+  records = ["${aws_ses_domain_dkim.heliumedu_com_dkim.dkim_tokens[count.index]}.dkim.amazonses.com"]
+}
+
 resource "aws_ses_domain_identity" "heliumedu_dev_identity" {
-  domain = "heliumedu.dev"
+  domain = "${var.environment_prefix}heliumedu.dev"
 }
 
 resource "aws_route53_record" "heliumedu_dev_amazonses_verification_record" {
@@ -49,6 +62,30 @@ resource "aws_route53_record" "heliumedu_dev_amazonses_verification_record" {
   type    = "TXT"
   ttl     = "600"
   records = [aws_ses_domain_identity.heliumedu_dev_identity.verification_token]
+}
+
+resource "aws_ses_domain_dkim" "heliumedu_dev_dkim" {
+  domain = aws_ses_domain_identity.heliumedu_dev_identity.domain
+}
+
+resource "aws_route53_record" "heliumedu_dev_amazonses_dkim_record" {
+  count   = 3
+  zone_id = var.route53_heliumedu_dev_zone_id
+  name    = "${aws_ses_domain_dkim.heliumedu_dev_dkim.dkim_tokens[count.index]}._domainkey"
+  type    = "CNAME"
+  ttl     = "600"
+  records = ["${aws_ses_domain_dkim.heliumedu_dev_dkim.dkim_tokens[count.index]}.dkim.amazonses.com"]
+}
+
+resource "aws_route53_record" "heliumedu_dev_inbound_smtp" {
+  zone_id = var.route53_heliumedu_dev_zone_id
+  name    = "${var.environment_prefix}heliumedu.dev"
+  type    = "MX"
+  ttl     = "600"
+  weighted_routing_policy {
+    weight = 10
+  }
+  records = ["inbound-smtp.us-east-1.amazonaws.com."]
 }
 
 resource "aws_ses_receipt_rule_set" "default_rule_set" {
