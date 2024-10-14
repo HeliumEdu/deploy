@@ -85,8 +85,12 @@ resource "aws_route53_record" "heliumedu_dev_inbound_smtp" {
   records = ["10 inbound-smtp.${var.aws_region}.amazonaws.com"]
 }
 
-resource "aws_ses_receipt_rule_set" "default_rule_set" {
+resource "aws_ses_receipt_rule_set" "helium_rule_set" {
   rule_set_name = "helium-${var.environment}-rule-set"
+}
+
+resource "aws_ses_active_receipt_rule_set" "main" {
+  rule_set_name = aws_ses_receipt_rule_set.helium_rule_set.rule_set_name
 }
 
 resource "aws_ses_receipt_rule" "store_s3" {
