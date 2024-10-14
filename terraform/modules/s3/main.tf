@@ -5,8 +5,12 @@ module "ci_bucket" {
   environment    = var.environment
 }
 
+output "heliumedu_s3_bucket_name" {
+  value = module.ci_bucket.heliumedu_s3_bucket_name
+}
+
 resource "aws_iam_user" "s3_user" {
-  name = "${var.environment}_helium_s3_user"
+  name = "helium-${var.environment}-s3-user"
 }
 
 resource "aws_iam_access_key" "s3_access_key" {
@@ -30,7 +34,7 @@ data "aws_iam_policy_document" "helium_s3" {
 }
 
 resource "aws_iam_policy" "ses_sender" {
-  name   = "AWSS3HeliumPolicy"
+  name   = "helium-${var.environment}-s3-access"
   policy = data.aws_iam_policy_document.helium_s3.json
 }
 

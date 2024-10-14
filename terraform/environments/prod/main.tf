@@ -92,6 +92,7 @@ module "ses" {
   environment                   = var.environment
   environment_prefix            = var.environment_prefix
   aws_region                    = var.aws_region
+  heliumedu_s3_bucket_name      = module.s3.heliumedu_s3_bucket_name
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
 }
@@ -123,6 +124,8 @@ module "twilio" {
   source = "../../modules/twilio"
 
   environment              = var.environment
+  helium_area_code         = var.helium_area_code
+  ci_area_code             = var.ci_area_code
   helium_twiml_handler_url = var.helium_twiml_handler_url
   ci_twiml_handler_url     = var.ci_twiml_handler_url
 }
