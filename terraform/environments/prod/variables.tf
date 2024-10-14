@@ -21,13 +21,13 @@ variable "aws_region" {
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
   type        = string
-  default     = "415"
+  default     = ""
 }
 
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
   type        = string
-  default     = "650"
+  default     = ""
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
