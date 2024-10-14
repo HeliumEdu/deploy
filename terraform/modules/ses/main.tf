@@ -1,5 +1,5 @@
 resource "aws_iam_user" "smtp_user" {
-  name = "${var.environment}_helium_smtp_user"
+  name = "helium-${var.environment}-smtp-user"
 }
 
 resource "aws_iam_access_key" "smtp_access_key" {
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "ses_sender" {
 }
 
 resource "aws_iam_policy" "ses_sender" {
-  name   = "AmazonSesSendingAccess"
+  name   = "helium-${var.environment}-ses-send-access"
   policy = data.aws_iam_policy_document.ses_sender.json
 }
 
@@ -86,18 +86,18 @@ resource "aws_route53_record" "heliumedu_dev_inbound_smtp" {
 }
 
 resource "aws_ses_receipt_rule_set" "default_rule_set" {
-  rule_set_name = "${var.environment}-rule-set"
+  rule_set_name = "helium-${var.environment}-rule-set"
 }
 
 resource "aws_ses_receipt_rule" "store_s3" {
-  name          = "heliumedu-ci-test-email-to-s3"
-  rule_set_name = "${var.environment}-rule-set"
+  name          = "heliumedu-ci-${var.environment}-test-email-to-s3"
+  rule_set_name = "helium-${var.environment}-rule-set"
   recipients = ["heliumedu-ci-test@${var.environment_prefix}heliumedu.dev"]
   enabled       = true
   scan_enabled  = false
 
   s3_action {
-    bucket_name       = "heliumedu.${var.environment}"
+    bucket_name       = var.heliumedu_s3_bucket_name
     object_key_prefix = "ci.email/heliumedu-ci-test"
     position          = 1
   }
