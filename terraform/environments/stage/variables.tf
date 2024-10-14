@@ -41,19 +41,7 @@ variable "frontend_host_count" {
 variable "platform_host_count" {
   description = "The number of platform hosts desired in the cluster"
   type = number
-  default = 2
-}
-
-variable "helium_area_code" {
-  description = "The area code for the Helium phone number"
-  type        = string
-  default     = ""
-}
-
-variable "ci_area_code" {
-  description = "The area code for the CI phone number"
-  type        = string
-  default     = ""
+  default = 1
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
