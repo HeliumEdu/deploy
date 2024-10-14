@@ -95,7 +95,7 @@ resource "aws_ses_active_receipt_rule_set" "main" {
 
 resource "aws_ses_receipt_rule" "store_s3" {
   name          = "heliumedu-ci-${var.environment}-test-email-to-s3"
-  rule_set_name = "helium-${var.environment}-rule-set"
+  rule_set_name = aws_ses_receipt_rule_set.helium_rule_set.rule_set_name
   recipients = ["heliumedu-ci-test@${var.environment_prefix}heliumedu.dev"]
   enabled       = true
   scan_enabled  = false
