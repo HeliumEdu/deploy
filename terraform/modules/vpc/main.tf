@@ -2,10 +2,6 @@ resource "aws_vpc" "helium_vpc" {
   cidr_block = "172.30.0.0/16"
 }
 
-output "vpc_id" {
-  value = aws_vpc.helium_vpc.id
-}
-
 resource "aws_subnet" "subnet_us_east_1a" {
   vpc_id                  = aws_vpc.helium_vpc.id
   cidr_block              = "172.30.0.0/24"
@@ -25,10 +21,6 @@ resource "aws_subnet" "subnet_us_east_1c" {
   cidr_block              = "172.30.2.0/24"
   availability_zone       = "${var.aws_region}c"
   map_public_ip_on_launch = true
-}
-
-output "subnet_ids" {
-  value = [aws_subnet.subnet_us_east_1a.id, aws_subnet.subnet_us_east_1b.id, aws_subnet.subnet_us_east_1c.id]
 }
 
 resource "aws_internet_gateway" "helium_gateway" {
@@ -64,10 +56,6 @@ resource "aws_security_group" "http_s" {
   vpc_id = aws_vpc.helium_vpc.id
 }
 
-output "http_s_sg_id" {
-  value = aws_security_group.http_s.id
-}
-
 resource "aws_vpc_security_group_ingress_rule" "allow_http_ipv4" {
   security_group_id = aws_security_group.http_s.id
   cidr_ipv4         = "0.0.0.0/0"
@@ -97,10 +85,6 @@ resource "aws_security_group" "http_helium_frontend" {
   vpc_id = aws_vpc.helium_vpc.id
 }
 
-output "http_sg_frontend" {
-  value = aws_security_group.http_helium_frontend.id
-}
-
 resource "aws_vpc_security_group_ingress_rule" "allow_http_helium_frontend_ipv4" {
   security_group_id = aws_security_group.http_helium_frontend.id
   cidr_ipv4         = aws_vpc.helium_vpc.cidr_block
@@ -120,10 +104,6 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_frontend" {
 resource "aws_security_group" "http_helium_platform" {
   name   = "helium-http-platform_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
-}
-
-output "http_sg_platform" {
-  value = aws_security_group.http_helium_platform.id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_http_helium_platform_ipv4" {
@@ -147,10 +127,6 @@ resource "aws_security_group" "mysql" {
   vpc_id = aws_vpc.helium_vpc.id
 }
 
-output "mysql_sg" {
-  value = aws_security_group.mysql.id
-}
-
 resource "aws_vpc_security_group_ingress_rule" "allow_mysql_ipv4" {
   security_group_id = aws_security_group.mysql.id
   cidr_ipv4         = aws_vpc.helium_vpc.cidr_block
@@ -162,10 +138,6 @@ resource "aws_vpc_security_group_ingress_rule" "allow_mysql_ipv4" {
 resource "aws_security_group" "elasticache" {
   name   = "helium-elasticache_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
-}
-
-output "elasticache_sg" {
-  value = aws_security_group.elasticache.id
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_elasticache_ipv4" {

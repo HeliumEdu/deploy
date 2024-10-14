@@ -22,17 +22,9 @@ resource "twilio_api_accounts_incoming_phone_numbers" "helium_phone_number" {
   area_code     = var.helium_area_code
 }
 
-output "helium_phone_number" {
-  value = twilio_api_accounts_incoming_phone_numbers.helium_phone_number.phone_number
-}
-
 resource "twilio_api_accounts_incoming_phone_numbers" "ci_phone_number" {
   friendly_name = "CI Test Number (${var.environment})"
   sms_url       = var.ci_twiml_handler_url
   voice_url     = ""
   area_code     = var.ci_area_code
-}
-
-output "ci_phone_number" {
-  value = twilio_api_accounts_incoming_phone_numbers.ci_phone_number.phone_number
 }

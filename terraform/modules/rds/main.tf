@@ -3,17 +3,9 @@ resource "random_string" "username" {
   special = false
 }
 
-output "db_username" {
-  value = random_string.username.result
-}
-
 resource "random_password" "password" {
   length  = 26
   special = false
-}
-
-output "db_password" {
-  value = random_password.password.result
 }
 
 resource "aws_db_subnet_group" "helium" {
@@ -38,8 +30,4 @@ resource "aws_db_instance" "helium" {
   vpc_security_group_ids = [var.mysql_sg]
   db_subnet_group_name       = aws_db_subnet_group.helium.name
   multi_az                   = var.multi_az
-}
-
-output "db_host" {
-  value = aws_db_instance.helium.address
 }

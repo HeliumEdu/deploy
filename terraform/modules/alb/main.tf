@@ -55,10 +55,6 @@ resource "aws_lb_target_group" "frontend" {
   }
 }
 
-output "frontend_target_group" {
-  value = aws_lb_target_group.frontend.arn
-}
-
 resource "aws_lb_target_group" "platform" {
   name        = "helium-platform-http"
   port        = 8000
@@ -69,10 +65,6 @@ resource "aws_lb_target_group" "platform" {
   health_check {
     path = "/status/"
   }
-}
-
-output "platform_target_group" {
-  value = aws_lb_target_group.platform.arn
 }
 
 resource "aws_lb_listener" "https" {

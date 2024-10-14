@@ -6,15 +6,6 @@ resource "aws_iam_access_key" "smtp_access_key" {
   user = aws_iam_user.smtp_user.name
 }
 
-output "smtp_username" {
-  value = aws_iam_access_key.smtp_access_key.id
-}
-
-output "smtp_password" {
-  sensitive = true
-  value     = aws_iam_access_key.smtp_access_key.ses_smtp_password_v4
-}
-
 data "aws_iam_policy_document" "ses_sender" {
   statement {
     resources = ["*"]
