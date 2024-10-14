@@ -58,6 +58,8 @@ data "aws_iam_policy_document" "allow_static_http_access" {
 resource "aws_s3_bucket_policy" "allow_static_http_access" {
   bucket = aws_s3_bucket.heliumedu_static.id
   policy = data.aws_iam_policy_document.allow_static_http_access.json
+
+  depends_on = [aws_s3_bucket_public_access_block.heliumedu_static_allow_public]
 }
 
 resource "aws_s3_bucket_cors_configuration" "heliumedu_static" {
