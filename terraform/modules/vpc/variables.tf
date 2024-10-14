@@ -10,5 +10,5 @@ variable "aws_region" {
 
 variable region_azs {
   description = "Map of AZ details"
-  type        = map(string)
+  type = map(map(string))
 }
