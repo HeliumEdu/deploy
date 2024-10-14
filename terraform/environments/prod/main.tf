@@ -23,6 +23,7 @@ module "vpc" {
 
   environment = var.environment
   aws_region  = var.aws_region
+  region_azs  = var.region_azs
 }
 
 

@@ -18,16 +18,34 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "region_azs" {
+  description = "Map of AZ suffixes and their index"
+  default = {
+    az1 = {
+      suffix = "a"
+      index  = "0"
+    }
+    az2 = {
+      suffix = "b"
+      index  = "1"
+    }
+    az3 = {
+      suffix = "c"
+      index  = "2"
+    }
+  }
+}
+
 variable "frontend_host_count" {
   description = "The number of platform hosts desired in the cluster"
-  type = number
-  default = 1
+  type        = number
+  default     = 1
 }
 
 variable "platform_host_count" {
   description = "The number of platform hosts desired in the cluster"
-  type = number
-  default = 2
+  type        = number
+  default     = 2
 }
 
 variable "helium_area_code" {

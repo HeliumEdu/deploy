@@ -2,24 +2,11 @@ resource "aws_vpc" "helium_vpc" {
   cidr_block = "172.30.0.0/16"
 }
 
-resource "aws_subnet" "subnet_us_east_1a" {
+resource "aws_subnet" "subnets" {
+  for_each                = var.region_azs
   vpc_id                  = aws_vpc.helium_vpc.id
-  cidr_block              = "172.30.0.0/24"
-  availability_zone       = "${var.aws_region}a"
-  map_public_ip_on_launch = true
-}
-
-resource "aws_subnet" "subnet_us_east_1b" {
-  vpc_id                  = aws_vpc.helium_vpc.id
-  cidr_block              = "172.30.1.0/24"
-  availability_zone       = "${var.aws_region}b"
-  map_public_ip_on_launch = true
-}
-
-resource "aws_subnet" "subnet_us_east_1c" {
-  vpc_id                  = aws_vpc.helium_vpc.id
-  cidr_block              = "172.30.2.0/24"
-  availability_zone       = "${var.aws_region}c"
+  cidr_block              = "172.30.${each.value}.0/24"
+  availability_zone       = "${var.aws_region}${each.key}"
   map_public_ip_on_launch = true
 }
 
@@ -36,18 +23,9 @@ resource "aws_route_table" "helium_route_table" {
   }
 }
 
-resource "aws_route_table_association" "us_east_1a" {
-  subnet_id      = aws_subnet.subnet_us_east_1a.id
-  route_table_id = aws_route_table.helium_route_table.id
-}
-
-resource "aws_route_table_association" "us_east_1b" {
-  subnet_id      = aws_subnet.subnet_us_east_1b.id
-  route_table_id = aws_route_table.helium_route_table.id
-}
-
-resource "aws_route_table_association" "us_east_1c" {
-  subnet_id      = aws_subnet.subnet_us_east_1c.id
+resource "aws_route_table_association" "route_table_association" {
+  for_each       = aws_subnet.subnets
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.helium_route_table.id
 }
 

@@ -18,6 +18,20 @@ variable "aws_region" {
   default     = "us-west-1"
 }
 
+variable "region_azs" {
+  description = "Map of AZ suffixes and their index"
+  default = {
+    az1 = {
+      suffix = "a"
+      index  = "0"
+    }
+    az2 = {
+      suffix = "c"
+      index  = "1"
+    }
+  }
+}
+
 variable "frontend_host_count" {
   description = "The number of platform hosts desired in the cluster"
   type = number
