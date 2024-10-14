@@ -5,8 +5,8 @@ resource "aws_vpc" "helium_vpc" {
 resource "aws_subnet" "subnets" {
   for_each                = var.region_azs
   vpc_id                  = aws_vpc.helium_vpc.id
-  cidr_block              = "172.30.${each.value}.0/24"
-  availability_zone       = "${var.aws_region}${each.key}"
+  cidr_block              = "172.30.${each.value["index"]}.0/24"
+  availability_zone       = "${var.aws_region}${each.value["suffix"]}"
   map_public_ip_on_launch = true
 }
 
