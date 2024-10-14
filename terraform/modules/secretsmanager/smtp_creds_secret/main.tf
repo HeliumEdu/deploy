@@ -1,8 +1,5 @@
 resource "aws_secretsmanager_secret" "helium" {
   name = "${var.environment}/helium"
-  replica {
-    region = var.aws_region
-  }
 }
 
 resource "aws_secretsmanager_secret_version" "helium_secret_version" {
