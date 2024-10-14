@@ -3,6 +3,10 @@ output "vpc_id" {
 }
 
 output "subnet_ids" {
+  value = values(aws_subnet.subnet_us_east_1a)[*].website_endpoint
+}
+
+output "subnet_ids" {
   value = [aws_subnet.subnet_us_east_1a.id, aws_subnet.subnet_us_east_1b.id, aws_subnet.subnet_us_east_1c.id]
 }
 
