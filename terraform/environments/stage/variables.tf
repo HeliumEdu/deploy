@@ -23,11 +23,11 @@ variable "region_azs" {
   default = {
     az1 = {
       suffix = "a"
-      index  = "0"
+      index  = "10"
     }
     az2 = {
       suffix = "c"
-      index  = "1"
+      index  = "11"
     }
   }
 }
