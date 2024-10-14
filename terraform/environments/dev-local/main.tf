@@ -36,6 +36,15 @@ module "ses" {
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
 }
 
+module "secretsmanager" {
+  source = "../../modules/secretsmanager/smtp_creds_secret"
+
+  environment         = var.environment
+  aws_region          = var.aws_region
+  smtp_email_user     = module.ses.smtp_username
+  smtp_email_password = module.ses.smtp_password
+}
+
 module "twilio" {
   source = "../../modules/twilio"
 
