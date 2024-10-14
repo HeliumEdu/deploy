@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "ecs_task_execution_policy" {
       "logs:CreateLogGroup",
       "logs:PutLogEvents"
     ]
-    resources = ["arn:aws:ecs:${var.aws_region}:${var.aws_account_id}:service/${aws_ecs_cluster.helium.name}/**"]
+    resources = ["*"]
   }
 }
 
