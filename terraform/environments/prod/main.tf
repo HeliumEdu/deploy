@@ -7,14 +7,12 @@ locals {
 module "route53" {
   source = "../../modules/route53"
 
-  environment        = var.environment
   environment_prefix = var.environment_prefix
 }
 
 module "certificatemanager" {
   source = "../../modules/certificatemanager"
 
-  environment                   = var.environment
   environment_prefix            = var.environment_prefix
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
@@ -23,7 +21,8 @@ module "certificatemanager" {
 module "vpc" {
   source = "../../modules/vpc"
 
-  aws_region = var.aws_region
+  environment = var.environment
+  aws_region  = var.aws_region
 }
 
 
@@ -63,6 +62,8 @@ module "ecs" {
   source = "../../modules/ecs"
 
   helium_version                   = var.helium_version
+  frontend_host_count              = var.frontend_host_count
+  platform_host_count              = var.platform_host_count
   frontend_repository_uri          = module.ecr.frontend_repository_uri
   platform_resource_repository_uri = module.ecr.platform_resource_repository_uri
   platform_api_repository_uri      = module.ecr.platform_api_repository_uri

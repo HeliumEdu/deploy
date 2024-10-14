@@ -18,6 +18,18 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "frontend_host_count" {
+  description = "The number of platform hosts desired in the cluster"
+  type = number
+  default = 1
+}
+
+variable "platform_host_count" {
+  description = "The number of platform hosts desired in the cluster"
+  type = number
+  default = 2
+}
+
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
   type        = string

@@ -7,14 +7,12 @@ locals {
 module "route53" {
   source = "../../modules/route53"
 
-  environment        = var.environment
   environment_prefix = var.environment_prefix
 }
 
 module "certificatemanager" {
   source = "../../modules/certificatemanager"
 
-  environment                   = var.environment
   environment_prefix            = var.environment_prefix
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id

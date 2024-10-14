@@ -60,7 +60,7 @@ resource "aws_route_table_association" "us_east_1c" {
 }
 
 resource "aws_security_group" "http_s" {
-  name   = "http/s (public)"
+  name   = "http/s-public_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
 }
 
@@ -93,7 +93,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_http_s" {
 }
 
 resource "aws_security_group" "http_helium_frontend" {
-  name   = "http-helium-frontend"
+  name   = "http-helium-frontend_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
 }
 
@@ -118,7 +118,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_frontend" {
 }
 
 resource "aws_security_group" "http_helium_platform" {
-  name   = "http-helium-platform"
+  name   = "http-helium-platform_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
 }
 
@@ -143,7 +143,7 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_platform" {
 }
 
 resource "aws_security_group" "mysql" {
-  name   = "mysql"
+  name   = "mysql_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
 }
 
@@ -160,7 +160,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_mysql_ipv4" {
 }
 
 resource "aws_security_group" "elasticache" {
-  name   = "elasticache"
+  name   = "elasticache_${var.environment}"
   vpc_id = aws_vpc.helium_vpc.id
 }
 

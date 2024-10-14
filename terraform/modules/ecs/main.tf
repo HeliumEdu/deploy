@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "ecs_assume_role_policy" {
 }
 
 resource "aws_iam_role" "ecs_role" {
-  name = "${var.environment}_ecs_task_role"
+  name = "helium-${var.environment}-ecs-task-role"
 
   assume_role_policy = data.aws_iam_policy_document.ecs_assume_role_policy.json
 }
@@ -28,14 +28,15 @@ data "aws_iam_policy_document" "ecs_task_execution_policy" {
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
       "logs:CreateLogStream",
+      "logs:CreateLogGroup",
       "logs:PutLogEvents"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:ecs:${var.aws_region}:${var.aws_account_id}:service/${aws_ecs_cluster.helium.name}/**"]
   }
 }
 
 resource "aws_iam_role_policy" "ecs_task_execution_policy" {
-  name = "ECSExecutionPolicy"
+  name = "helium-${var.environment}-ecs-execution-policy"
   role = aws_iam_role.ecs_role.id
 
   policy = data.aws_iam_policy_document.ecs_task_execution_policy.json
@@ -49,20 +50,20 @@ data "aws_iam_policy_document" "get_secret_policy_document" {
       "secretsmanager:DescribeSecret"
     ]
     resources = [
-      "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*/helium**"
+      "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:${var.environment}/helium**"
     ]
   }
 }
 
 resource "aws_iam_role_policy" "get_secret_policy" {
-  name = "GetSecret"
+  name = "helium-${var.environment}-get-secret-policy"
   role = aws_iam_role.ecs_role.id
 
   policy = data.aws_iam_policy_document.get_secret_policy_document.json
 }
 
 resource "aws_cloudwatch_log_group" "helium_frontend" {
-  name              = "/ecs/helium_frontend"
+  name              = "/ecs/helium_frontend_${var.environment}"
   retention_in_days = 30
 }
 
@@ -72,7 +73,7 @@ resource "aws_cloudwatch_log_group" "helium_platform" {
 }
 
 resource "aws_ecs_task_definition" "frontend_service" {
-  family = "helium_frontend"
+  family = "helium_frontend_${var.environment}"
   container_definitions = jsonencode([
     {
       name      = "helium_frontend"
@@ -95,7 +96,7 @@ resource "aws_ecs_task_definition" "frontend_service" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          awslogs-group         = "/ecs/helium_frontend"
+          awslogs-group         = "/ecs/helium_frontend_${var.environment}"
           mode                  = "non-blocking"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
@@ -348,7 +349,7 @@ resource "aws_ecs_task_definition" "platform_beat_service" {
 }
 
 resource "aws_ecs_cluster" "helium" {
-  name = "helium"
+  name = "helium_${var.environment}"
 }
 
 resource "aws_ecs_cluster_capacity_providers" "helium" {
@@ -361,7 +362,7 @@ resource "aws_ecs_service" "helium_frontend" {
   name                               = "helium_frontend"
   cluster                            = aws_ecs_cluster.helium.id
   task_definition                    = aws_ecs_task_definition.frontend_service.arn
-  desired_count                      = 1
+  desired_count                      = var.frontend_host_count
   health_check_grace_period_seconds  = 10
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
@@ -401,7 +402,7 @@ resource "aws_ecs_service" "helium_platform" {
   name                               = "helium_platform"
   cluster                            = aws_ecs_cluster.helium.id
   task_definition                    = aws_ecs_task_definition.platform_service.arn
-  desired_count                      = 2
+  desired_count                      = var.platform_host_count
   health_check_grace_period_seconds  = 10
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
