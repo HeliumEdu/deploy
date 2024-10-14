@@ -26,8 +26,8 @@ data "aws_iam_policy_document" "ses_sender" {
 
     condition {
       test     = "StringLike"
-      values = ["ses:FromAddress"]
-      variable = "*@${var.environment_prefix}heliumedu.com"
+      variable = "ses:FromAddress"
+      values = ["*@${var.environment_prefix}heliumedu.com"]
     }
   }
 }
