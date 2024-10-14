@@ -2,10 +2,6 @@ resource "aws_s3_bucket" "heliumedu" {
   bucket = "heliumedu.${var.environment}"
 }
 
-output "heliumedu_s3_bucket_name" {
-  value = aws_s3_bucket.heliumedu.bucket
-}
-
 resource "aws_s3_bucket_public_access_block" "heliumedu_block_public" {
   bucket = aws_s3_bucket.heliumedu.id
 

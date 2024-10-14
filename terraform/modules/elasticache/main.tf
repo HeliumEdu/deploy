@@ -12,7 +12,3 @@ resource "aws_elasticache_cluster" "helium" {
   security_group_ids = [var.elasticache_sg]
   subnet_group_name = aws_elasticache_subnet_group.helium.name
 }
-
-output "elasticache_host" {
-  value = aws_elasticache_cluster.helium.cache_nodes[0].address
-}

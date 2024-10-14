@@ -15,10 +15,6 @@ resource "aws_iam_role" "ecs_role" {
   assume_role_policy = data.aws_iam_policy_document.ecs_assume_role_policy.json
 }
 
-output "task_execution_role_arn" {
-  value = aws_iam_role.ecs_role.arn
-}
-
 data "aws_iam_policy_document" "ecs_task_execution_policy" {
   statement {
     effect = "Allow"
