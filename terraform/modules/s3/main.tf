@@ -29,6 +29,15 @@ resource "aws_s3_bucket" "heliumedu_static" {
   bucket = "heliumedu.${var.environment}.static"
 }
 
+resource "aws_s3_bucket_public_access_block" "heliumedu_static_allow_public" {
+  bucket = aws_s3_bucket.heliumedu_static.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 data "aws_iam_policy_document" "allow_static_http_access" {
   statement {
     principals {
