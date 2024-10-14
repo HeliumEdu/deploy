@@ -18,7 +18,17 @@ output "smtp_password" {
 data "aws_iam_policy_document" "ses_sender" {
   statement {
     resources = ["*"]
+    principals {
+      type = "AWS"
+      identifiers = [aws_iam_user.smtp_user.arn]
+    }
     actions = ["ses:SendRawEmail"]
+
+    condition {
+      test     = "StringLike"
+      values = ["ses:FromAddress"]
+      variable = "*@${var.environment_prefix}heliumedu.com"
+    }
   }
 }
 

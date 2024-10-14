@@ -17,7 +17,7 @@ output "db_password" {
 }
 
 resource "aws_db_subnet_group" "helium" {
-  name       = "helium"
+  name       = "helium-${var.environment}"
   subnet_ids = [for id in var.subnet_ids : id]
 }
 
