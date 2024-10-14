@@ -5,9 +5,6 @@ resource "random_password" "platform_secret" {
 
 resource "aws_secretsmanager_secret" "helium" {
   name = "${var.environment}/helium"
-  replica {
-    region = var.aws_region
-  }
 }
 
 data "aws_iam_policy_document" "helium_policy" {
