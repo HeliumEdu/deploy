@@ -3,6 +3,7 @@
 SHELL := /usr/bin/env bash
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
 SKIP_UPDATE ?= 'false'
+DEV_LOCAL_AWS_REGION ?= 'us-east-2'
 
 all: install start
 
@@ -42,8 +43,10 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 
 	./projects/platform/bin/provision-dot-env.sh
 	make start
+	ENVIRONMENT=dev-local \
 	PROJECT_APP_HOST=http://localhost:3000 \
     PROJECT_API_HOST=http://localhost:8000 \
+    AWS_REGION=$(DEV_LOCAL_AWS_REGION) \
     make -C projects/ci-tests
 
 publish:
