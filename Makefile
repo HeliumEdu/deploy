@@ -43,6 +43,9 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 
 	./projects/platform/bin/provision-dot-env.sh
 	make start
+	@# Kick the container twice, on first run MySQL isn't always finished provisioning tables
+	@sleep 10
+	make start
 	ENVIRONMENT=dev-local \
 	PROJECT_APP_HOST=http://localhost:3000 \
     PROJECT_API_HOST=http://localhost:8000 \
