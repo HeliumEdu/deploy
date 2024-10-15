@@ -32,4 +32,4 @@ and [hooks to this repo are setup](https://developer.hashicorp.com/terraform/clo
 ### Initializing a New Environment
 
 For more information on initializing infrastructure in a new environment for the first time, see
-[the `prod` Terraform Workspace](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod).
+[the `prod` Terraform Workspace](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme).

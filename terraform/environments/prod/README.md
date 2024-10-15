@@ -27,9 +27,7 @@ Not all Twilio operations can be provisioned with Terraform. Manually create two
 
 Note the URLs for these TwiML Bins, they need to be stored in the Terraform Workspace next.
 
-Additionally, after the Terraform has been applied and the Twilio numbers exist, the `Helium Edu` number won't be
-able to send outbound text messages until they've gone through the A2P 10DLC registration process, which also must be
-done [in the Twilio Console](https://console.twilio.com/us1/develop/sms/regulatory-compliance/a2p-10dlc-overview).
+Additionally, after the Terraform has been applied and the Twilio numbers exist, the `Helium Edu` number won't be able to send outbound text messages until they've gone through the A2P 10DLC registration process, which also must be done [in the Twilio Console](https://console.twilio.com/us1/develop/sms/regulatory-compliance/a2p-10dlc-overview).
 
 ### Initializing a Terraform Workspace
 
@@ -39,9 +37,7 @@ To initialize a Terraform Workspace for the first time, execute:
 terraform init
 ```
 
-Once the Workspace is initialized in Terraform, its settings can be configured in [the Terraform UI](https://app.terraform.io/app).
-Change the Terraform Working Directory to the relative path in this repo (ex. for `prod`, it needs to be
-`/terraform/environments/prod`).
+Once the Workspace is initialized in Terraform, its settings can be configured in [the Terraform UI](https://app.terraform.io/app). Change the Terraform Working Directory to the relative path in this repo (ex. for `prod`, it needs to be `/terraform/environments/prod`).
 
 The following Terraform Workspace variables must be defined:
 
