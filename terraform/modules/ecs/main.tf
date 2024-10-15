@@ -420,6 +420,11 @@ resource "aws_ecs_service" "helium_platform" {
     container_name   = "helium_platform_api"
     container_port   = 8000
   }
+
+  force_new_deployment = true
+  triggers = {
+    redeployment = plantimestamp()
+  }
 }
 
 resource "aws_ecs_service" "helium_platform_beat" {
@@ -439,5 +444,10 @@ resource "aws_ecs_service" "helium_platform_beat" {
   network_configuration {
     subnets          = [for id in var.subnet_ids : id]
     assign_public_ip = true
+  }
+
+  force_new_deployment = true
+  triggers = {
+    redeployment = plantimestamp()
   }
 }

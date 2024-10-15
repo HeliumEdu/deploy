@@ -26,5 +26,10 @@ Done! Now that your environment has been initialized, to quickly bring up Docker
 
 Use [the Release action](https://github.com/HeliumEdu/deploy/actions/workflows/release.yml) to cut a release and publish container images to
 [AWS ECR](https://aws.amazon.com/ecr/). If a [Terraform Workspace](https://developer.hashicorp.com/terraform/cli/workspaces) has been provisioned
-and hooks to this repo are setup, then bumping the [Image URI version variable in Terraform](https://github.com/HeliumEdu/deploy/blob/main/terraform/environments/prod/variables.tf#L1)
-will trigger a deployment when the Terraform applies, rolling the fleet to this new version.
+and [hooks to this repo are setup](https://developer.hashicorp.com/terraform/cloud-docs/vcs), then bumping the
+[Image URI version variable in Terraform](https://github.com/HeliumEdu/deploy/blob/main/terraform/environments/prod/variables.tf#L1) will trigger a new deployment to this version when the Terraform applies.
+
+### Initializing a New Environment
+
+For more information on initializing infrastructure in a new environment for the first time, see
+[the `prod` Terraform Workspace](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod).
