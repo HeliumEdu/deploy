@@ -2,8 +2,8 @@
 
 The following services are necessary to deploy the minimalist `dev-local` environment:
 
-- [AWS](https://aws.amazon.com/) - hosting infrastructure
-- [Twilio](https://www.twilio.com/en-us) - in-app text reminders
+- [AWS](https://aws.amazon.com/) - emails
+- [Twilio](https://www.twilio.com/en-us) - text messages
 
 ### Twilio Setup
 
@@ -23,10 +23,10 @@ The following Terraform Workspace variables must be defined:
 
   - `AWS_ACCESS_KEY_ID`
   - `AWS_SECRET_ACCESS_KEY`
-  - `TWILIO_ACCOUNT_SID`
-  - `TWILIO_AUTH_TOKEN`
-  - `helium_twiml_handler_url`
-  - `ci_twiml_handler_url`
+  - `TWILIO_ACCOUNT_SID` (optional, if Twilio module is removed)
+  - `TWILIO_AUTH_TOKEN` (optional, if Twilio module is removed)
+  - `helium_twiml_handler_url` (optional, if Twilio module is removed)
+  - `ci_twiml_handler_url` (optional, if Twilio module is removed)
 
 Once all of the above is configured, you can trigger Terraform to provision the new environment by executing:
 

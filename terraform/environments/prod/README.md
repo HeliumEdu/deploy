@@ -2,8 +2,8 @@
 
 The following services are necessary to deploy Helium:
 
-- [AWS](https://aws.amazon.com/) - hosting infrastructure
-- [Twilio](https://www.twilio.com/en-us) - in-app text reminders
+- [AWS](https://aws.amazon.com/) - hosting infrastructure and emails
+- [Twilio](https://www.twilio.com/en-us) - text messages
 - [DataDog](https://www.datadoghq.com/) - infrastructure monitoring
 - [Rollbar](https://rollbar.com/) - real-time error logging and tracking
 
@@ -43,13 +43,13 @@ The following Terraform Workspace variables must be defined:
 
   - `AWS_ACCESS_KEY_ID`
   - `AWS_SECRET_ACCESS_KEY`
-  - `TWILIO_ACCOUNT_SID`
-  - `TWILIO_AUTH_TOKEN`
-  - `DD_API_KEY` (the DataDog API key)
-  - `DD_APP_KEY` (the DataDog App key)
-  - `ROLLBAR_API_KEY`
-  - `helium_twiml_handler_url`
-  - `ci_twiml_handler_url`
+  - `TWILIO_ACCOUNT_SID` (optional, if Twilio module is removed)
+  - `TWILIO_AUTH_TOKEN` (optional, if Twilio module is removed)
+  - `DD_API_KEY` (the DataDog API key, leave blank to disable)
+  - `DD_APP_KEY` (the DataDog App key, leave blank to disable)
+  - `ROLLBAR_API_KEY` (leave blank to disable)
+  - `helium_twiml_handler_url` (optional, if Twilio module is removed)
+  - `ci_twiml_handler_url` (optional, if Twilio module is removed)
 
 Once all of the above is configured, you can trigger Terraform to provision the new environment by executing:
 
