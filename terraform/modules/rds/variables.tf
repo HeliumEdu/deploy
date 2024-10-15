@@ -16,5 +16,4 @@ variable "mysql_sg" {
 variable "multi_az" {
   description = "True if DB should be multi-AZ"
   type        = bool
-  default     = false
 }

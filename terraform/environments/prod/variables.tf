@@ -48,6 +48,16 @@ variable "platform_host_count" {
   default     = 2
 }
 
+variable "db_multi_az" {
+  description = "True if DB should be multi-AZ"
+  default     = false
+}
+
+variable "num_cache_nodes" {
+  description = "The number of cache nodes"
+  default     = 1
+}
+
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
   type        = string

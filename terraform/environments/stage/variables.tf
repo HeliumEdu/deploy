@@ -41,7 +41,29 @@ variable "frontend_host_count" {
 variable "platform_host_count" {
   description = "The number of platform hosts desired in the cluster"
   type = number
-  default = 1
+  default = 2
+}
+
+variable "db_multi_az" {
+  description = "True if DB should be multi-AZ"
+  default     = false
+}
+
+variable "num_cache_nodes" {
+  description = "The number of cache nodes"
+  default     = 1
+}
+
+variable "helium_area_code" {
+  description = "The area code for the Helium phone number"
+  type        = string
+  default     = "815"
+}
+
+variable "ci_area_code" {
+  description = "The area code for the CI phone number"
+  type        = string
+  default     = "815"
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
