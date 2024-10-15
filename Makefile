@@ -13,6 +13,7 @@ install:
 	@HELIUMCLI_FORCE_FETCH=True HELIUMCLI_SKIP_UPDATE_PULL=True HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
 build:
+	@rm rm -f projects/platform/.env
 	make -C projects/platform build-docker
 	make -C projects/frontend build-docker
 
