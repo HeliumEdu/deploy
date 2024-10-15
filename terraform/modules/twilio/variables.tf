@@ -6,13 +6,11 @@ variable "environment" {
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
   type        = string
-  default     = "815"
 }
 
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
   type        = string
-  default     = "815"
 }
 
 variable "helium_twiml_handler_url" {

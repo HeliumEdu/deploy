@@ -45,6 +45,7 @@ module "rds" {
   environment = var.environment
   subnet_ids  = module.vpc.subnet_ids
   mysql_sg    = module.vpc.mysql_sg
+  multi_az    = var.db_multi_az
 }
 
 module "elasticache" {
@@ -53,6 +54,7 @@ module "elasticache" {
   environment    = var.environment
   subnet_ids     = module.vpc.subnet_ids
   elasticache_sg = module.vpc.elasticache_sg
+  num_cache_nodes = var.num_cache_nodes
 }
 
 module "ecr" {

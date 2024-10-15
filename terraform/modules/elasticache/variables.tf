@@ -16,5 +16,4 @@ variable "elasticache_sg" {
 variable "num_cache_nodes" {
   description = "The number of cache nodes"
   type        = number
-  default     = 1
 }
