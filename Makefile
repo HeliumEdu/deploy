@@ -43,10 +43,14 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
     fi
 
 	./projects/platform/bin/provision-dot-env.sh
+
 	make start
-	@# Kick the container twice, on first run MySQL isn't always finished provisioning tables
-	@sleep 10
+	# Kick the container twice to ensure MySQL is healthy to receive migrations
+	cd projects/platform && docker compose stop
 	make start
+	# Wait to ensure migrations have run successfully
+	sleep 15
+
 	ENVIRONMENT=dev-local \
 	PROJECT_APP_HOST=http://localhost:3000 \
     PROJECT_API_HOST=http://localhost:8000 \

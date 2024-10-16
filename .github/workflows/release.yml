@@ -21,7 +21,7 @@ jobs:
       PLATFORM_EMAIL_HOST_USER: ${{ secrets.PLATFORM_EMAIL_HOST_USER }}
       PLATFORM_EMAIL_HOST_PASSWORD: ${{ secrets.PLATFORM_EMAIL_HOST_PASSWORD }}
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
-      PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.PLATFORM_TWILIO_AUTH_TOKEN }}
       PLATFORM_TWILIO_SMS_FROM: ${{ vars.PLATFORM_TWILIO_SMS_FROM }}
       CI_TWILIO_RECIPIENT_PHONE_NUMBER: ${{ secrets.CI_TWILIO_RECIPIENT_PHONE_NUMBER }}
 
@@ -52,8 +52,11 @@ jobs:
       - name: Build
         run: TAG_VERSION=${{ github.event.inputs.version }} make build
       - name: Run CI tests for release
-        run: make run-ci
+        run: TAG_VERSION=${{ github.event.inputs.version }} make run-ci
       - name: Build release
         run: helium-cli build-release ${{ github.event.inputs.version }}
       - name: Publish containers
         run: TAG_VERSION=${{ github.event.inputs.version }} make publish
+      - name: Dump Docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
