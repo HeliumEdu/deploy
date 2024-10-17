@@ -49,6 +49,8 @@ jobs:
           if_key_exists: replace
       - name: Install dependencies
         run: make install
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build
         run: TAG_VERSION=${{ github.event.inputs.version }} make build
       - name: Run CI tests for release
