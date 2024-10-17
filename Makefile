@@ -47,10 +47,8 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 
 	make -C projects/frontend run-docker
 
-	make -C projects/platform run-docker
 	# Kick the platform containers to ensure MySQL is healthy to receive migrations
-	cd projects/platform && docker compose stop
-	make -C projects/platform run-docker
+	make -C projects/platform run-docker stop-docker run-docker
 	# Wait to ensure migrations have run successfully
 	sleep 15
 
