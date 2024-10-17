@@ -4,6 +4,7 @@ SHELL := /usr/bin/env bash
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
 SKIP_UPDATE ?= 'false'
 DEV_LOCAL_AWS_REGION ?= 'us-east-2'
+PLATFORM ?= linux/arm64
 
 all: install start
 
@@ -13,9 +14,9 @@ install:
 	@HELIUMCLI_FORCE_FETCH=True HELIUMCLI_SKIP_UPDATE_PULL=True HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
 build:
-	@rm rm -f projects/platform/.env
-	make -C projects/platform build-docker
-	make -C projects/frontend build-docker
+	@rm -f projects/platform/.env
+	PLATFORM=$(PLATFORM) make -C projects/platform build-docker
+	PLATFORM=$(PLATFORM) make -C projects/frontend build-docker
 
 start:
 	cd projects/platform && ./bin/runserver
