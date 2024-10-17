@@ -57,10 +57,10 @@ jobs:
       - name: Load build in to Docker registry
         # Necessary in GitHub to load the cached builds in to Docker's local registry
         run: |
-          docker buildx build -t helium/frontend:${{ github.event.inputs.version }} --load .
-          docker buildx build --target platform_resource -t helium/platform-resource:${{ github.event.inputs.version }} --load .
-          docker buildx build --target platform_api -t helium/platform-api:${{ github.event.inputs.version }} --load .
-          docker buildx build --target platform_worker -t helium/platform-worker:${{ github.event.inputs.version }} --load .
+          docker buildx build -t helium/frontend:${{ github.event.inputs.version }} --load projects/frontend
+          docker buildx build --target platform_resource -t helium/platform-resource:${{ github.event.inputs.version }} --load projects/platform
+          docker buildx build --target platform_api -t helium/platform-api:${{ github.event.inputs.version }} --load projects/platform
+          docker buildx build --target platform_worker -t helium/platform-worker:${{ github.event.inputs.version }} --load projects/platform
       - name: Run CI tests against build
         run: TAG_VERSION=${{ github.event.inputs.version }} make run-ci
       - name: Build release
