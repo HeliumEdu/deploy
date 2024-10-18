@@ -36,6 +36,11 @@ variable "region_azs" {
   }
 }
 
+variable "default_arch" {
+  description = "The target arch of container builds"
+  default     = "X86_64"
+}
+
 variable "frontend_host_count" {
   description = "The number of frontend hosts desired in the cluster"
   default     = 2
