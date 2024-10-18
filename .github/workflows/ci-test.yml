@@ -1,0 +1,20 @@
+name: "CI Test"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run CI tests
+        run: |
+          curl -X POST https://api.github.com/repos/HeliumEdu/ci-tests/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.ACTIONS_KEY }} \
+          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
