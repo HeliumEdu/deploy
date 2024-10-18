@@ -68,6 +68,13 @@ jobs:
         run: TAG_VERSION=${{ github.event.inputs.version }} make publish
       - name: Deploy release
         run: VERSION=${{ github.event.inputs.version }} python bin/bump-release.py
+      - name: Run CI tests
+        run: |
+          curl -X POST https://api.github.com/repos/HeliumEdu/ci-tests/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.ACTIONS_KEY }} \
+          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+      - uses: actions/checkout@v3
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
