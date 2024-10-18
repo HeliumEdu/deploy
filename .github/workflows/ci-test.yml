@@ -2,9 +2,6 @@ name: "CI Test"
 
 on:
   workflow_dispatch:
-    inputs:
-      version:
-        type: string
 
 jobs:
   release:
