@@ -63,13 +63,13 @@ jobs:
           retry_wait_seconds: 5
           max_attempts: 3
           command: TAG_VERSION=${{ github.event.inputs.version }} make run-ci
-      - name: Build release
+      - name: Cut release tags
         run: helium-cli build-release ${{ github.event.inputs.version }}
-      - name: Publish containers
+      - name: Publish artifacts
         run: TAG_VERSION=${{ github.event.inputs.version }} make publish
       - name: Deploy release
         run: VERSION=${{ github.event.inputs.version }} python bin/bump-release.py
-      - name: Trigger CI tests for after deploy
+      - name: Trigger CI tests against deploy
         run: |
           # Wait before triggering CI tests, to allow Terraform to apply and ECS to roll nodes
           sleep 120
