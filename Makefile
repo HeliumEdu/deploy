@@ -1,4 +1,4 @@
-.PHONY: all install start run-ci publish
+.PHONY: all install start test-ci publish
 
 SHELL := /usr/bin/env bash
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
@@ -22,7 +22,7 @@ start:
 	cd projects/platform && ./bin/runserver
 	cd projects/frontend && ./bin/runserver
 
-run-ci:
+test-ci:
 	@if [[ -z "${PLATFORM_EMAIL_HOST_USER}" ]] || \
 		[[ -z "${PLATFORM_EMAIL_HOST_PASSWORD}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_ACCOUNT_SID}" ]] || \
@@ -57,7 +57,7 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 	PROJECT_APP_HOST=http://localhost:3000 \
     PROJECT_API_HOST=http://localhost:8000 \
     AWS_REGION=$(DEV_LOCAL_AWS_REGION) \
-    make -C projects/ci-tests install test
+    make -C projects/ci-tests test
 
 publish:
 	make -C projects/platform publish-docker

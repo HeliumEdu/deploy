@@ -62,7 +62,7 @@ jobs:
           timeout_minutes: 10
           retry_wait_seconds: 5
           max_attempts: 3
-          command: TAG_VERSION=${{ github.event.inputs.version }} make run-ci
+          command: TAG_VERSION=${{ github.event.inputs.version }} make test-ci
       - name: Cut release tags
         run: helium-cli build-release ${{ github.event.inputs.version }}
       - name: Publish artifacts
