@@ -6,7 +6,7 @@ SKIP_UPDATE ?= 'false'
 DEV_LOCAL_AWS_REGION ?= 'us-east-2'
 PLATFORM ?= linux/arm64
 
-all: install start
+all: install build start
 
 install:
 	@python -m pip install -r requirements.txt
