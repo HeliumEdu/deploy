@@ -13,16 +13,16 @@ install:
 
 	@HELIUMCLI_FORCE_FETCH=True HELIUMCLI_SKIP_UPDATE_PULL=True HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
-build:
+build: install
 	@rm -f projects/platform/.env
 	PLATFORM=$(PLATFORM) make -C projects/platform build-docker
 	PLATFORM=$(PLATFORM) make -C projects/frontend build-docker
 
-start:
+start: build
 	cd projects/platform && ./bin/runserver
 	cd projects/frontend && ./bin/runserver
 
-test-ci:
+test-ci: build
 	@if [[ -z "${PLATFORM_EMAIL_HOST_USER}" ]] || \
 		[[ -z "${PLATFORM_EMAIL_HOST_PASSWORD}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_ACCOUNT_SID}" ]] || \
@@ -59,6 +59,6 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
     AWS_REGION=$(DEV_LOCAL_AWS_REGION) \
     make -C projects/ci-tests test
 
-publish:
+publish: install
 	make -C projects/platform publish-docker
 	make -C projects/frontend publish-docker
