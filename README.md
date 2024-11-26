@@ -21,7 +21,11 @@ cd helium
 make
 ```
 
-Done! Now that your environment has been initialized, to quickly bring up Docker in the future, simply run `make start`.
+Done! Now that your environment has been initialized, to quickly bring up Docker in the future, simply run:
+
+```
+make start`
+```
 
 ## Deployment
 
