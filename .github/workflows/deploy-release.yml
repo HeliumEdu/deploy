@@ -27,8 +27,8 @@ on:
         type: string
         required: true
       cut_release:
-        type: boolean
-        default: true
+        type: string
+        required: true
 
 jobs:
   release:
