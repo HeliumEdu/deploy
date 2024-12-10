@@ -98,7 +98,7 @@ if not CUT_RELEASE:
                                   "allow-empty-apply": "true",
                                   "auto-apply": "false",
                                   "variables": [
-                                      {"key": "helium_version", "value": "\"VERSION\""}
+                                      {"key": "helium_version", "value": f"\"{VERSION}\""}
                                   ]
                               }, "relationships": {
                                   "workspace": {

@@ -27,7 +27,7 @@ on:
         type: string
         required: true
       cut_release:
-        type: string
+        type: boolean
         required: true
 
 jobs:
