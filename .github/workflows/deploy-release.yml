@@ -26,6 +26,9 @@ on:
       environment:
         type: string
         required: true
+      cut-release:
+        type: boolean
+        default: true
 
 jobs:
   release:
