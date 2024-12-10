@@ -94,7 +94,7 @@ if not CUT_RELEASE:
                                    "Content-Type": "application/vnd.api+json"},
                           data=json.dumps({"data":
                               {"attributes": {
-                                  "message": f"[heliumcli] Release {VERSION} (direct)",
+                                  "message": f"[heliumcli] Deploy {VERSION}",
                                   "allow-empty-apply": "true",
                                   "auto-apply": "false",
                                   "variables": [
