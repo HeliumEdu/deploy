@@ -16,7 +16,7 @@ on:
 
 jobs:
   release:
-    name: Release
+    name: Deploy Release
 
     env:
       FORCE_COLOR: 1
