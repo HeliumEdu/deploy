@@ -30,4 +30,4 @@ jobs:
     with:
       version: ${{ github.event.inputs.version }}
       environment: ${{ github.event.inputs.environment }}
-      cut-release: true
+      cut_release: true
