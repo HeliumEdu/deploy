@@ -7,8 +7,10 @@ on:
     inputs:
       version:
         type: string
+        required: true
       environment:
-        type: environment
+        type: choice
+        required: true
         options:
         - prod
 
