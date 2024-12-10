@@ -18,6 +18,7 @@ on:
         required: true
         options:
         - prod
+  workflow_call:
 
 jobs:
   release:
