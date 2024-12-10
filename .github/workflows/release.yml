@@ -16,7 +16,7 @@ on:
 
 jobs:
   build:
-    name: Build release
+    name: Build
     uses: ./.github/workflows/build-release.yml
     secrets: inherit
     with:
@@ -24,7 +24,7 @@ jobs:
       environment: ${{ github.event.inputs.environment }}
 
   deploy:
-    name: Deploy release
+    name: Deploy
     uses: ./.github/workflows/deploy-release.yml
     secrets: inherit
     with:

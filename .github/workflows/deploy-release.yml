@@ -19,6 +19,15 @@ on:
         options:
         - prod
   workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+      environment:
+        type: choice
+        required: true
+        options:
+        - prod
 
 jobs:
   release:
