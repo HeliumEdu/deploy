@@ -62,7 +62,8 @@ else:
 
     repo = Repo(BASE_DIR)
     if not repo.is_dirty() or VERSION in repo.tags:
-        print("ERROR: No changes detected or version already exists. Terraform won't trigger the release.")
+        print("ERROR: No changes detected or version already exists. Terraform won't trigger the release. "
+              "Set CUT_RELEASE=false if attempting to deploy a previous build.")
         sys.exit(1)
     else:
         config = get_config()

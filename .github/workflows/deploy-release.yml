@@ -12,7 +12,7 @@ on:
         type: boolean
         required: true
         default: true
-        description: "Uncheck to deploy old versions that have already been built"
+        description: "Uncheck if deploying a previous build"
       environment:
         type: choice
         required: true
