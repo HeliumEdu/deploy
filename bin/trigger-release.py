@@ -21,7 +21,7 @@ BASE_DIR = os.path.normpath(os.path.join(os.path.abspath(os.path.dirname(__file_
 VERSION = os.environ.get("VERSION")
 ENVIRONMENT = os.environ.get("ENVIRONMENT")
 TERRAFORM_API_TOKEN = os.environ.get("TERRAFORM_API_TOKEN")
-CUT_RELEASE = os.environ.get("CUT_RELEASE", "True") == "True"
+CUT_RELEASE = os.environ.get("CUT_RELEASE", "true") == "true"
 
 if not VERSION or not ENVIRONMENT or not TERRAFORM_API_TOKEN:
     print("ERROR: Set all required env vars: VERSION, ENVIRONMENT, TERRAFORM_API_TOKEN.")
