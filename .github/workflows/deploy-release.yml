@@ -8,11 +8,11 @@ on:
       version:
         type: string
         required: true
-      cut-release:
+      cut_release:
         type: boolean
         required: true
-        default: true
-        description: "Uncheck if deploying a previous build"
+        default: false
+        description: "Check to cut a tag (if deploying as part of a build pipeline), uncheck if directly deploying an existing build"
       environment:
         type: choice
         required: true
@@ -26,7 +26,7 @@ on:
       environment:
         type: string
         required: true
-      cut-release:
+      cut_release:
         type: boolean
         default: true
 
@@ -62,7 +62,7 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
       - name: Deploy release
-        run: CUT_RELEASE=${{ github.event.inputs.cut-release }} VERSION=${{ github.event.inputs.version }} ENVIRONMENT=${{ github.event.inputs.environment }} python bin/trigger-release.py
+        run: CUT_RELEASE=${{ github.event.inputs.cut_release }} VERSION=${{ github.event.inputs.version }} ENVIRONMENT=${{ github.event.inputs.environment }} python bin/trigger-release.py
       - name: Trigger CI tests against deploy
         run: |
           # Wait before triggering CI tests, to allow Terraform to apply and ECS to roll nodes
