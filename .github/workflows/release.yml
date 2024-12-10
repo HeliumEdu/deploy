@@ -1,6 +1,6 @@
 name: "Release"
 
-run-name: "Release ${{ github.event.inputs.version }}"
+run-name: "Release ${{ inputs.version }}"
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
     uses: ./.github/workflows/build-release.yml
     secrets: inherit
     with:
-      version: ${{ github.event.inputs.version }}
+      version: ${{ inputs.version }}
 
   deploy:
     name: Deploy
@@ -28,6 +28,6 @@ jobs:
     uses: ./.github/workflows/deploy-release.yml
     secrets: inherit
     with:
-      version: ${{ github.event.inputs.version }}
-      environment: ${{ github.event.inputs.environment }}
+      version: ${{ inputs.version }}
+      environment: ${{ inputs.environment }}
       cut_release: true
