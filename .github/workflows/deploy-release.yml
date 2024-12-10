@@ -8,16 +8,16 @@ on:
       version:
         type: string
         required: true
-      cut_release:
-        type: boolean
-        required: true
-        default: false
-        description: "Check to cut a tag (if deploying as part of a build pipeline), uncheck if directly deploying an existing build"
       environment:
         type: choice
         required: true
         options:
         - prod
+      cut_release:
+        type: boolean
+        required: true
+        default: false
+        description: "Check to cut a tag (if deploying as part of a build pipeline), leave unchecked if directly deploying an existing build"
   workflow_call:
     inputs:
       version:
