@@ -8,6 +8,11 @@ on:
       version:
         type: string
         required: true
+      cut-release:
+        type: boolean
+        required: true
+        default: true
+        description: "Uncheck to deploy old versions that have already been built"
       environment:
         type: choice
         required: true
