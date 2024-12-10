@@ -9,10 +9,6 @@ on:
         type: string
       environment:
         type: environment
-        description: Select the environment
-      choice:
-        type: choice
-        description: Make a choice
         options:
         - prod
 
