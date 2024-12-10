@@ -30,6 +30,9 @@ on:
         type: boolean
         required: true
 
+concurrency:
+  group: "helium-deploy-${{inputs.environment}}"
+
 jobs:
   release:
     name: Deploy Release
