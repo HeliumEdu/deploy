@@ -41,8 +41,8 @@ VERSION_VARIABLE_REGEX = VERSION_VARIABLE_PATTERN.format(version="(\\d+.\\d+.\\d
 #####################################################################
 
 if not CUT_RELEASE:
-    print("CUT_RELEASE is set to True. Deploying old release means no changes committed, and VERSION will be passed "
-          "as an override parameter to Terraform.")
+    print("CUT_RELEASE is set to 'false'. Deploying old release means no changes committed, and VERSION will be used"
+          "to set Terraform's 'helium_version' as an override parameter.")
 else:
     with open(FILE_PATH, "r") as fp:
         file_contents = fp.read()
