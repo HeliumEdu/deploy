@@ -24,10 +24,8 @@ on:
         type: string
         required: true
       environment:
-        type: choice
+        type: string
         required: true
-        options:
-        - prod
 
 jobs:
   release:
