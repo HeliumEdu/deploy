@@ -8,6 +8,7 @@ on:
       version:
         type: string
         required: true
+  workflow_call:
 
 jobs:
   release:
