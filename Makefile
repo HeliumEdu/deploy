@@ -26,7 +26,7 @@ start: build
 	cd projects/platform && ./bin/runserver
 	cd projects/frontend && ./bin/runserver
 
-test-ci: build
+test-ci:
 	@if [[ -z "${PLATFORM_EMAIL_HOST_USER}" ]] || \
 		[[ -z "${PLATFORM_EMAIL_HOST_PASSWORD}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_ACCOUNT_SID}" ]] || \
