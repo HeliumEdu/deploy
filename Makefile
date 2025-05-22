@@ -10,10 +10,10 @@ PLATFORM ?= linux/arm64
 all: install build start
 
 install-reqs:
-	@(PYTHON_BIN) -m pip install -r requirements.txt
+	$(PYTHON_BIN) -m pip install -r requirements.txt
 
 install: install-reqs
-	@(PYTHON_BIN) -m pip install -r requirements.txt
+	$(PYTHON_BIN) -m pip install -r requirements.txt
 
 	@HELIUMCLI_FORCE_FETCH=True HELIUMCLI_SKIP_UPDATE_PULL=True HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
