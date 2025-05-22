@@ -41,7 +41,6 @@ jobs:
       FORCE_COLOR: 1
       PYTHONUNBUFFERED: 1
       PYTHONDONTWRITEBYTECODE: 1
-      DOCKER_DEFAULT_PLATFORM: linux/arm64
       FRONTEND_IMAGE: public.ecr.aws/w6u3m4h5/helium/frontend:${{ inputs.version }}
       PLATFORM_RESOURCE_IMAGE: public.ecr.aws/w6u3m4h5/helium/platform-resource:${{ inputs.version }}
       PLATFORM_API_IMAGE: public.ecr.aws/w6u3m4h5/helium/platform-api:${{ inputs.version }}
@@ -79,7 +78,7 @@ jobs:
           timeout_minutes: 4
           retry_wait_seconds: 15
           max_attempts: 2
-          command: TAG_VERSION=${{ inputs.version }} make test-ci
+          command: TAG_VERSION=${{ inputs.version }} DOCKER_DEFAULT_PLATFORM=linux/arm64 make test-ci
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
