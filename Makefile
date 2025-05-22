@@ -47,6 +47,8 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
       exit 1; \
     fi
 
+	@rm -f projects/platform/.env
+
 	./projects/platform/bin/provision-dot-env.sh
 
 	make -C projects/platform run-docker
