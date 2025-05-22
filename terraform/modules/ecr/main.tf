@@ -9,8 +9,8 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend" {
   }
 
   tags = {
+    Environment = "N/A"
     Service   = "HeliumEdu"
-    Terraform = true
   }
 }
 
@@ -25,8 +25,8 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_resource" {
   }
 
   tags = {
-    Service   = "HeliumEdu"
-    Terraform = true
+    Environment = "N/A"
+    Service     = "HeliumEdu"
   }
 }
 
@@ -41,8 +41,8 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_api" {
   }
 
   tags = {
+    Environment = "N/A"
     Service   = "HeliumEdu"
-    Terraform = true
   }
 }
 
@@ -57,7 +57,7 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_worker" {
   }
 
   tags = {
+    Environment = "N/A"
     Service   = "HeliumEdu"
-    Terraform = true
   }
 }
