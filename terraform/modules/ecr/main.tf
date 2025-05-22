@@ -3,7 +3,7 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend" {
 }
 
 resource "aws_ecrpublic_repository" "repository_helium_platform_resource" {
-  repository_name = "helium/platform"
+  repository_name = "helium/platform-resource"
 }
 
 resource "aws_ecrpublic_repository" "repository_helium_platform_api" {
