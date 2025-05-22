@@ -49,8 +49,8 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 
 	./projects/platform/bin/provision-dot-env.sh
 
-	make -C projects/frontend run-docker
 	make -C projects/platform run-docker
+	make -C projects/frontend run-docker
 
 	ENVIRONMENT=dev-local \
 	PROJECT_APP_HOST=http://localhost:3000 \
