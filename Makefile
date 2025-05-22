@@ -1,6 +1,7 @@
-.PHONY: all install start test-ci publish
+.PHONY: all install-reqs install build start test-ci publish
 
 SHELL := /usr/bin/env bash
+PYTHON_BIN := python
 HELIUMCLI_PROJECTS ?= '["platform", "frontend", "ci-tests"]'
 SKIP_UPDATE ?= 'false'
 DEV_LOCAL_AWS_REGION ?= 'us-east-2'
@@ -8,8 +9,11 @@ PLATFORM ?= linux/arm64
 
 all: install build start
 
-install:
-	@python -m pip install -r requirements.txt
+install-reqs:
+	@(PYTHON_BIN) -m pip install -r requirements.txt
+
+install: install-reqs
+	@(PYTHON_BIN) -m pip install -r requirements.txt
 
 	@HELIUMCLI_FORCE_FETCH=True HELIUMCLI_SKIP_UPDATE_PULL=True HELIUMCLI_PROJECTS=$(HELIUMCLI_PROJECTS) helium-cli update-projects
 
