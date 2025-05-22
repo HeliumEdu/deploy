@@ -45,10 +45,10 @@ jobs:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      FRONTEND_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/frontend:${{ inputs.version }}
-      PLATFORM_RESOURCE_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/platform-resource:${{ inputs.version }}
-      PLATFORM_API_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/platform-api:${{ inputs.version }}
-      PLATFORM_WORKER_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/platform-worker:${{ inputs.version }}
+      FRONTEND_IMAGE: public.ecr.us-east-1.amazonaws.com/helium/frontend:${{ inputs.version }}
+      PLATFORM_RESOURCE_IMAGE: public.ecr.us-east-1.amazonaws.com/helium/platform-resource:${{ inputs.version }}
+      PLATFORM_API_IMAGE: public.ecr.us-east-1.amazonaws.com/helium/platform-api:${{ inputs.version }}
+      PLATFORM_WORKER_IMAGE: public.ecr.us-east-1.amazonaws.com/helium/platform-worker:${{ inputs.version }}
       PLATFORM_EMAIL_HOST_USER: ${{ secrets.PLATFORM_EMAIL_HOST_USER }}
       PLATFORM_EMAIL_HOST_PASSWORD: ${{ secrets.PLATFORM_EMAIL_HOST_PASSWORD }}
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
@@ -80,9 +80,7 @@ jobs:
           timeout_minutes: 4
           retry_wait_seconds: 15
           max_attempts: 2
-          command: |
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com \
-            TAG_VERSION=${{ inputs.version }} make test-ci
+          command: TAG_VERSION=${{ inputs.version }} make test-ci
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2

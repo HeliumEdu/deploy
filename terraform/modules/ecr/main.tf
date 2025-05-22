@@ -1,19 +1,15 @@
-resource "aws_ecr_repository" "repository_helium_frontend" {
-  name                 = "helium/frontend"
-  image_tag_mutability = "MUTABLE"
+resource "aws_ecrpublic_repository" "repository_helium_frontend" {
+  repository_name = "helium/frontend"
 }
 
-resource "aws_ecr_repository" "repository_helium_platform_resource" {
-  name                 = "helium/platform-resource"
-  image_tag_mutability = "MUTABLE"
+resource "aws_ecrpublic_repository" "repository_helium_platform_resource" {
+  repository_name = "helium/platform"
 }
 
-resource "aws_ecr_repository" "repository_helium_platform_api" {
-  name                 = "helium/platform-api"
-  image_tag_mutability = "MUTABLE"
+resource "aws_ecrpublic_repository" "repository_helium_platform_api" {
+  repository_name = "helium/platform-api"
 }
 
-resource "aws_ecr_repository" "repository_helium_platform_worker" {
-  name                 = "helium/platform-worker"
-  image_tag_mutability = "MUTABLE"
+resource "aws_ecrpublic_repository" "repository_helium_platform_worker" {
+  repository_name = "helium/platform-worker"
 }
