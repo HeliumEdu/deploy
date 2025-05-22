@@ -4,6 +4,7 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend" {
   catalog_data {
     architectures = ["ARM 64"]
     description = "Frontend images for https://www.heliumedu.com"
+    logo_image_blob = filebase64("logo.png")
     operating_systems = ["Linux"]
   }
 
@@ -19,6 +20,7 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_resource" {
   catalog_data {
     architectures = ["ARM 64"]
     description = "Base platform images for https://www.heliumedu.com"
+    logo_image_blob = filebase64("logo.png")
     operating_systems = ["Linux"]
   }
 
@@ -34,6 +36,7 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_api" {
   catalog_data {
     architectures = ["ARM 64"]
     description = "API platform images for https://www.heliumedu.com"
+    logo_image_blob = filebase64("logo.png")
     operating_systems = ["Linux"]
   }
 
@@ -49,6 +52,7 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_worker" {
   catalog_data {
     architectures = ["ARM 64"]
     description = "Worker platform images for https://www.heliumedu.com"
+    logo_image_blob = filebase64("logo.png")
     operating_systems = ["Linux"]
   }
 
