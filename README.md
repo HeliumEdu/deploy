@@ -46,7 +46,7 @@ Done! The [`frontend`](https://github.com/HeliumEdu/frontend), [`platform`](http
 If `dev-local` was not provisioned, you'll want to set `PROJECT_DISABLE_EMAILS=True` in [`platforms'`s `.env` file](https://github.com/HeliumEdu/platform/blob/main/.env.docker.example)
 (and restart Docker). Helium is now accessible at http://localhost:3000, and you should be able to register for an
 account. Or have a look at [the `platform`'s README](https://github.com/HeliumEdu/platform?tab=readme-ov-file#docker-setup)
-for steps to create a superuser.
+for steps to create a superuser with access to [the admin site](http://localhost:8000/admin).
 
 In the future, this local Docker environment can quickly be brought up again simply by running:
 
