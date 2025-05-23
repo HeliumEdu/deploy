@@ -19,9 +19,9 @@ Released container images are published to [Helium's AWS ECR](https://gallery.ec
 
 ## Getting Started
 
-This repository contains everything that is necessary to develop and deploy [Helium Edu](https://www.heliumedu.com),
-including setting up on a local machine to use [Docker](https://docs.docker.com/), and the [Terraform](https://app.terraform.io/app) necessary to provision
-deployment environments.
+This repository contains everything that is necessary for deployment and local development, including setting up a
+local machine to use [Docker](https://docs.docker.com/), and the [Terraform](https://app.terraform.io/app) necessary to
+provision environments.
 
 ## Development
 
