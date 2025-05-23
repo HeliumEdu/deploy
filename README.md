@@ -8,6 +8,8 @@
 
 The deployment infastructure for [Helium Edu](https://www.heliumedu.com/).
 
+Released container images are published to [Helium's AWS ECR](https://gallery.ecr.aws/w6u3m4h5/).
+
 ## Prerequisites
 
 - Docker
@@ -44,7 +46,7 @@ Done! The [`frontend`](https://github.com/HeliumEdu/frontend), [`platform`](http
 [`ci-tests`](https://github.com/HeliumEdu/ci-tests) are now setup for you.
 
 If `dev-local` was not provisioned, you'll want to set `PROJECT_DISABLE_EMAILS=True` in [`platforms'`s `.env` file](https://github.com/HeliumEdu/platform/blob/main/.env.docker.example)
-(and restart Docker). Helium is now accessible at http://localhost:3000, and you should be able to register for an
+(and restart Docker with `make restart`). Helium is now accessible at http://localhost:3000, and you should be able to register for an
 account. Or have a look at [the `platform`'s README](https://github.com/HeliumEdu/platform?tab=readme-ov-file#docker-setup)
 for steps to create a superuser with access to [the admin site](http://localhost:8000/admin).
 
@@ -53,6 +55,11 @@ In the future, this local Docker environment can quickly be brought up again sim
 ```
 make start
 ```
+
+#### Image Architecture
+
+By default, deployable Docker images will be built for `linux/arm64`. To build native images on an `x86` architecture
+instead, set `PLATFORM=linux/amd64`.
 
 ## Deployment
 
