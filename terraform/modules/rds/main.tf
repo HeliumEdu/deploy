@@ -13,6 +13,21 @@ resource "aws_db_subnet_group" "helium" {
   subnet_ids = [for id in var.subnet_ids : id]
 }
 
+resource "aws_db_parameter_group" "helium_parameter_group" {
+  name   = "helium-parameter-group"
+  family = "mysql8.0"
+
+  parameter {
+    name  = "character_set_server"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "collation_server"
+    value = "utf8mb4_unicode_ci"
+  }
+}
+
 resource "aws_db_instance" "helium" {
   identifier                 = "helium-${var.environment}"
   allocated_storage          = 20
@@ -27,7 +42,8 @@ resource "aws_db_instance" "helium" {
   auto_minor_version_upgrade = true
   deletion_protection        = true
   backup_retention_period    = 7
-  vpc_security_group_ids = [var.mysql_sg]
+  vpc_security_group_ids     = [var.mysql_sg]
   db_subnet_group_name       = aws_db_subnet_group.helium.name
   multi_az                   = var.multi_az
+  parameter_group_name       = aws_db_parameter_group.helium_parameter_group.name
 }
