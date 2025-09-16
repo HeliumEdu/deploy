@@ -108,3 +108,27 @@ variable "DD_APP_KEY" {
 variable "ROLLBAR_API_KEY" {
   description = "The Rollbar API key"
 }
+
+variable "FIREBASE_PROJECT_ID" {
+  description = "The Firebase project ID"
+}
+
+variable "FIREBASE_PRIVATE_KEY_ID" {
+  description = "The Firebase private key ID"
+}
+
+variable "FIREBASE_PRIVATE_KEY" {
+  description = "The Firebase private key"
+}
+
+variable "FIREBASE_CLIENT_EMAIL" {
+  description = "The Firebase client email"
+}
+
+variable "FIREBASE_CLIENT_ID" {
+  description = "The Firebase client ID"
+}
+
+variable "FIREBASE_CLIENT_X509_CERT_URL" {
+  description = "The Firebase client cert URL"
+}
