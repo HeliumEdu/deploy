@@ -9,12 +9,12 @@ resource "aws_iam_access_key" "smtp_access_key" {
 data "aws_iam_policy_document" "ses_sender" {
   statement {
     resources = ["*"]
-    actions = ["ses:SendRawEmail"]
+    actions   = ["ses:SendRawEmail"]
 
     condition {
       test     = "StringLike"
       variable = "ses:FromAddress"
-      values = ["*@${var.environment_prefix}heliumedu.com"]
+      values   = ["*@${var.environment_prefix}heliumedu.com"]
     }
   }
 }
@@ -34,7 +34,7 @@ resource "aws_ses_domain_identity" "heliumedu_com_identity" {
 }
 
 resource "aws_ses_domain_mail_from" "heliumedu_com_mail_from" {
-  domain           = "${var.environment_prefix}aws_ses_domain_identity.heliumedu_com_identity.domain"
+  domain           = aws_ses_domain_identity.heliumedu_com_identity.domain
   mail_from_domain = "bounce.${var.environment_prefix}heliumedu.com"
 }
 
@@ -88,7 +88,7 @@ resource "aws_ses_domain_identity" "heliumedu_dev_identity" {
 }
 
 resource "aws_ses_domain_mail_from" "heliumedu_dev_mail_from" {
-  domain           = "${var.environment_prefix}aws_ses_domain_identity.heliumedu_dev_identity.domain"
+  domain           = aws_ses_domain_identity.heliumedu_dev_identity.domain
   mail_from_domain = "bounce.${var.environment_prefix}heliumedu.dev"
 }
 
@@ -156,7 +156,7 @@ resource "aws_ses_active_receipt_rule_set" "main" {
 resource "aws_ses_receipt_rule" "store_s3" {
   name          = "heliumedu-ci-${var.environment}-test-email-to-s3"
   rule_set_name = aws_ses_receipt_rule_set.helium_rule_set.rule_set_name
-  recipients = ["heliumedu-ci-test@${var.environment_prefix}heliumedu.dev"]
+  recipients    = ["heliumedu-ci-test@${var.environment_prefix}heliumedu.dev"]
   enabled       = true
   scan_enabled  = false
 
