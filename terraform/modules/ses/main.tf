@@ -34,13 +34,13 @@ resource "aws_ses_domain_identity" "heliumedu_com_identity" {
 }
 
 resource "aws_ses_domain_mail_from" "heliumedu_com_mail_from" {
-  domain           = aws_ses_domain_identity.heliumedu_com_identity
+  domain           = aws_ses_domain_identity.heliumedu_com_identity.domain
   mail_from_domain = "bounce.${var.environment_prefix}heliumedu.com"
 }
 
 resource "aws_route53_record" "heliumedu_com_mail_from_mx" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from
+  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from.domain
   type    = "MX"
   ttl     = "600"
   records = ["10 feedback-smtp.us-east-1.amazonses.com"]
@@ -48,7 +48,7 @@ resource "aws_route53_record" "heliumedu_com_mail_from_mx" {
 
 resource "aws_route53_record" "heliumedu_com_mail_from_txt" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from
+  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from.domain
   type    = "TXT"
   ttl     = "600"
   records = ["v=spf1 include:amazonses.com ~all"]
@@ -88,13 +88,13 @@ resource "aws_ses_domain_identity" "heliumedu_dev_identity" {
 }
 
 resource "aws_ses_domain_mail_from" "heliumedu_dev_mail_from" {
-  domain           = aws_ses_domain_identity.heliumedu_com_identity
+  domain           = aws_ses_domain_identity.heliumedu_com_identity.domain
   mail_from_domain = "bounce.${var.environment_prefix}heliumedu.dev"
 }
 
 resource "aws_route53_record" "heliumedu_dev_mail_from_mx" {
   zone_id = var.route53_heliumedu_dev_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from
+  name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from.domain
   type    = "MX"
   ttl     = "600"
   records = ["10 feedback-smtp.us-east-1.amazonses.com"]
@@ -102,7 +102,7 @@ resource "aws_route53_record" "heliumedu_dev_mail_from_mx" {
 
 resource "aws_route53_record" "heliumedu_dev_mail_from_txt" {
   zone_id = var.route53_heliumedu_dev_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from
+  name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from.domain
   type    = "TXT"
   ttl     = "600"
   records = ["v=spf1 include:amazonses.com ~all"]
