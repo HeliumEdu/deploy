@@ -64,7 +64,7 @@ resource "aws_route53_record" "heliumedu_com_amazonses_verification_record" {
 
 resource "aws_route53_record" "heliumedu_com_amazonses_dmarc" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = "_amazonses.${var.environment_prefix}heliumedu.com"
+  name    = "_dmarc.${var.environment_prefix}heliumedu.com"
   type    = "TXT"
   ttl     = "600"
   records = ["v=DMARC1; p=none;"]
@@ -118,7 +118,7 @@ resource "aws_route53_record" "heliumedu_dev_amazonses_verification_record" {
 
 resource "aws_route53_record" "heliumedu_dev_amazonses_dmarc" {
   zone_id = var.route53_heliumedu_dev_zone_id
-  name    = "_amazonses.${var.environment_prefix}heliumedu.dev"
+  name    = "_dmarc.${var.environment_prefix}heliumedu.dev"
   type    = "TXT"
   ttl     = "600"
   records = ["v=DMARC1; p=none;"]
