@@ -34,7 +34,7 @@ resource "aws_ses_domain_identity" "heliumedu_com_identity" {
 }
 
 resource "aws_ses_domain_mail_from" "heliumedu_com_mail_from" {
-  domain           = aws_ses_domain_identity.heliumedu_com_identity.domain
+  domain           = "${var.environment_prefix}aws_ses_domain_identity.heliumedu_com_identity.domain"
   mail_from_domain = "bounce.${var.environment_prefix}heliumedu.com"
 }
 
@@ -88,7 +88,7 @@ resource "aws_ses_domain_identity" "heliumedu_dev_identity" {
 }
 
 resource "aws_ses_domain_mail_from" "heliumedu_dev_mail_from" {
-  domain           = aws_ses_domain_identity.heliumedu_dev_identity.domain
+  domain           = "${var.environment_prefix}aws_ses_domain_identity.heliumedu_dev_identity.domain"
   mail_from_domain = "bounce.${var.environment_prefix}heliumedu.dev"
 }
 
