@@ -40,7 +40,7 @@ resource "aws_ses_domain_mail_from" "heliumedu_com_mail_from" {
 
 resource "aws_route53_record" "heliumedu_com_mail_from_mx" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from.domain
+  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from.mail_from_domain
   type    = "MX"
   ttl     = "600"
   records = ["10 feedback-smtp.us-east-1.amazonses.com"]
@@ -94,7 +94,7 @@ resource "aws_ses_domain_mail_from" "heliumedu_dev_mail_from" {
 
 resource "aws_route53_record" "heliumedu_dev_mail_from_mx" {
   zone_id = var.route53_heliumedu_dev_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from.domain
+  name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from.mail_from_domain
   type    = "MX"
   ttl     = "600"
   records = ["10 feedback-smtp.us-east-1.amazonses.com"]
