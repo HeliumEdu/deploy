@@ -67,7 +67,7 @@ resource "aws_route53_record" "heliumedu_com_amazonses_dmarc" {
   name    = "_dmarc.${var.environment_prefix}heliumedu.com"
   type    = "TXT"
   ttl     = "600"
-  records = ["v=DMARC1; p=none; rua=mailto:alexdlaird@gmail.com"]
+  records = ["v=DMARC1; p=reject;"]
 }
 
 resource "aws_ses_domain_dkim" "heliumedu_com_dkim" {
@@ -121,7 +121,7 @@ resource "aws_route53_record" "heliumedu_dev_amazonses_dmarc" {
   name    = "_dmarc.${var.environment_prefix}heliumedu.dev"
   type    = "TXT"
   ttl     = "600"
-  records = ["v=DMARC1; p=none; rua=mailto:alexdlaird@gmail.com"]
+  records = ["v=DMARC1; p=reject;"]
 }
 
 resource "aws_ses_domain_dkim" "heliumedu_dev_dkim" {
