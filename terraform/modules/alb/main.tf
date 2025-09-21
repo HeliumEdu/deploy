@@ -12,6 +12,7 @@ resource "aws_route53_record" "heliumedu_com_lb_cname" {
   zone_id = var.route53_heliumedu_com_zone_id
   name    = "${var.environment_prefix}heliumedu.com"
   type    = "A"
+  ttl     = "14400"
 
   alias {
     name                   = aws_lb.helium.dns_name
@@ -24,7 +25,7 @@ resource "aws_route53_record" "api_heliumedu_com_lb_cname" {
   zone_id = var.route53_heliumedu_com_zone_id
   name    = "api.${var.environment_prefix}heliumedu.com"
   type    = "CNAME"
-  ttl     = "600"
+  ttl     = "86400"
   records = [aws_lb.helium.dns_name]
 }
 
