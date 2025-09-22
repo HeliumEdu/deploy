@@ -19,5 +19,10 @@ resource "aws_route53_record" "heliumedu_com_dkim" {
   name    = "default._domainkey.${var.environment_prefix}heliumedu.com"
   type    = "TXT"
   ttl     = "3600"
-  records = [var.dkim_public_key]
+  records = [
+    join("\"\"", [
+      substr(var.dkim_public_key, 0, 255),
+      substr(var.dkim_public_key, 255, 255),
+    ])
+  ]
 }
