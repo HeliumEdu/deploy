@@ -48,7 +48,7 @@ resource "aws_route53_record" "heliumedu_com_mail_from_mx" {
 
 resource "aws_route53_record" "heliumedu_com_mail_from_txt" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from.domain
+  name    = aws_ses_domain_mail_from.heliumedu_com_mail_from.mail_from_domain
   type    = "TXT"
   ttl     = "3600"
   records = ["v=spf1 include:amazonses.com ~all"]
