@@ -1,4 +1,4 @@
-.PHONY: all install-reqs install build start test-ci publish
+.PHONY: all install-reqs install build start test-cluster publish
 
 SHELL := /usr/bin/env bash
 PYTHON_BIN := python
@@ -31,14 +31,14 @@ stop:
 
 restart: stop start
 
-test-ci:
+test-cluster:
 	@if [[ -z "${PLATFORM_EMAIL_HOST_USER}" ]] || \
 		[[ -z "${PLATFORM_EMAIL_HOST_PASSWORD}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_ACCOUNT_SID}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_AUTH_TOKEN}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_SMS_FROM}" ]] || \
-		[[ -z "${PLATFORM_AWS_S3_ACCESS_KEY_ID}" ]] || \
-		[[ -z "${PLATFORM_AWS_S3_SECRET_ACCESS_KEY}" ]] || \
+		[[ -z "${TEST_AWS_S3_ACCESS_KEY_ID}" ]] || \
+		[[ -z "${TEST_AWS_S3_SECRET_ACCESS_KEY}" ]] || \
 		[[ -z "${TEST_TWILIO_RECIPIENT_PHONE_NUMBER}" ]]; then \
   	  echo "Set all env vars required to run CI tests end-to-end against a local Docker build: [\
 PLATFORM_EMAIL_HOST_USER, \
@@ -46,8 +46,8 @@ PLATFORM_EMAIL_HOST_PASSWORD, \
 PLATFORM_TWILIO_ACCOUNT_SID, \
 PLATFORM_TWILIO_AUTH_TOKEN, \
 PLATFORM_TWILIO_SMS_FROM, \
-PLATFORM_AWS_S3_ACCESS_KEY_ID, \
-PLATFORM_AWS_S3_SECRET_ACCESS_KEY, \
+TEST_AWS_S3_ACCESS_KEY_ID, \
+TEST_AWS_S3_SECRET_ACCESS_KEY, \
 TEST_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
       exit 1; \
     fi

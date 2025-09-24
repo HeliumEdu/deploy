@@ -97,7 +97,7 @@ resource "aws_route53_record" "heliumedu_dev_mail_from_mx" {
   name    = aws_ses_domain_mail_from.heliumedu_dev_mail_from.mail_from_domain
   type    = "MX"
   ttl     = "3600"
-  records = ["10 feedback-smtp.us-east-1.amazonses.com"]
+  records = ["10 feedback-smtp.${var.aws_region}.amazonses.com"]
 }
 
 resource "aws_route53_record" "heliumedu_dev_mail_from_txt" {
