@@ -106,10 +106,6 @@ variable "DD_API_KEY" {
   description = "The DataDog API key"
 }
 
-variable "DD_APP_KEY" {
-  description = "The DataDog app key"
-}
-
 variable "ROLLBAR_API_KEY" {
   description = "The Rollbar API key"
 }
