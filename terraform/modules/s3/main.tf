@@ -18,7 +18,7 @@ resource "aws_s3_bucket_public_access_block" "heliumedu_media_block_public" {
   restrict_public_buckets = true
 }
 
-data "aws_iam_policy_document" "heliumedu_static_allow_http_access" {
+data "aws_iam_policy_document" "heliumedu_platform_static_allow_http_access" {
   statement {
     principals {
       type        = "*"
@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "heliumedu_static_allow_http_access" {
     }
 
     resources = [
-      "arn:aws:s3:::heliumedu.${var.environment}.*.static/**",
+      "arn:aws:s3:::heliumedu.${var.environment}.platform.static/**",
     ]
 
     actions = [
@@ -50,7 +50,7 @@ resource "aws_s3_bucket_public_access_block" "heliumedu_platform_static_allow_pu
 
 resource "aws_s3_bucket_policy" "heliumedu_platform_static_allow_http_access" {
   bucket = aws_s3_bucket.heliumedu_platform_static.id
-  policy = data.aws_iam_policy_document.heliumedu_static_allow_http_access.json
+  policy = data.aws_iam_policy_document.heliumedu_platform_static_allow_http_access.json
 
   depends_on = [aws_s3_bucket_public_access_block.heliumedu_platform_static_allow_public]
 }
@@ -80,9 +80,26 @@ resource "aws_s3_bucket_public_access_block" "heliumedu_frontend_static_allow_pu
   restrict_public_buckets = false
 }
 
+data "aws_iam_policy_document" "heliumedu_frontend_static_allow_http_access" {
+  statement {
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      "arn:aws:s3:::heliumedu.${var.environment}.frontend.static/**",
+    ]
+
+    actions = [
+      "s3:GetObject"
+    ]
+  }
+}
+
 resource "aws_s3_bucket_policy" "heliumedu_frontend_static_allow_http_access" {
   bucket = aws_s3_bucket.heliumedu_frontend_static.id
-  policy = data.aws_iam_policy_document.heliumedu_static_allow_http_access.json
+  policy = data.aws_iam_policy_document.heliumedu_frontend_static_allow_http_access.json
 
   depends_on = [aws_s3_bucket_public_access_block.heliumedu_frontend_static_allow_public]
 }
