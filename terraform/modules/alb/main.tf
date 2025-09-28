@@ -51,7 +51,7 @@ resource "aws_lb_target_group" "frontend" {
   vpc_id      = var.helium_vpc_id
 
   health_check {
-    path = "/health.json"
+    path = "/assets/favicon.ico"
   }
 
   depends_on = [aws_lb.helium]
