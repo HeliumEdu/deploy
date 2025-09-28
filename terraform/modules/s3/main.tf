@@ -104,6 +104,15 @@ resource "aws_s3_bucket" "heliumedu_static" {
   bucket = "heliumedu.${var.environment}.static"
 }
 
+resource "aws_s3_bucket_public_access_block" "heliumedu_static_allow_public" {
+  bucket = aws_s3_bucket.heliumedu_platform_static.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 data "aws_iam_policy_document" "allow_static_http_access" {
   statement {
     principals {
@@ -125,7 +134,7 @@ resource "aws_s3_bucket_policy" "allow_static_http_access" {
   bucket = aws_s3_bucket.heliumedu_static.id
   policy = data.aws_iam_policy_document.allow_static_http_access.json
 
-  depends_on = [aws_s3_bucket_public_access_block.heliumedu_platform_static_allow_public]
+  depends_on = [aws_s3_bucket_public_access_block.heliumedu_static_allow_public]
 }
 
 resource "aws_s3_bucket_cors_configuration" "heliumedu_static" {
