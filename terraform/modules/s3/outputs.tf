@@ -7,7 +7,7 @@ output "heliumedu_s3_frontend_bucket_name" {
 }
 
 output "heliumedu_s3_website_domain" {
-  value = aws_s3_bucket.heliumedu_frontend_static.website_domain
+  value = aws_s3_bucket_website_configuration.heliumedu_frontend.website_domain
 }
 
 output "s3_access_key_id" {

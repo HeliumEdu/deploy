@@ -104,7 +104,7 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
   price_class = "PriceClass_100"
 
   origin {
-    domain_name = aws_s3_bucket.heliumedu_frontend_non_www.website_endpoint
+    domain_name = aws_s3_bucket_website_configuration.heliumedu_frontend_non_www_config.website_domain
     origin_id   = "S3-Redirect-Origin"
     custom_origin_config {
       http_port              = 80
