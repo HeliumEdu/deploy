@@ -145,37 +145,4 @@ resource "aws_s3_bucket_website_configuration" "example" {
   error_document {
     key = "404.html"
   }
-
-  routing_rule {
-    condition {
-      key_prefix_equals = "favicon.ico"
-    }
-    redirect {
-      replace_key_prefix_with = "assets/favicon.ico"
-    }
-  }
-  routing_rule {
-    condition {
-      key_prefix_equals = "favicon.png"
-    }
-    redirect {
-      replace_key_prefix_with = "assets/favicon.png"
-    }
-  }
-  routing_rule {
-    condition {
-      key_prefix_equals = "robots.txt"
-    }
-    redirect {
-      replace_key_prefix_with = "assets/robots.txt"
-    }
-  }
-  routing_rule {
-    condition {
-      key_prefix_equals = "sitemap.xml"
-    }
-    redirect {
-      replace_key_prefix_with = "assets/sitemap.xml"
-    }
-  }
 }
