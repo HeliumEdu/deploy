@@ -101,6 +101,7 @@ module "s3" {
 
 module "cloudfront" {
   source     = "../../modules/cloudfront"
+
   aws_region = var.aws_region
   s3_bucket  = module.s3.heliumedu_s3_frontend_bucket_name
 }
