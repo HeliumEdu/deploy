@@ -25,10 +25,10 @@ function handler(event) {
         };
     }
 
-    if (!uri.includes('.') && !uri.endsWith('/')) {
-        request.uri += '.html';
-    } else if (uri === '/info') {
+    if (uri === '/info') {
         request.uri = '/assets/info.json';
+    } else if (!uri.includes('.') && !uri.endsWith('/')) {
+        request.uri += '.html';
     } else if (uri.endsWith('/')) {
         request.uri += 'index.html';
     }
