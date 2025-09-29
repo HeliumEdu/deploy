@@ -105,7 +105,7 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
 
   origin {
     domain_name = aws_s3_bucket_website_configuration.heliumedu_frontend_non_www_config.website_domain
-    origin_id   = "S3-Redirect-Origin"
+    origin_id   = "${aws_s3_bucket.heliumedu_frontend_non_www.bucket}-origin"
     custom_origin_config {
       http_port              = 80
       https_port             = 443
@@ -115,7 +115,7 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
   }
 
   default_cache_behavior {
-    target_origin_id = "S3-Redirect-Origin"
+    target_origin_id = "${aws_s3_bucket.heliumedu_frontend_non_www.bucket}-origin"
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
 
@@ -128,9 +128,7 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
     }
 
     viewer_protocol_policy = "redirect-to-https"
-    default_ttl            = 3600
-    min_ttl                = 300
-    max_ttl                = 86400
+    default_ttl            = 0
   }
 
   viewer_certificate {
