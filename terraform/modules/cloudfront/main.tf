@@ -54,9 +54,27 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend" {
     }
   }
 
+  aliases = ["www.${var.environment_prefix}heliumedu.com", "${var.environment_prefix}heliumedu.com"]
+
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = false
+    acm_certificate_arn            = var.heliumedu_com_cert_arn
+    ssl_support_method             = "sni-only"
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
 
-  price_class = "PriceClass_200"
+  price_class = "PriceClass_100"
+}
+
+resource "aws_s3_bucket" "heliumedu_frontend_non_www_redirect" {
+  bucket = "heliumedu.${var.environment}.frontend.non_wwww_redirect"
+}
+
+resource "aws_s3_bucket_website_configuration" "heliumedu_frontend_non_www_redirect_config" {
+  bucket = aws_s3_bucket.heliumedu_frontend_non_www_redirect.bucket
+
+  redirect_all_requests_to {
+    host_name = "www.${var.environment_prefix}heliumedu.com"
+    protocol  = "https"
+  }
 }
