@@ -72,9 +72,9 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend" {
   }
 }
 
-resource "aws_route53_record" "heliumedu_com" {
+resource "aws_route53_record" "www_heliumedu_com" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = "${var.environment_prefix}heliumedu.com"
+  name    = "www.${var.environment_prefix}heliumedu.com"
   type    = "A"
 
   alias {
@@ -147,9 +147,9 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
   }
 }
 
-resource "aws_route53_record" "www_heliumedu_com" {
+resource "aws_route53_record" "heliumedu_com" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = "www.${var.environment_prefix}heliumedu.com"
+  name    = "${var.environment_prefix}heliumedu.com"
   type    = "A"
 
   alias {
