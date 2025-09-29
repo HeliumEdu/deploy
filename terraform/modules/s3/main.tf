@@ -16,8 +16,6 @@ resource "aws_s3_bucket" "heliumedu" {
 }
 
 resource "aws_s3_bucket_public_access_block" "heliumedu_block_public" {
-  count = var.environment == "prod" ? 1 : 0
-
   bucket = aws_s3_bucket.heliumedu.id
 
   block_public_acls       = true
