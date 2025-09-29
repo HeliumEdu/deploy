@@ -90,3 +90,16 @@ resource "aws_s3_bucket_website_configuration" "heliumedu_frontend_non_www_redir
 #     evaluate_target_health = false
 #   }
 # }
+
+// Temporary record to validate
+resource "aws_route53_record" "heliumedu_com_stage_lb_cname" {
+  zone_id = var.route53_heliumedu_com_zone_id
+  name    = "stage.heliumedu.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.heliumedu_frontend.domain_name
+    zone_id                = aws_cloudfront_distribution.heliumedu_frontend.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
