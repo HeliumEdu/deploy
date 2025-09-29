@@ -134,3 +134,48 @@ resource "aws_s3_bucket_cors_configuration" "heliumedu_frontend_static" {
     max_age_seconds = 3000
   }
 }
+
+resource "aws_s3_bucket_website_configuration" "example" {
+  bucket = aws_s3_bucket.heliumedu_frontend_static.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "404.html"
+  }
+
+  routing_rule {
+    condition {
+      key_prefix_equals = "favicon.ico"
+    }
+    redirect {
+      replace_key_prefix_with = "assets/favicon.ico"
+    }
+  }
+  routing_rule {
+    condition {
+      key_prefix_equals = "favicon.png"
+    }
+    redirect {
+      replace_key_prefix_with = "assets/favicon.png"
+    }
+  }
+  routing_rule {
+    condition {
+      key_prefix_equals = "robots.txt"
+    }
+    redirect {
+      replace_key_prefix_with = "assets/robots.txt"
+    }
+  }
+  routing_rule {
+    condition {
+      key_prefix_equals = "sitemap.xml"
+    }
+    redirect {
+      replace_key_prefix_with = "assets/sitemap.xml"
+    }
+  }
+}
