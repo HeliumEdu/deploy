@@ -25,7 +25,7 @@ TERRAFORM_API_TOKEN = os.environ.get("TERRAFORM_API_TOKEN")
 CUT_RELEASE = os.environ.get("CUT_RELEASE", "true") == "true"
 
 if not VERSION or not ENVIRONMENT or not TERRAFORM_API_TOKEN or \
-        not os.environ.get("AWS_ACCOUNT_ID") or not not os.environ.get("AWS_ACCESS_KEY_ID") or not not os.environ.get("AWS_SECRET_ACCESS_KEY"):
+        not os.environ.get("AWS_ACCOUNT_ID") or not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get("AWS_SECRET_ACCESS_KEY"):
     print("ERROR: Set all required env vars: VERSION, ENVIRONMENT, TERRAFORM_API_TOKEN, AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.")
     sys.exit(1)
 
