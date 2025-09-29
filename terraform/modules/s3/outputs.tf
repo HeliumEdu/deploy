@@ -6,6 +6,10 @@ output "heliumedu_s3_frontend_bucket_name" {
   value = aws_s3_bucket.heliumedu_frontend_static.bucket
 }
 
+output "heliumedu_s3_website_domain" {
+  value = aws_s3_bucket.heliumedu_frontend_static.website_domain
+}
+
 output "s3_access_key_id" {
   sensitive = true
   value     = module.ci_bucket.s3_access_key_id
