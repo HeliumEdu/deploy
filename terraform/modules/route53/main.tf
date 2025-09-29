@@ -24,7 +24,7 @@ resource "aws_route53_zone" "heliumedu_dev_zone" {
 
 // Records only created once, for production
 
-resource "aws_route53_record" "heliumedu_com_spf" {
+resource "aws_route53_record" "heliumedu_com_gh_txt" {
   count = var.environment == "prod" ? 1 : 0
 
   zone_id = aws_route53_zone.heliumedu_com_zone.id
