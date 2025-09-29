@@ -6,10 +6,11 @@ resource "aws_cloudfront_function" "rewrites" {
 }
 
 resource "aws_cloudfront_distribution" "heliumedu_frontend" {
-  enabled     = true
-  aliases     = ["www.${var.environment_prefix}heliumedu.com"]
-  comment     = "www.${var.environment_prefix}heliumedu.com"
-  price_class = "PriceClass_100"
+  enabled             = true
+  aliases             = ["www.${var.environment_prefix}heliumedu.com"]
+  comment             = "www.${var.environment_prefix}heliumedu.com"
+  default_root_object = "index.html"
+  price_class         = "PriceClass_100"
 
   origin {
     origin_id   = "${var.s3_bucket}-origin"
@@ -98,10 +99,11 @@ resource "aws_s3_bucket_website_configuration" "heliumedu_frontend_non_www_confi
 }
 
 resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
-  enabled     = true
-  aliases     = ["${var.environment_prefix}heliumedu.com"]
-  comment     = "${var.environment_prefix}heliumedu.com"
-  price_class = "PriceClass_100"
+  enabled             = true
+  aliases             = ["${var.environment_prefix}heliumedu.com"]
+  comment             = "${var.environment_prefix}heliumedu.com"
+  default_root_object = "index.html"
+  price_class         = "PriceClass_100"
 
   origin {
     domain_name = aws_s3_bucket_website_configuration.heliumedu_frontend_non_www_config.website_endpoint
