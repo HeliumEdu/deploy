@@ -106,7 +106,7 @@ module "cloudfront" {
   environment                   = var.environment
   environment_prefix            = var.environment_prefix
   s3_bucket                     = module.s3.heliumedu_s3_frontend_bucket_name
-  s3_website_domain             = module.s3.heliumedu_s3_website_domain
+  s3_website_endpoint           = module.s3.heliumedu_s3_website_endpoint
   heliumedu_com_cert_arn        = module.certificatemanager.heliumedu_com_cert_arn
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
 }

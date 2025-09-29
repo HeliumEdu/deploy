@@ -18,8 +18,8 @@ variable "s3_bucket" {
   type        = string
 }
 
-variable "s3_website_domain" {
-  default = ""
+variable "s3_website_endpoint" {
+  default = "The endpoint for the S3 site"
 }
 
 variable "route53_heliumedu_com_zone_id" {
