@@ -7,7 +7,7 @@ resource "aws_cloudfront_function" "rewrites" {
   name    = "rewrites"
   runtime = "cloudfront-js-2.0"
   publish = true
-  code    = file("${path.module}/function.js")
+  code    = file("${path.module}/rewrites.js")
 }
 
 resource "aws_cloudfront_distribution" "heliumedu_frontend" {
