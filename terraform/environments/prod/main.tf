@@ -58,9 +58,7 @@ module "ecs" {
 
   helium_version                   = var.helium_version
   default_arch                     = var.default_arch
-  frontend_host_count              = var.frontend_host_count
   platform_host_count              = var.platform_host_count
-  frontend_repository_uri          = module.ecr.frontend_repository_uri
   platform_resource_repository_uri = module.ecr.platform_resource_repository_uri
   platform_api_repository_uri      = module.ecr.platform_api_repository_uri
   platform_worker_repository_uri   = module.ecr.platform_worker_repository_uri
@@ -69,9 +67,7 @@ module "ecs" {
   aws_account_id                   = local.aws_account_id
   aws_region                       = var.aws_region
   datadog_api_key                  = var.DD_API_KEY
-  http_frontend                    = module.vpc.http_sg_frontend
   http_platform                    = module.vpc.http_sg_platform
-  frontend_target_group            = module.alb.frontend_target_group
   platform_target_group            = module.alb.platform_target_group
   subnet_ids                       = module.vpc.subnet_ids
 }
