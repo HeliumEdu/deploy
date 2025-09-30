@@ -76,12 +76,7 @@ jobs:
       - name: Install dependencies
         run: make install
       - name: Run cluster tests against release build
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 6
-          retry_wait_seconds: 15
-          max_attempts: 2
-          command: TAG_VERSION=${{ inputs.version }} make test-cluster
+        run: TAG_VERSION=${{ inputs.version }} make test-cluster
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
