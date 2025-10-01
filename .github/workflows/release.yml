@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Wait to avoid container rate limits
-        run: sleep 120s
+        run: sleep 300s
         shell: bash
 
   deploy:
