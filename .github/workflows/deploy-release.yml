@@ -77,6 +77,13 @@ jobs:
         run: make install
       - name: Run cluster tests against release build
         run: TAG_VERSION=${{ inputs.version }} make test-cluster
+      - name: Upload test output
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: cluster-test-output
+          path: build/screenshots/
+          retention-days: 30
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2
