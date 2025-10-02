@@ -162,7 +162,7 @@ resource "aws_ses_receipt_rule" "cluster_store_s3" {
 
   s3_action {
     bucket_name       = var.heliumedu_s3_bucket_name
-    object_key_prefix = "ci.email/heliumedu-cluster"
+    object_key_prefix = "inbound.email/heliumedu-cluster"
     position          = 1
   }
 }
