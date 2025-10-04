@@ -65,7 +65,7 @@ resource "aws_route53_record" "support_heliumedu_com" {
 }
 
 resource "aws_s3_bucket" "app_redirect_bucket" {
-  bucket = "app.${var.environment_prefix}heliumedu.com"
+  bucket = "app.${var.environment_prefix}heliumedu.com-redirect"
 }
 
 resource "aws_s3_bucket_website_configuration" "app_redirect_bucket" {
