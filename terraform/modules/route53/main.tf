@@ -58,8 +58,8 @@ resource "aws_route53_record" "support_heliumedu_com" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket.support_redirect_bucket.website_endpoint
-    zone_id                = aws_s3_bucket.support_redirect_bucket.hosted_zone_id
+    name                   = aws_s3_bucket_website_configuration.support_redirect_bucket.website_endpoint
+    zone_id                = aws_s3_bucket_website_configuration.support_redirect_bucket.hosted_zone_id
     evaluate_target_health = false
   }
 }
@@ -116,7 +116,7 @@ resource "aws_route53_record" "app_heliumedu_com" {
   type    = "A"
 
   alias {
-    name                   = aws_s3_bucket.app_redirect_bucket.website_endpoint
+    name                   = aws_s3_bucket_website_configuration.app_redirect_bucket.website_endpoint
     zone_id                = aws_s3_bucket.app_redirect_bucket.hosted_zone_id
     evaluate_target_health = false
   }
