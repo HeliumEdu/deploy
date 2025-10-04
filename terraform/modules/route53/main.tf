@@ -72,7 +72,7 @@ resource "aws_s3_bucket_website_configuration" "app_redirect_bucket" {
   bucket = aws_s3_bucket.app_redirect_bucket.bucket
 
   redirect_all_requests_to {
-    host_name = "www.${var.environment_prefix}heliumedu.com/planner/calendar"
+    host_name = "www.${var.environment_prefix}heliumedu.com/app"
     protocol  = "https"
   }
 }
@@ -112,7 +112,7 @@ resource "aws_s3_bucket_policy" "heliumedu_app_redirect_allow_http_access" {
 
 resource "aws_route53_record" "app_heliumedu_com" {
   zone_id = aws_route53_zone.heliumedu_com_zone.zone_id
-  name    = "app.${var.environment_prefix}heliumedu.com-redirect"
+  name    = "app.${var.environment_prefix}heliumedu.com"
   type    = "A"
 
   alias {
