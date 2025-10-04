@@ -53,7 +53,7 @@ resource "aws_s3_bucket_policy" "heliumedu_support_redirect_allow_http_access" {
 }
 
 resource "aws_route53_record" "support_heliumedu_com" {
-  zone_id = aws_route53_zone.heliumedu_com_zone
+  zone_id = aws_route53_zone.heliumedu_com_zone.zone_id
   name    = "support.${var.environment_prefix}heliumedu.com-redirect"
   type    = "A"
 
@@ -111,7 +111,7 @@ resource "aws_s3_bucket_policy" "heliumedu_app_redirect_allow_http_access" {
 }
 
 resource "aws_route53_record" "app_heliumedu_com" {
-  zone_id = aws_route53_zone.heliumedu_com_zone
+  zone_id = aws_route53_zone.heliumedu_com_zone.zone_id
   name    = "app.${var.environment_prefix}heliumedu.com-redirect"
   type    = "A"
 
