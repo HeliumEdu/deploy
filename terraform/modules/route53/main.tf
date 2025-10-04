@@ -14,7 +14,7 @@ resource "aws_s3_bucket_website_configuration" "support_redirect_bucket" {
   bucket = aws_s3_bucket.support_redirect_bucket.bucket
 
   redirect_all_requests_to {
-    host_name = "www.${var.environment_prefix}heliumedu.com/support"
+    host_name = "https://heliumedu.freshdesk.com"
     protocol  = "https"
   }
 }
