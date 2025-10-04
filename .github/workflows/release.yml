@@ -22,15 +22,6 @@ jobs:
     with:
       version: ${{ inputs.version }}
 
-  wait_job:
-    name: Wait
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait to avoid container rate limits
-        run: sleep 300s
-        shell: bash
-
   deploy:
     name: Deploy
     needs: wait_job
