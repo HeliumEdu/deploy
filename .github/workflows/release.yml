@@ -24,7 +24,7 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: wait_job
+    needs: build
     uses: ./.github/workflows/deploy-release.yml
     secrets: inherit
     with:
