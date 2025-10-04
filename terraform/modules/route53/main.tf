@@ -54,7 +54,7 @@ resource "aws_s3_bucket_policy" "heliumedu_support_redirect_allow_http_access" {
 
 resource "aws_route53_record" "support_heliumedu_com" {
   zone_id = aws_route53_zone.heliumedu_com_zone.zone_id
-  name    = "support.${var.environment_prefix}heliumedu.com-redirect"
+  name    = "support.${var.environment_prefix}heliumedu.com"
   type    = "A"
 
   alias {
@@ -65,7 +65,7 @@ resource "aws_route53_record" "support_heliumedu_com" {
 }
 
 resource "aws_s3_bucket" "app_redirect_bucket" {
-  bucket = "app.${var.environment_prefix}heliumedu.com-redirect"
+  bucket = "app.${var.environment_prefix}heliumedu.com"
 }
 
 resource "aws_s3_bucket_website_configuration" "app_redirect_bucket" {
