@@ -9,7 +9,6 @@ module "route53" {
 
   environment            = var.environment
   environment_prefix     = var.environment_prefix
-  heliumedu_com_cert_arn = module.certificatemanager.heliumedu_com_cert_arn
 }
 
 module "certificatemanager" {
