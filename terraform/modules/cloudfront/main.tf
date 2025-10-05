@@ -102,7 +102,6 @@ resource "aws_cloudfront_distribution" "heliumedu_frontend_non_www" {
   enabled             = true
   aliases             = ["${var.environment_prefix}heliumedu.com"]
   comment             = "${var.environment_prefix}heliumedu.com"
-  default_root_object = "index.html"
   price_class         = "PriceClass_100"
 
   origin {
