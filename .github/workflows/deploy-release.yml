@@ -146,7 +146,7 @@ jobs:
           --data '{"event_type": "Triggered from `deploy` Release '"$VERSION"'", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
       - name: Notify Rollbar of platform deploy
         uses: rollbar/github-deploy-action@2.1.2
-        id: rollbar_deploy
+        id: rollbar_platform
         with:
           environment: ${{inputs.environment}}
           version: ${{ github.sha }}
@@ -155,7 +155,7 @@ jobs:
           ROLLBAR_USERNAME: ${{ github.actor }}
       - name: Notify Rollbar of frontend deploy
         uses: rollbar/github-deploy-action@2.1.2
-        id: rollbar_deploy
+        id: rollbar_frontend
         with:
           environment: ${{inputs.environment}}
           version: ${{ github.sha }}
