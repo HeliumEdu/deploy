@@ -106,7 +106,7 @@ variable "DD_API_KEY" {
   description = "The DataDog API key"
 }
 
-variable "ROLLBAR_PLATFORM_CLIENT_ACCESS_TOKEN" {
+variable "PLATFORM_ROLLBAR_CLIENT_ITEM_ACCESS_TOKEN" {
   description = "The Rollbar API key"
 }
 
