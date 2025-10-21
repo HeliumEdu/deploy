@@ -192,17 +192,11 @@ def upload_source_map(s3_key):
         'minified_url': min_map_url,
     }).encode('ascii')
 
-    # Create a Request object
-    # The 'data' argument expects bytes, which is why the encoded_data is used.
     req = request.Request('https://api.rollbar.com/api/1/sourcemap/download', data=encoded_data, method='POST')
 
-    # Add a Content-Type header to specify that the data is form-urlencoded
-    # This is crucial for the server to correctly interpret the POST data.
     req.add_header('Content-Type', 'application/x-www-form-urlencoded')
 
-    # Send the request and get the response
     with request.urlopen(req) as response:
-        # Read and decode the response body
         response_body = response.read().decode('utf-8')
         print(f"Response from {obj.key} source map upload: {response_body}")
 
