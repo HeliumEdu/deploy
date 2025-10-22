@@ -98,7 +98,7 @@ jobs:
 
   release:
     name: Deploy Release
-#    needs: test
+    needs: test
 
     env:
       FORCE_COLOR: 1
