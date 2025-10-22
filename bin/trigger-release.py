@@ -195,7 +195,7 @@ def upload_source_map(minified_url, source_map_key):
         'access_token': FRONTEND_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN,
         'version': VERSION,
         'minified_url': minified_url,
-        'source_map': f'@{source_map_path}',
+        'source_map': f'@./{source_map_path}',
     }).encode('ascii')
 
     req = request.Request('https://api.rollbar.com/api/1/sourcemap', data=encoded_data, method='POST')
