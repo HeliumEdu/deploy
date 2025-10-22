@@ -186,14 +186,16 @@ def upload_source_map(minified_url, source_map_key):
 
     os.makedirs('source_maps', exist_ok=True)
 
-    map_path = s3_client.download_file(source_bucket_name, source_map_key,
-                                       os.path.join('source_maps', os.path.basename(obj.key)))
+    source_map_path = os.path.join('source_maps', os.path.basename(obj.key))
+    s3_client.download_file(source_bucket_name, source_map_key, source_map_path)
+
+    print (f"--> Source map for {minified_url} downloaded to {source_map_path}")
 
     encoded_data = parse.urlencode({
         'access_token': FRONTEND_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN,
         'version': VERSION,
         'minified_url': minified_url,
-        'source_map': f'@{map_path}',
+        'source_map': f'@{source_map_path}',
     }).encode('ascii')
 
     req = request.Request('https://api.rollbar.com/api/1/sourcemap', data=encoded_data, method='POST')
