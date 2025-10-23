@@ -51,9 +51,19 @@ variable "db_multi_az" {
   default     = false
 }
 
+variable "db_instance_size" {
+  description = "Instance size for DB"
+  default     = "db.t4g.small"
+}
+
 variable "num_cache_nodes" {
   description = "The number of cache nodes"
   default     = 1
+}
+
+variable "cache_instance_size" {
+  description = "Instance size for cache"
+  default     = "cache.t4g.small"
 }
 
 variable "helium_area_code" {
@@ -64,6 +74,18 @@ variable "helium_area_code" {
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
   default     = ""
+}
+
+variable "platform_resource_repository_uri" {
+  default = "public.ecr.aws/heliumedu/helium/platform-resource"
+}
+
+variable "platform_api_repository_uri" {
+  default = "public.ecr.aws/heliumedu/helium/platform-api"
+}
+
+variable "platform_worker_repository_uri" {
+  default = "public.ecr.aws/heliumedu/helium/platform-worker"
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace

@@ -43,14 +43,11 @@ module "alb" {
 module "rds" {
   source = "../../modules/rds"
 
-  environment = var.environment
-  subnet_ids  = module.vpc.subnet_ids
-  mysql_sg    = module.vpc.mysql_sg
-  multi_az    = var.db_multi_az
-}
-
-module "ecr" {
-  source = "../../modules/ecr"
+  environment   = var.environment
+  subnet_ids    = module.vpc.subnet_ids
+  mysql_sg      = module.vpc.mysql_sg
+  multi_az      = var.db_multi_az
+  instance_size = var.db_instance_size
 }
 
 module "ecs" {
@@ -59,9 +56,9 @@ module "ecs" {
   helium_version                   = var.helium_version
   default_arch                     = var.default_arch
   platform_host_count              = var.platform_host_count
-  platform_resource_repository_uri = module.ecr.platform_resource_repository_uri
-  platform_api_repository_uri      = module.ecr.platform_api_repository_uri
-  platform_worker_repository_uri   = module.ecr.platform_worker_repository_uri
+  platform_resource_repository_uri = var.platform_resource_repository_uri
+  platform_api_repository_uri      = var.platform_api_repository_uri
+  platform_worker_repository_uri   = var.platform_worker_repository_uri
   environment                      = var.environment
   environment_prefix               = var.environment_prefix
   aws_account_id                   = local.aws_account_id
@@ -79,6 +76,7 @@ module "elasticache" {
   subnet_ids      = module.vpc.subnet_ids
   elasticache_sg  = module.vpc.elasticache_sg
   num_cache_nodes = var.num_cache_nodes
+  instance_size   = var.cache_instance_size
 }
 
 module "email" {
