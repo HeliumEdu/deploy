@@ -84,7 +84,6 @@ module "elasticache" {
 module "email" {
   source = "../../modules/email"
 
-  dkim_public_key               = var.dkim_public_key
   environment                   = var.environment
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
 }
