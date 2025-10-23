@@ -26,7 +26,7 @@ variable "region_azs" {
       index  = "0"
     }
     az2 = {
-      suffix = "b"
+      suffix = "c"
       index  = "1"
     }
   }
