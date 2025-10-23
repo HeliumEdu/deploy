@@ -68,12 +68,12 @@ variable "cache_instance_size" {
 
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
-  default     = ""
+  default     = "320"
 }
 
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
-  default     = ""
+  default     = "218"
 }
 
 variable "platform_resource_repository_uri" {
