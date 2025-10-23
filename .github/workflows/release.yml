@@ -12,6 +12,7 @@ on:
         type: choice
         required: true
         options:
+        - dev
         - prod
 
 jobs:

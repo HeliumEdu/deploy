@@ -5,17 +5,17 @@ variable "helium_version" {
 
 variable "environment" {
   description = "The environment"
-  default     = "prod"
+  default     = "dev"
 }
 
 variable "environment_prefix" {
   description = "Prefix used for env in hostnames (empty string when `prod`)"
-  default     = ""
+  default     = "dev."
 }
 
 variable "aws_region" {
   description = "The AWS region"
-  default     = "us-east-1"
+  default     = "us-west-1"
 }
 
 variable "region_azs" {
@@ -43,7 +43,7 @@ variable "default_arch" {
 
 variable "platform_host_count" {
   description = "The number of platform hosts desired in the cluster"
-  default     = 3
+  default     = 1
 }
 
 variable "db_multi_az" {
@@ -64,11 +64,6 @@ variable "helium_area_code" {
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
   default     = ""
-}
-
-variable "dkim_public_key" {
-  description = "The DKIM public key"
-  default     = "v=DKIM1;k=rsa;p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAynNkRISLXgQy5Y1/NFhlRFS5pUQgiJdc/SE8sP3CLzsQ1u56XmCr3Jpt6wHs8cKxSqXxF1/Vqpf0cOHIWWGKMOqMhFJTPb+10r1xz/nzYhhHwoySLMsPvNUEIF4SV3wmXmbxfQJhgKzYj1zPNdzTY4IjdAxVfNB5/vn73zzOGI6MJfUFuE1Fo4U5Iq30ZKnxNfmz/Tdey81NxIQWNf07yCGMDsHIboa7tpMfNlmiw4HFRceX4Bdin0dzMzSIEQ5OQ/eWBIew12SgsAcDW3FSy2SNiGLLF8P8N30UCYCrofnC4dCd6K0MubyDBokQfuIJ7bYkVSeKVevO8yIO2AET3wIDAQAB"
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
