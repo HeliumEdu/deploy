@@ -43,10 +43,11 @@ module "alb" {
 module "rds" {
   source = "../../modules/rds"
 
-  environment = var.environment
-  subnet_ids  = module.vpc.subnet_ids
-  mysql_sg    = module.vpc.mysql_sg
-  multi_az    = var.db_multi_az
+  environment   = var.environment
+  subnet_ids    = module.vpc.subnet_ids
+  mysql_sg      = module.vpc.mysql_sg
+  multi_az      = var.db_multi_az
+  instance_size = var.db_instance_size
 }
 
 module "ecr" {
@@ -79,6 +80,7 @@ module "elasticache" {
   subnet_ids      = module.vpc.subnet_ids
   elasticache_sg  = module.vpc.elasticache_sg
   num_cache_nodes = var.num_cache_nodes
+  instance_size   = var.cache_instance_size
 }
 
 module "email" {

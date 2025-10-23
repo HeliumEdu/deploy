@@ -51,9 +51,19 @@ variable "db_multi_az" {
   default     = false
 }
 
+variable "db_instance_size" {
+  description = "Instance size for DB"
+  default     = "db.t4g.small"
+}
+
 variable "num_cache_nodes" {
   description = "The number of cache nodes"
   default     = 1
+}
+
+variable "cache_instance_size" {
+  description = "Instance size for cache"
+  default     = "cache.t4g.small"
 }
 
 variable "helium_area_code" {
