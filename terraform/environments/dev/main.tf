@@ -14,7 +14,7 @@ module "route53" {
 }
 
 module "certificatemanager" {
-  count = var.dev_env_enabled ? 1 : 0
+  count = 0#var.dev_env_enabled ? 1 : 0
 
   source   = "../../modules/certificatemanager"
 
