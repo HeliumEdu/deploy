@@ -9,10 +9,12 @@ module "route53" {
 
   environment        = var.environment
   environment_prefix = var.environment_prefix
+  parent_com_zone_id     = var.prod_com_zone_id
+  parent_dev_zone_id     = var.prod_dev_zone_id
 }
 
 module "certificatemanager" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/certificatemanager"
 
@@ -29,9 +31,8 @@ module "vpc" {
   region_azs  = var.region_azs
 }
 
-
 module "alb" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/alb"
 
@@ -45,7 +46,7 @@ module "alb" {
 }
 
 module "rds" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/rds"
 
@@ -57,7 +58,7 @@ module "rds" {
 }
 
 module "ecs" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/ecs"
 
@@ -78,7 +79,7 @@ module "ecs" {
 }
 
 module "elasticache" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/elasticache"
 
@@ -104,7 +105,7 @@ module "s3" {
 }
 
 module "cloudfront" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/cloudfront"
 
@@ -156,7 +157,7 @@ module "secretsmanager" {
 }
 
 module "twilio" {
-  count  = var.dev_env_enabled ? 1 : 0
+  count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/twilio"
 
