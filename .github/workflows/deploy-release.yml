@@ -11,6 +11,7 @@ on:
       environment:
         type: choice
         required: true
+        default: prod
         options:
         - dev
         - prod
@@ -27,6 +28,7 @@ on:
       environment:
         type: string
         required: true
+        default: prod
       cut_release:
         type: boolean
         required: true
