@@ -15,7 +15,7 @@ variable "environment_prefix" {
 
 variable "aws_region" {
   description = "The AWS region"
-  default     = "us-west-1"
+  default     = "us-east-1"
 }
 
 variable "region_azs" {
@@ -26,8 +26,12 @@ variable "region_azs" {
       index  = "0"
     }
     az2 = {
-      suffix = "c"
+      suffix = "b"
       index  = "1"
+    },
+    az2 = {
+      suffix = "c"
+      index  = "2"
     }
   }
 }
@@ -49,7 +53,7 @@ variable "db_multi_az" {
 
 variable "db_instance_size" {
   description = "Instance size for DB"
-  default     = "db.t4g.small"
+  default     = "db.t4g.micro"
 }
 
 variable "num_cache_nodes" {
@@ -59,7 +63,7 @@ variable "num_cache_nodes" {
 
 variable "cache_instance_size" {
   description = "Instance size for cache"
-  default     = "cache.t4g.small"
+  default     = "cache.t4g.micro"
 }
 
 variable "helium_area_code" {
@@ -69,7 +73,7 @@ variable "helium_area_code" {
 
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
-  default     = "218"
+  default     = "320"
 }
 
 variable "platform_resource_repository_uri" {
