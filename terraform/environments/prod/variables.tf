@@ -68,12 +68,12 @@ variable "cache_instance_size" {
 
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
-  default     = ""
+  default     = "650"
 }
 
 variable "ci_area_code" {
   description = "The area code for the CI phone number"
-  default     = ""
+  default     = "650"
 }
 
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
