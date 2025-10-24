@@ -14,7 +14,7 @@ module "route53" {
 }
 
 module "certificatemanager" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/certificatemanager"
 
@@ -32,7 +32,7 @@ module "vpc" {
 }
 
 module "alb" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/alb"
 
@@ -46,7 +46,7 @@ module "alb" {
 }
 
 module "rds" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/rds"
 
@@ -58,7 +58,7 @@ module "rds" {
 }
 
 module "ecs" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/ecs"
 
@@ -79,7 +79,7 @@ module "ecs" {
 }
 
 module "elasticache" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/elasticache"
 
@@ -105,7 +105,7 @@ module "s3" {
 }
 
 module "cloudfront" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/cloudfront"
 
@@ -157,7 +157,7 @@ module "secretsmanager" {
 }
 
 module "twilio" {
-  count = var.dev_env_enabled ? 1 : 0
+  # count = var.dev_env_enabled ? 1 : 0
 
   source = "../../modules/twilio"
 
