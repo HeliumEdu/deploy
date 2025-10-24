@@ -16,7 +16,7 @@ module "route53" {
 module "certificatemanager" {
   count = var.dev_env_enabled ? 1 : 0
 
-  source = "../../modules/certificatemanager"
+  source   = "../../modules/certificatemanager"
 
   environment_prefix            = var.environment_prefix
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
