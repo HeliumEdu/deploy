@@ -96,12 +96,6 @@ variable "prod_dev_zone_id" {
   description = "For non-prod zones, this is used to link the env's subdomain in the parent domain"
 }
 
-variable "dev_env_enabled" {
-  description = "Setting to false will destroy all except super-low-cost resources that are useful for build and pipeline validation"
-  type        = bool
-  default     = true
-}
-
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
 
 variable "AWS_ACCESS_KEY_ID" {
