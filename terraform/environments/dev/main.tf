@@ -12,6 +12,8 @@ module "route53" {
 }
 
 module "certificatemanager" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/certificatemanager"
 
   environment_prefix            = var.environment_prefix
@@ -29,6 +31,8 @@ module "vpc" {
 
 
 module "alb" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/alb"
 
   environment                   = var.environment
@@ -41,6 +45,8 @@ module "alb" {
 }
 
 module "rds" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/rds"
 
   environment   = var.environment
@@ -51,6 +57,8 @@ module "rds" {
 }
 
 module "ecs" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/ecs"
 
   helium_version                   = var.helium_version
@@ -70,6 +78,8 @@ module "ecs" {
 }
 
 module "elasticache" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/elasticache"
 
   environment     = var.environment
@@ -94,6 +104,8 @@ module "s3" {
 }
 
 module "cloudfront" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/cloudfront"
 
   environment                   = var.environment
@@ -144,6 +156,8 @@ module "secretsmanager" {
 }
 
 module "twilio" {
+  count  = var.dev_env_enabled ? 1 : 0
+
   source = "../../modules/twilio"
 
   environment              = var.environment

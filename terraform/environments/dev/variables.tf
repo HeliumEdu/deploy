@@ -84,6 +84,11 @@ variable "platform_worker_repository_uri" {
   default = "public.ecr.aws/heliumedu/helium/platform-worker"
 }
 
+variable "dev_env_enabled" {
+  description = "Setting to false will destroy all except super-low-cost resources that are useful for build and pipeline validation"
+  default     = true
+}
+
 ### Variables defined below this point must have their defaults defined in the Terraform Workspace
 
 variable "AWS_ACCESS_KEY_ID" {
