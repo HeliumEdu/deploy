@@ -44,6 +44,7 @@ resource "aws_acm_certificate" "import_com_us_east_1" {
   provider   = aws.force_us_east_1
   depends_on = [aws_acm_certificate_validation.com_cert_validation]
 
+  domain_name       = "${var.environment_prefix}heliumedu.com"
   private_key       = aws_acm_certificate.heliumedu_com.private_key
   certificate_body  = aws_acm_certificate.heliumedu_com.certificate_body
   certificate_chain = aws_acm_certificate.heliumedu_com.certificate_chain
@@ -90,6 +91,7 @@ resource "aws_acm_certificate" "import_dev_us_east_1" {
   provider   = aws.force_us_east_1
   depends_on = [aws_acm_certificate_validation.dev_cert_validation]
 
+  domain_name       = "${var.environment_prefix}heliumedu.com"
   private_key       = aws_acm_certificate.heliumedu_dev.private_key
   certificate_body  = aws_acm_certificate.heliumedu_dev.certificate_body
   certificate_chain = aws_acm_certificate.heliumedu_dev.certificate_chain
