@@ -6,6 +6,7 @@ resource "aws_acm_certificate" "heliumedu_com" {
     "support.${var.environment_prefix}heliumedu.com",
   ]
   validation_method = "DNS"
+  region            = "us-east-1"
 
   lifecycle {
     create_before_destroy = true
@@ -38,21 +39,10 @@ resource "aws_acm_certificate_validation" "com_cert_validation" {
   }
 }
 
-resource "aws_acm_certificate" "import_com_us_east_1" {
-  count = var.aws_region != "us-east-1" ? 1 : 0
-
-  provider   = aws.force_us_east_1
-  depends_on = [aws_acm_certificate_validation.com_cert_validation]
-
-  domain_name       = "${var.environment_prefix}heliumedu.com"
-  private_key       = aws_acm_certificate.heliumedu_com.private_key
-  certificate_body  = aws_acm_certificate.heliumedu_com.certificate_body
-  certificate_chain = aws_acm_certificate.heliumedu_com.certificate_chain
-}
-
 resource "aws_acm_certificate" "heliumedu_dev" {
   domain_name       = "${var.environment_prefix}heliumedu.dev"
   validation_method = "DNS"
+  region            = "us-east-1"
 
   lifecycle {
     create_before_destroy = true
@@ -83,16 +73,4 @@ resource "aws_acm_certificate_validation" "dev_cert_validation" {
   timeouts {
     create = "15m"
   }
-}
-
-resource "aws_acm_certificate" "import_dev_us_east_1" {
-  count = var.aws_region != "us-east-1" ? 1 : 0
-
-  provider   = aws.force_us_east_1
-  depends_on = [aws_acm_certificate_validation.dev_cert_validation]
-
-  domain_name       = "${var.environment_prefix}heliumedu.com"
-  private_key       = aws_acm_certificate.heliumedu_dev.private_key
-  certificate_body  = aws_acm_certificate.heliumedu_dev.certificate_body
-  certificate_chain = aws_acm_certificate.heliumedu_dev.certificate_chain
 }
