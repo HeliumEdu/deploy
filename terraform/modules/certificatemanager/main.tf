@@ -33,6 +33,7 @@ resource "aws_route53_record" "heliumedu_com" {
 resource "aws_acm_certificate_validation" "com_cert_validation" {
   certificate_arn         = aws_acm_certificate.heliumedu_com.arn
   validation_record_fqdns = [for record in aws_route53_record.heliumedu_com : record.fqdn]
+  region                  = "us-east-1"
 
   timeouts {
     create = "15m"
@@ -69,6 +70,7 @@ resource "aws_route53_record" "heliumedu_dev" {
 resource "aws_acm_certificate_validation" "dev_cert_validation" {
   certificate_arn         = aws_acm_certificate.heliumedu_dev.arn
   validation_record_fqdns = [for record in aws_route53_record.heliumedu_dev : record.fqdn]
+  region                  = "us-east-1"
 
   timeouts {
     create = "15m"
