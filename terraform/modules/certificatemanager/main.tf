@@ -29,7 +29,7 @@ resource "aws_route53_record" "heliumedu_com" {
   zone_id         = var.route53_heliumedu_com_zone_id
 }
 
-resource "aws_acm_certificate_validation" "cert_validation" {
+resource "aws_acm_certificate_validation" "com_cert_validation" {
   certificate_arn         = aws_acm_certificate.heliumedu_com.arn
   validation_record_fqdns = [for record in aws_route53_record.heliumedu_com : record.fqdn]
 
@@ -64,7 +64,7 @@ resource "aws_route53_record" "heliumedu_dev" {
   zone_id         = var.route53_heliumedu_dev_zone_id
 }
 
-resource "aws_acm_certificate_validation" "cert_validation" {
+resource "aws_acm_certificate_validation" "dev_cert_validation" {
   certificate_arn         = aws_acm_certificate.heliumedu_dev.arn
   validation_record_fqdns = [for record in aws_route53_record.heliumedu_dev : record.fqdn]
 
