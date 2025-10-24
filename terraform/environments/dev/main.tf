@@ -14,8 +14,6 @@ module "route53" {
 }
 
 module "certificatemanager" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/certificatemanager"
 
   environment_prefix            = var.environment_prefix
@@ -33,8 +31,6 @@ module "vpc" {
 }
 
 module "alb" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/alb"
 
   environment                   = var.environment
@@ -43,12 +39,10 @@ module "alb" {
   security_group                = module.vpc.http_s_sg_id
   subnet_ids                    = module.vpc.subnet_ids
   helium_vpc_id                 = module.vpc.vpc_id
-  heliumedu_com_cert_arn        = module.certificatemanager[0].heliumedu_com_cert_arn
+  heliumedu_com_cert_arn        = module.certificatemanager.heliumedu_com_cert_arn
 }
 
 module "rds" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/rds"
 
   environment   = var.environment
@@ -59,8 +53,6 @@ module "rds" {
 }
 
 module "ecs" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/ecs"
 
   helium_version                   = var.helium_version
@@ -75,13 +67,11 @@ module "ecs" {
   aws_region                       = var.aws_region
   datadog_api_key                  = var.DD_API_KEY
   http_platform                    = module.vpc.http_sg_platform
-  platform_target_group            = module.alb[0].platform_target_group
+  platform_target_group            = module.alb.platform_target_group
   subnet_ids                       = module.vpc.subnet_ids
 }
 
 module "elasticache" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/elasticache"
 
   environment     = var.environment
@@ -106,15 +96,13 @@ module "s3" {
 }
 
 module "cloudfront" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/cloudfront"
 
   environment                   = var.environment
   environment_prefix            = var.environment_prefix
   s3_bucket                     = module.s3.heliumedu_s3_frontend_bucket_name
   s3_website_endpoint           = module.s3.heliumedu_s3_website_endpoint
-  heliumedu_com_cert_arn        = module.certificatemanager[0].heliumedu_com_cert_arn
+  heliumedu_com_cert_arn        = module.certificatemanager.heliumedu_com_cert_arn
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
 }
 
@@ -135,12 +123,12 @@ module "secretsmanager" {
   environment                               = var.environment
   aws_account_id                            = local.aws_account_id
   aws_region                                = var.aws_region
-  task_execution_role_arn                   = module.ecs[0].task_execution_role_arn
+  task_execution_role_arn                   = module.ecs.task_execution_role_arn
   datadog_api_key                           = var.DD_API_KEY
-  redis_host                                = module.elasticache[0].elasticache_host
-  db_host                                   = module.rds[0].db_host
-  db_user                                   = module.rds[0].db_username
-  db_password                               = module.rds[0].db_password
+  redis_host                                = module.elasticache.elasticache_host
+  db_host                                   = module.rds.db_host
+  db_user                                   = module.rds.db_username
+  db_password                               = module.rds.db_password
   platform_rollbar_server_item_access_token = var.PLATFORM_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN
   s3_user_access_key_id                     = module.s3.s3_access_key_id
   s3_user_secret_access_key                 = module.s3.s3_access_key_secret
@@ -148,7 +136,7 @@ module "secretsmanager" {
   smtp_email_password                       = module.ses.smtp_password
   twilio_account_sid                        = var.TWILIO_ACCOUNT_SID
   twilio_auth_token                         = var.TWILIO_AUTH_TOKEN
-  twilio_phone_number                       = module.twilio[0].helium_phone_number
+  twilio_phone_number                       = module.twilio.helium_phone_number
   firebase_project_id                       = var.FIREBASE_PROJECT_ID
   firebase_private_key_id                   = var.FIREBASE_PRIVATE_KEY_ID
   firebase_private_key                      = var.FIREBASE_PRIVATE_KEY
@@ -158,8 +146,6 @@ module "secretsmanager" {
 }
 
 module "twilio" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/twilio"
 
   environment              = var.environment
