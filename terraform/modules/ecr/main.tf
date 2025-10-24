@@ -17,12 +17,11 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend" {
 
   tags = {
     Environment = "N/A"
-    Service     = "HeliumEdu"
   }
 }
 
 resource "aws_ecr_lifecycle_policy" "frontend_untagged_expiration_policy" {
-  repository = aws_ecrpublic_repository.repository_helium_frontend
+  repository = aws_ecrpublic_repository.repository_helium_frontend.id
   policy = jsonencode({
     rules = [
       {
@@ -56,12 +55,11 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_resource" {
 
   tags = {
     Environment = "N/A"
-    Service     = "HeliumEdu"
   }
 }
 
 resource "aws_ecr_lifecycle_policy" "resource_untagged_expiration_policy" {
-  repository = aws_ecrpublic_repository.repository_helium_platform_resource
+  repository = aws_ecrpublic_repository.repository_helium_platform_resource.id
   policy = jsonencode({
     rules = [
       {
@@ -95,12 +93,11 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_api" {
 
   tags = {
     Environment = "N/A"
-    Service     = "HeliumEdu"
   }
 }
 
 resource "aws_ecr_lifecycle_policy" "api_untagged_expiration_policy" {
-  repository = aws_ecrpublic_repository.repository_helium_platform_api
+  repository = aws_ecrpublic_repository.repository_helium_platform_api.id
   policy = jsonencode({
     rules = [
       {
@@ -134,12 +131,11 @@ resource "aws_ecrpublic_repository" "repository_helium_platform_worker" {
 
   tags = {
     Environment = "N/A"
-    Service     = "HeliumEdu"
   }
 }
 
 resource "aws_ecr_lifecycle_policy" "worker_untagged_expiration_policy" {
-  repository = aws_ecrpublic_repository.repository_helium_platform_worker
+  repository = aws_ecrpublic_repository.repository_helium_platform_worker.id
   policy = jsonencode({
     rules = [
       {

@@ -136,7 +136,7 @@ resource "aws_s3_bucket" "heliumedu" {
   bucket = "heliumedu"
 
   tags = {
-    Environment = var.environment
+    Environment = "N/A"
   }
 }
 
