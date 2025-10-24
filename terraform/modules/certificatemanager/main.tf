@@ -1,3 +1,9 @@
+# Override region for provider to us-east-1, which is required for CloudFront
+provider "aws" {
+  alias  = "us_east_1"
+  region = "us-east-1"
+}
+
 resource "aws_acm_certificate" "heliumedu_com" {
   domain_name = "${var.environment_prefix}heliumedu.com"
   subject_alternative_names = ["www.${var.environment_prefix}heliumedu.com",
@@ -6,7 +12,6 @@ resource "aws_acm_certificate" "heliumedu_com" {
     "support.${var.environment_prefix}heliumedu.com",
   ]
   validation_method = "DNS"
-  region            = "us-east-1"
 
   lifecycle {
     create_before_destroy = true
@@ -42,7 +47,6 @@ resource "aws_acm_certificate_validation" "com_cert_validation" {
 resource "aws_acm_certificate" "heliumedu_dev" {
   domain_name       = "${var.environment_prefix}heliumedu.dev"
   validation_method = "DNS"
-  region            = "us-east-1"
 
   lifecycle {
     create_before_destroy = true
