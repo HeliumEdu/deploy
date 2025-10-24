@@ -1,6 +1,4 @@
 resource "aws_acm_certificate" "heliumedu_com" {
-  provider = aws.force_us_east_1
-
   domain_name = "${var.environment_prefix}heliumedu.com"
   subject_alternative_names = ["www.${var.environment_prefix}heliumedu.com",
     "api.${var.environment_prefix}heliumedu.com",
@@ -32,8 +30,6 @@ resource "aws_route53_record" "heliumedu_com" {
 }
 
 resource "aws_acm_certificate_validation" "com_cert_validation" {
-  provider = aws.force_us_east_1
-
   certificate_arn         = aws_acm_certificate.heliumedu_com.arn
   validation_record_fqdns = [for record in aws_route53_record.heliumedu_com : record.fqdn]
 
@@ -42,9 +38,18 @@ resource "aws_acm_certificate_validation" "com_cert_validation" {
   }
 }
 
-resource "aws_acm_certificate" "heliumedu_dev" {
-  provider = aws.force_us_east_1
+resource "aws_acm_certificate" "import_com_us_east_1" {
+  count = var.aws_region != "us-east-1" ? 1 : 0
 
+  provider        = aws.force_us_east_1
+  depends_on = [aws_acm_certificate_validation.com_cert_validation]
+
+  private_key      = aws_acm_certificate.heliumedu_com.private_key
+  certificate_body = aws_acm_certificate.heliumedu_com.certificate_body
+  certificate_chain = aws_acm_certificate.heliumedu_com.certificate_chain
+}
+
+resource "aws_acm_certificate" "heliumedu_dev" {
   domain_name       = "${var.environment_prefix}heliumedu.dev"
   validation_method = "DNS"
 
@@ -71,12 +76,21 @@ resource "aws_route53_record" "heliumedu_dev" {
 }
 
 resource "aws_acm_certificate_validation" "dev_cert_validation" {
-  provider = aws.force_us_east_1
-
   certificate_arn         = aws_acm_certificate.heliumedu_dev.arn
   validation_record_fqdns = [for record in aws_route53_record.heliumedu_dev : record.fqdn]
 
   timeouts {
     create = "15m"
   }
+}
+
+resource "aws_acm_certificate" "import_dev_us_east_1" {
+  count = var.aws_region != "us-east-1" ? 1 : 0
+
+  provider        = aws.force_us_east_1
+  depends_on = [aws_acm_certificate_validation.dev_cert_validation]
+
+  private_key      = aws_acm_certificate.heliumedu_dev.private_key
+  certificate_body = aws_acm_certificate.heliumedu_dev.certificate_body
+  certificate_chain = aws_acm_certificate.heliumedu_dev.certificate_chain
 }
