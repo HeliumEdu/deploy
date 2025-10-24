@@ -129,19 +129,17 @@ module "ses" {
 }
 
 module "secretsmanager" {
-  count = var.dev_env_enabled ? 1 : 0
-
   source = "../../modules/secretsmanager"
 
   environment                               = var.environment
   aws_account_id                            = local.aws_account_id
   aws_region                                = var.aws_region
-  task_execution_role_arn                   = module.ecs.task_execution_role_arn
+  task_execution_role_arn                   = module.ecs[0].task_execution_role_arn
   datadog_api_key                           = var.DD_API_KEY
-  redis_host                                = module.elasticache.elasticache_host
-  db_host                                   = module.rds.db_host
-  db_user                                   = module.rds.db_username
-  db_password                               = module.rds.db_password
+  redis_host                                = module.elasticache[0].elasticache_host
+  db_host                                   = module.rds[0].db_host
+  db_user                                   = module.rds[0].db_username
+  db_password                               = module.rds[0].db_password
   platform_rollbar_server_item_access_token = var.PLATFORM_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN
   s3_user_access_key_id                     = module.s3.s3_access_key_id
   s3_user_secret_access_key                 = module.s3.s3_access_key_secret
@@ -149,7 +147,7 @@ module "secretsmanager" {
   smtp_email_password                       = module.ses.smtp_password
   twilio_account_sid                        = var.TWILIO_ACCOUNT_SID
   twilio_auth_token                         = var.TWILIO_AUTH_TOKEN
-  twilio_phone_number                       = module.twilio.helium_phone_number
+  twilio_phone_number                       = module.twilio[0].helium_phone_number
   firebase_project_id                       = var.FIREBASE_PROJECT_ID
   firebase_private_key_id                   = var.FIREBASE_PRIVATE_KEY_ID
   firebase_private_key                      = var.FIREBASE_PRIVATE_KEY
