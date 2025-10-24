@@ -37,6 +37,10 @@ module "alb" {
 
   source = "../../modules/alb"
 
+  providers = {
+    aws = aws.us_east_1
+  }
+
   environment                   = var.environment
   environment_prefix            = var.environment_prefix
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id

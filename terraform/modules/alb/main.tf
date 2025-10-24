@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 resource "aws_lb" "helium" {
   name               = "helium-${var.environment}"
   internal           = false
