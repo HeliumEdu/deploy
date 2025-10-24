@@ -18,6 +18,11 @@ module "certificatemanager" {
 
   source = "../../modules/certificatemanager"
 
+  providers = {
+    aws                 = aws
+    aws.force_us_east_1 = aws.force_us_east_1
+  }
+
   environment_prefix            = var.environment_prefix
   route53_heliumedu_com_zone_id = module.route53.heliumedu_com_zone_id
   route53_heliumedu_dev_zone_id = module.route53.heliumedu_dev_zone_id
