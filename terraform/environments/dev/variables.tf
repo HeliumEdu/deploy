@@ -84,6 +84,14 @@ variable "platform_worker_repository_uri" {
   default = "public.ecr.aws/heliumedu/helium/platform-worker"
 }
 
+variable "prod_com_zone_id" {
+  description = "For non-prod zones, this is used to link the env's subdomain in the parent domain"
+}
+
+variable "prod_dev_zone_id" {
+  description = "For non-prod zones, this is used to link the env's subdomain in the parent domain"
+}
+
 variable "dev_env_enabled" {
   description = "Setting to false will destroy all except super-low-cost resources that are useful for build and pipeline validation"
   default     = true

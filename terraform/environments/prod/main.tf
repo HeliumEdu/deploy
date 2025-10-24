@@ -27,7 +27,6 @@ module "vpc" {
   region_azs  = var.region_azs
 }
 
-
 module "alb" {
   source = "../../modules/alb"
 
