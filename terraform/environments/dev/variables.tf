@@ -94,6 +94,7 @@ variable "prod_dev_zone_id" {
 
 variable "dev_env_enabled" {
   description = "Setting to false will destroy all except super-low-cost resources that are useful for build and pipeline validation"
+  type        = bool
   default     = true
 }
 
