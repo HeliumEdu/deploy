@@ -1,3 +1,11 @@
+resource "aws_route53_zone" "heliumstudy_com_zone" {
+  name = "${var.environment_prefix}heliumstudy.com"
+}
+
+resource "aws_route53_zone" "heliumstudy_dev_zone" {
+  name = "${var.environment_prefix}heliumstudy.dev"
+}
+
 resource "aws_route53_zone" "heliumedu_com_zone" {
   name = "${var.environment_prefix}heliumedu.com"
 }
@@ -30,14 +38,14 @@ resource "aws_route53_record" "heliumedu_dev_ns" {
 
 // Records only created once, for production
 
-resource "aws_route53_record" "blog_heliumedu_com_cname" {
+resource "aws_route53_record" "heliumstudy_com_gh_txt" {
   count = var.environment == "prod" ? 1 : 0
 
-  zone_id = aws_route53_zone.heliumedu_com_zone.id
-  name    = "blog.heliumedu.com"
-  type    = "CNAME"
-  ttl     = "86400"
-  records = ["domains.tumblr.com"]
+  zone_id = aws_route53_zone.heliumstudy_com_zone.id
+  name    = "_gh-HeliumEdu-o.heliumstudy.com"
+  type    = "TXT"
+  ttl     = "3600"
+  records = ["0fea281827"]
 }
 
 resource "aws_route53_record" "heliumedu_com_gh_txt" {
