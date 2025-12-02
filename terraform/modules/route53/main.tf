@@ -42,7 +42,7 @@ resource "aws_route53_record" "heliumstudy_com_gh_txt" {
   count = var.environment == "prod" ? 1 : 0
 
   zone_id = aws_route53_zone.heliumstudy_com_zone.id
-  name    = "_gh-HeliumEdu-o.heliumstudy.com"
+  name    = "_gh-HeliumEdu-o.${aws_route53_zone.heliumstudy_com_zone.name}"
   type    = "TXT"
   ttl     = "3600"
   records = ["0fea281827"]
@@ -52,7 +52,7 @@ resource "aws_route53_record" "heliumedu_com_gh_txt" {
   count = var.environment == "prod" ? 1 : 0
 
   zone_id = aws_route53_zone.heliumedu_com_zone.id
-  name    = "_gh-HeliumEdu-o.heliumedu.com"
+  name    = "_gh-HeliumEdu-o.${aws_route53_zone.heliumedu_com_zone.name}"
   type    = "TXT"
   ttl     = "3600"
   records = ["b73c3b72a1"]
@@ -62,7 +62,7 @@ resource "aws_route53_record" "status_heliumedu_com_cname" {
   count = var.environment == "prod" ? 1 : 0
 
   zone_id = aws_route53_zone.heliumedu_com_zone.id
-  name    = "status.heliumedu.com"
+  name    = "status.${aws_route53_zone.heliumedu_com_zone.name}"
   type    = "CNAME"
   ttl     = "86400"
   records = ["statuspage.betteruptime.com"]
