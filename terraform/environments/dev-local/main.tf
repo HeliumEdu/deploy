@@ -9,8 +9,10 @@ module "route53" {
 
   environment        = var.environment
   environment_prefix = var.environment_prefix
-  parent_com_zone_id = var.prod_com_zone_id
-  parent_dev_zone_id = var.prod_dev_zone_id
+  heliumedu_com_zone_id = var.heliumedu_com_zone_id
+  heliumedu_dev_zone_id = var.heliumedu_dev_zone_id
+  heliumstudy_com_zone_id = var.heliumstudy_com_zone_id
+  heliumstudy_dev_zone_id = var.heliumstudy_dev_zone_id
 }
 
 module "certificatemanager" {
