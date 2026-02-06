@@ -223,7 +223,7 @@ for obj in source_bucket.objects.filter(Prefix=assets_source_prefix):
         new_key_url = f"{BASE_URL}/{new_key}"
         upload_source_map(new_key_url.removesuffix(".map"), obj.key)
 
-source_prefix = f"helium/frontend-legacy/{VERSION}"
+source_prefix = f"helium/frontend/{VERSION}"
 print(f"Copying frontend resources from {source_bucket_name}{source_prefix} to {dest_bucket_name} ...")
 for obj in source_bucket.objects.filter(Prefix=source_prefix):
     # Skip assets, as we've already moved them in to place
