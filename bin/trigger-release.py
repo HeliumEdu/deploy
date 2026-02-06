@@ -203,7 +203,7 @@ def upload_source_map(minified_url, source_map_key):
 
 # Copy assets first, so that new versioned bundles exist before pages are updated
 
-assets_source_prefix = f"helium/frontend-legacy/{VERSION}/assets"
+assets_source_prefix = f"helium/frontend/{VERSION}/assets"
 assets_dest_prefix = "assets/"
 print(f"Copying frontend resources from {source_bucket_name}{assets_source_prefix} to {dest_bucket_name} ...")
 for obj in source_bucket.objects.filter(Prefix=assets_source_prefix):
