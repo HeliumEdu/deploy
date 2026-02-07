@@ -150,6 +150,18 @@ jobs:
           # Upload manifest and other JSON files
           find ./web-build -name "*.json" -exec sh -c 'aws s3 cp "$1" "s3://'"${BUCKET_NAME}"'/$(basename "$1")" --cache-control "no-cache, no-store, must-revalidate"' _ {} \;
 
+          # Upload .well-known files with correct content type
+          if [ -d ./web-build/.well-known ]; then
+            aws s3 cp ./web-build/.well-known/apple-app-site-association \
+              "s3://${BUCKET_NAME}/.well-known/apple-app-site-association" \
+              --content-type "application/json" \
+              --cache-control "public, max-age=86400"
+            aws s3 cp ./web-build/.well-known/assetlinks.json \
+              "s3://${BUCKET_NAME}/.well-known/assetlinks.json" \
+              --content-type "application/json" \
+              --cache-control "public, max-age=86400"
+          fi
+
           echo "Deployment complete!"
 
       - name: Invalidate CloudFront cache
