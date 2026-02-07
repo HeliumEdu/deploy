@@ -63,87 +63,52 @@ jobs:
 
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-      - name: Find workflow run for version tag
+      - name: Find workflow run with matching artifact
         id: find_run
         env:
           GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           VERSION="${{ steps.version.outputs.version }}"
+          # Strip 'v' prefix for artifact matching (v1.0.9 -> 1.0.9)
+          SEMVER="${VERSION#v}"
 
-          # Get the commit SHA for the version tag
-          TAG_SHA=$(gh api repos/HeliumEdu/frontend/git/refs/tags/${VERSION} --jq '.object.sha' 2>/dev/null)
+          echo "Looking for artifact matching version ${SEMVER}..."
 
-          if [ -z "$TAG_SHA" ]; then
-            echo "Error: Tag ${VERSION} not found in HeliumEdu/frontend"
+          # Get recent successful release workflow runs
+          RUNS=$(gh api "repos/HeliumEdu/frontend/actions/workflows/release.yml/runs?status=success&per_page=20" \
+            --jq '.workflow_runs[].id')
+
+          if [ -z "$RUNS" ]; then
+            echo "Error: No successful release workflow runs found"
             exit 1
           fi
 
-          echo "Found tag ${VERSION} at commit ${TAG_SHA}"
+          # Search each run for an artifact matching our version
+          for RUN_ID in $RUNS; do
+            ARTIFACT_NAME=$(gh api "repos/HeliumEdu/frontend/actions/runs/${RUN_ID}/artifacts" \
+              --jq ".artifacts[] | select(.name | startswith(\"helium-${SEMVER}\") and endswith(\"-web\")) | .name" 2>/dev/null)
 
-          # If the tag points to an annotated tag object, get the actual commit
-          TAG_TYPE=$(gh api repos/HeliumEdu/frontend/git/tags/${TAG_SHA} --jq '.object.type' 2>/dev/null || echo "commit")
-          if [ "$TAG_TYPE" = "commit" ]; then
-            COMMIT_SHA=$(gh api repos/HeliumEdu/frontend/git/tags/${TAG_SHA} --jq '.object.sha' 2>/dev/null || echo "$TAG_SHA")
-          else
-            COMMIT_SHA=$TAG_SHA
-          fi
+            if [ -n "$ARTIFACT_NAME" ]; then
+              echo "Found matching artifact '${ARTIFACT_NAME}' in workflow run ${RUN_ID}"
+              echo "run_id=${RUN_ID}" >> $GITHUB_OUTPUT
+              echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
 
-          echo "Commit SHA: ${COMMIT_SHA}"
+              # Extract full version from artifact name (e.g., helium-1.0.9+42-web -> 1.0.9+42)
+              FULL_VERSION=$(echo "$ARTIFACT_NAME" | sed 's/helium-\(.*\)-web/\1/')
+              echo "full_version=${FULL_VERSION}" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          done
 
-          # Find the Release workflow run for this commit
-          RUN_ID=$(gh api "repos/HeliumEdu/frontend/actions/workflows/release.yml/runs?head_sha=${COMMIT_SHA}&status=success" \
-            --jq '.workflow_runs[0].id' 2>/dev/null)
-
-          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
-            # Try finding by the tag's commit directly
-            RUN_ID=$(gh api "repos/HeliumEdu/frontend/actions/workflows/release.yml/runs?status=success&per_page=100" \
-              --jq ".workflow_runs[] | select(.head_sha == \"${COMMIT_SHA}\" or .head_sha == \"${TAG_SHA}\") | .id" | head -1)
-          fi
-
-          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
-            echo "Error: No successful Release workflow run found for ${VERSION}"
-            exit 1
-          fi
-
-          echo "Found workflow run ID: ${RUN_ID}"
-          echo "run_id=${RUN_ID}" >> $GITHUB_OUTPUT
-
-      - name: Get version info from workflow run
-        id: version_info
-        env:
-          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-        run: |
-          RUN_ID="${{ steps.find_run.outputs.run_id }}"
-
-          # List artifacts from the workflow run to find the web artifact
-          ARTIFACT_INFO=$(gh api "repos/HeliumEdu/frontend/actions/runs/${RUN_ID}/artifacts" \
-            --jq '.artifacts[] | select(.name | startswith("helium-") and endswith("-web"))')
-
-          if [ -z "$ARTIFACT_INFO" ]; then
-            echo "Error: No web artifact found in workflow run ${RUN_ID}"
-            exit 1
-          fi
-
-          ARTIFACT_NAME=$(echo "$ARTIFACT_INFO" | jq -r '.name')
-          ARTIFACT_ID=$(echo "$ARTIFACT_INFO" | jq -r '.id')
-
-          # Extract full version from artifact name (e.g., helium-0.1.0+42-web -> 0.1.0+42)
-          FULL_VERSION=$(echo "$ARTIFACT_NAME" | sed 's/helium-\(.*\)-web/\1/')
-
-          echo "Artifact name: ${ARTIFACT_NAME}"
-          echo "Artifact ID: ${ARTIFACT_ID}"
-          echo "Full version: ${FULL_VERSION}"
-
-          echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
-          echo "artifact_id=${ARTIFACT_ID}" >> $GITHUB_OUTPUT
-          echo "full_version=${FULL_VERSION}" >> $GITHUB_OUTPUT
+          echo "Error: No workflow run found with artifact for version ${VERSION}"
+          exit 1
 
       - name: Download web artifact
         env:
           GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           RUN_ID="${{ steps.find_run.outputs.run_id }}"
-          ARTIFACT_NAME="${{ steps.version_info.outputs.artifact_name }}"
+          ARTIFACT_NAME="${{ steps.find_run.outputs.artifact_name }}"
 
           echo "Downloading artifact ${ARTIFACT_NAME} from run ${RUN_ID}..."
 
@@ -165,7 +130,7 @@ jobs:
       - name: Deploy to S3
         env:
           ENVIRONMENT: ${{ github.event.inputs.environment }}
-          VERSION: ${{ steps.version_info.outputs.full_version }}
+          VERSION: ${{ steps.find_run.outputs.full_version }}
         run: |
           BUCKET_NAME="heliumedu.${ENVIRONMENT}.frontend-app.static"
 
@@ -215,7 +180,7 @@ jobs:
         env:
           ENVIRONMENT: ${{ github.event.inputs.environment }}
           VERSION: ${{ steps.version.outputs.version }}
-          FULL_VERSION: ${{ steps.version_info.outputs.full_version }}
+          FULL_VERSION: ${{ steps.find_run.outputs.full_version }}
         run: |
           ENVIRONMENT_PREFIX=""
           if [ "$ENVIRONMENT" != "prod" ]; then
