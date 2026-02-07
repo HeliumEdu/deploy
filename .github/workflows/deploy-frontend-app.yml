@@ -147,8 +147,8 @@ jobs:
           aws s3 cp ./web-build/index.html "s3://${BUCKET_NAME}/index.html" \
             --cache-control "no-cache, no-store, must-revalidate"
 
-          # Upload manifest and other JSON files
-          find ./web-build -name "*.json" -exec sh -c 'aws s3 cp "$1" "s3://'"${BUCKET_NAME}"'/$(basename "$1")" --cache-control "no-cache, no-store, must-revalidate"' _ {} \;
+          # Upload manifest and other JSON files (preserving directory structure)
+          find ./web-build -name "*.json" -exec sh -c 'RELPATH="${1#./web-build/}"; aws s3 cp "$1" "s3://'"${BUCKET_NAME}"'/${RELPATH}" --cache-control "no-cache, no-store, must-revalidate"' _ {} \;
 
           # Upload .well-known files with correct content type
           if [ -d ./web-build/.well-known ]; then
@@ -203,6 +203,6 @@ jobs:
 
           echo "### Deployment Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: ${VERSION} (${FULL_VERSION})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${FULL_VERSION}" >> $GITHUB_STEP_SUMMARY
           echo "- **Environment**: ${ENVIRONMENT}" >> $GITHUB_STEP_SUMMARY
           echo "- **URL**: ${URL}" >> $GITHUB_STEP_SUMMARY
