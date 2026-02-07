@@ -1,0 +1,231 @@
+name: "Deploy Frontend App"
+
+run-name: "Deploy Frontend App ${{ github.event.inputs.version_type == 'latest' && 'latest' || github.event.inputs.specific_version }} to ${{ github.event.inputs.environment }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Version to deploy'
+        required: true
+        type: choice
+        default: latest
+        options:
+          - latest
+          - specific
+      specific_version:
+        description: 'Specific version tag (only used if version_type is "specific", e.g., v0.1.0)'
+        required: false
+        type: string
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        type: choice
+        default: dev
+        options:
+          - dev
+          - prod
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy Frontend App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Determine version to deploy
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          if [ "${{ github.event.inputs.version_type }}" = "latest" ]; then
+            # Get the latest semver tag (v*.*.*)
+            VERSION=$(gh api repos/HeliumEdu/frontend/tags --jq '[.[] | select(.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$"))][0].name')
+
+            if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+              echo "Error: No version tags found in HeliumEdu/frontend"
+              exit 1
+            fi
+
+            echo "Using latest version: ${VERSION}"
+          else
+            VERSION="${{ github.event.inputs.specific_version }}"
+
+            if [ -z "$VERSION" ]; then
+              echo "Error: specific_version is required when version_type is 'specific'"
+              exit 1
+            fi
+
+            echo "Using specific version: ${VERSION}"
+          fi
+
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Find workflow run for version tag
+        id: find_run
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          # Get the commit SHA for the version tag
+          TAG_SHA=$(gh api repos/HeliumEdu/frontend/git/refs/tags/${VERSION} --jq '.object.sha' 2>/dev/null)
+
+          if [ -z "$TAG_SHA" ]; then
+            echo "Error: Tag ${VERSION} not found in HeliumEdu/frontend"
+            exit 1
+          fi
+
+          echo "Found tag ${VERSION} at commit ${TAG_SHA}"
+
+          # If the tag points to an annotated tag object, get the actual commit
+          TAG_TYPE=$(gh api repos/HeliumEdu/frontend/git/tags/${TAG_SHA} --jq '.object.type' 2>/dev/null || echo "commit")
+          if [ "$TAG_TYPE" = "commit" ]; then
+            COMMIT_SHA=$(gh api repos/HeliumEdu/frontend/git/tags/${TAG_SHA} --jq '.object.sha' 2>/dev/null || echo "$TAG_SHA")
+          else
+            COMMIT_SHA=$TAG_SHA
+          fi
+
+          echo "Commit SHA: ${COMMIT_SHA}"
+
+          # Find the Release workflow run for this commit
+          RUN_ID=$(gh api "repos/HeliumEdu/frontend/actions/workflows/release.yml/runs?head_sha=${COMMIT_SHA}&status=success" \
+            --jq '.workflow_runs[0].id' 2>/dev/null)
+
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            # Try finding by the tag's commit directly
+            RUN_ID=$(gh api "repos/HeliumEdu/frontend/actions/workflows/release.yml/runs?status=success&per_page=100" \
+              --jq ".workflow_runs[] | select(.head_sha == \"${COMMIT_SHA}\" or .head_sha == \"${TAG_SHA}\") | .id" | head -1)
+          fi
+
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo "Error: No successful Release workflow run found for ${VERSION}"
+            exit 1
+          fi
+
+          echo "Found workflow run ID: ${RUN_ID}"
+          echo "run_id=${RUN_ID}" >> $GITHUB_OUTPUT
+
+      - name: Get version info from workflow run
+        id: version_info
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          RUN_ID="${{ steps.find_run.outputs.run_id }}"
+
+          # List artifacts from the workflow run to find the web artifact
+          ARTIFACT_INFO=$(gh api "repos/HeliumEdu/frontend/actions/runs/${RUN_ID}/artifacts" \
+            --jq '.artifacts[] | select(.name | startswith("helium-") and endswith("-web"))')
+
+          if [ -z "$ARTIFACT_INFO" ]; then
+            echo "Error: No web artifact found in workflow run ${RUN_ID}"
+            exit 1
+          fi
+
+          ARTIFACT_NAME=$(echo "$ARTIFACT_INFO" | jq -r '.name')
+          ARTIFACT_ID=$(echo "$ARTIFACT_INFO" | jq -r '.id')
+
+          # Extract full version from artifact name (e.g., helium-0.1.0+42-web -> 0.1.0+42)
+          FULL_VERSION=$(echo "$ARTIFACT_NAME" | sed 's/helium-\(.*\)-web/\1/')
+
+          echo "Artifact name: ${ARTIFACT_NAME}"
+          echo "Artifact ID: ${ARTIFACT_ID}"
+          echo "Full version: ${FULL_VERSION}"
+
+          echo "artifact_name=${ARTIFACT_NAME}" >> $GITHUB_OUTPUT
+          echo "artifact_id=${ARTIFACT_ID}" >> $GITHUB_OUTPUT
+          echo "full_version=${FULL_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Download web artifact
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          RUN_ID="${{ steps.find_run.outputs.run_id }}"
+          ARTIFACT_NAME="${{ steps.version_info.outputs.artifact_name }}"
+
+          echo "Downloading artifact ${ARTIFACT_NAME} from run ${RUN_ID}..."
+
+          gh run download ${RUN_ID} \
+            --repo HeliumEdu/frontend \
+            --name "${ARTIFACT_NAME}" \
+            --dir ./web-build
+
+          echo "Artifact downloaded to ./web-build"
+          ls -la ./web-build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy to S3
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+          VERSION: ${{ steps.version_info.outputs.full_version }}
+        run: |
+          BUCKET_NAME="heliumedu.${ENVIRONMENT}.frontend-app.static"
+
+          echo "Deploying version ${VERSION} to s3://${BUCKET_NAME}..."
+
+          # Sync the web build to S3
+          aws s3 sync ./web-build "s3://${BUCKET_NAME}" \
+            --delete \
+            --cache-control "public, max-age=31536000" \
+            --exclude "index.html" \
+            --exclude "*.json"
+
+          # Upload index.html and JSON files with no-cache
+          aws s3 cp ./web-build/index.html "s3://${BUCKET_NAME}/index.html" \
+            --cache-control "no-cache, no-store, must-revalidate"
+
+          # Upload manifest and other JSON files
+          find ./web-build -name "*.json" -exec sh -c 'aws s3 cp "$1" "s3://'"${BUCKET_NAME}"'/$(basename "$1")" --cache-control "no-cache, no-store, must-revalidate"' _ {} \;
+
+          echo "Deployment complete!"
+
+      - name: Invalidate CloudFront cache
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+        run: |
+          ENVIRONMENT_PREFIX=""
+          if [ "$ENVIRONMENT" != "prod" ]; then
+            ENVIRONMENT_PREFIX="${ENVIRONMENT}."
+          fi
+
+          DOMAIN="${ENVIRONMENT_PREFIX}app.heliumedu.com"
+
+          DISTRIBUTION_ID=$(aws cloudfront list-distributions \
+            --query "DistributionList.Items[?contains(Aliases.Items, '${DOMAIN}')].Id" \
+            --output text)
+
+          if [ -n "$DISTRIBUTION_ID" ] && [ "$DISTRIBUTION_ID" != "None" ]; then
+            echo "Invalidating CloudFront distribution ${DISTRIBUTION_ID} for ${DOMAIN}..."
+            aws cloudfront create-invalidation \
+              --distribution-id "$DISTRIBUTION_ID" \
+              --paths "/*"
+          else
+            echo "Warning: Could not find CloudFront distribution for ${DOMAIN}"
+          fi
+
+      - name: Deployment summary
+        env:
+          ENVIRONMENT: ${{ github.event.inputs.environment }}
+          VERSION: ${{ steps.version.outputs.version }}
+          FULL_VERSION: ${{ steps.version_info.outputs.full_version }}
+        run: |
+          ENVIRONMENT_PREFIX=""
+          if [ "$ENVIRONMENT" != "prod" ]; then
+            ENVIRONMENT_PREFIX="${ENVIRONMENT}."
+          fi
+
+          URL="https://${ENVIRONMENT_PREFIX}app.heliumedu.com"
+
+          echo "### Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${VERSION} (${FULL_VERSION})" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: ${ENVIRONMENT}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL**: ${URL}" >> $GITHUB_STEP_SUMMARY
