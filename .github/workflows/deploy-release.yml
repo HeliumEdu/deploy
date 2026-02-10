@@ -61,10 +61,6 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_REGION: us-east-1
-      FRONTEND_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/frontend:${{ inputs.version }}
-      PLATFORM_RESOURCE_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/platform-resource:latest
-      PLATFORM_API_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/platform-api:latest
-      PLATFORM_WORKER_IMAGE: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/helium/platform-worker:latest
       PLATFORM_EMAIL_HOST_USER: ${{ secrets.PLATFORM_EMAIL_HOST_USER }}
       PLATFORM_EMAIL_HOST_PASSWORD: ${{ secrets.PLATFORM_EMAIL_HOST_PASSWORD }}
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
@@ -97,6 +93,33 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get latest platform release version
+        id: platform_version
+        env:
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          VERSION=$(gh api repos/HeliumEdu/platform/tags --jq '[.[] | select(.name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$"))][0].name')
+
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "Error: No version tags found in HeliumEdu/platform"
+            exit 1
+          fi
+
+          TAG="${VERSION#v}"
+
+          echo "Using latest platform version: ${VERSION} (tag: ${TAG})"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+
+      - name: Set container environment variables
+        env:
+          PLATFORM_TAG: ${{ steps.platform_version.outputs.tag }}
+          FRONTEND_TAG: ${{ inputs.version }}
+        run: |
+          echo "PLATFORM_RESOURCE_IMAGE=public.ecr.aws/heliumedu/helium/platform-resource:amd64-${PLATFORM_TAG}" >> $GITHUB_ENV
+          echo "PLATFORM_API_IMAGE=public.ecr.aws/heliumedu/helium/platform-api:amd64-${PLATFORM_TAG}" >> $GITHUB_ENV
+          echo "PLATFORM_WORKER_IMAGE=public.ecr.aws/heliumedu/helium/platform-worker:amd64-${PLATFORM_TAG}" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=public.ecr.aws/heliumedu/helium/frontend:amd64-${FRONTEND_TAG}" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: make install
 
@@ -106,9 +129,7 @@ jobs:
           timeout_minutes: 4
           retry_wait_seconds: 15
           max_attempts: 2
-          command: |
-            aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
-            make test-cluster
+          command: make test-cluster
 
       - name: Dump Docker logs on failure
         if: failure()
