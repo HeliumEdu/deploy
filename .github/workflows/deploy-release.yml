@@ -1,6 +1,6 @@
-name: "Deploy Release"
+name: "Deploy Legacy Frontend"
 
-run-name: "Deploy release ${{ inputs.version }}"
+run-name: "Deploy legacy frontend v${{ inputs.version }}"
 
 on:
   workflow_dispatch:
@@ -42,7 +42,7 @@ concurrency:
 
 jobs:
   release:
-    name: Deploy Frontend-Legacy Release
+    name: Deploy Legacy Frontend
 
     env:
       FORCE_COLOR: 1
