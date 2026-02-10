@@ -15,6 +15,11 @@ on:
         options:
         - dev
         - prod
+      run_cluster_tests:
+        description: 'Run cluster tests before deploying'
+        required: true
+        type: boolean
+        default: true
       cut_release:
         type: boolean
         required: true
@@ -27,6 +32,9 @@ on:
         required: true
       environment:
         type: string
+        required: true
+      run_cluster_tests:
+        type: boolean
         required: true
       cut_release:
         type: boolean
@@ -43,6 +51,7 @@ concurrency:
 jobs:
   test:
     name: Test Release
+    if: ${{ github.event.inputs.run_cluster_tests == 'true' }}
 
     env:
       FORCE_COLOR: 1
@@ -75,6 +84,19 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install GitHub SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY_GITHUB }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS_GITHUB }}
+          if_key_exists: replace
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Install dependencies
         run: make install
 
@@ -86,7 +108,7 @@ jobs:
           max_attempts: 2
           command: |
             aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
-            TAG_VERSION=${{ inputs.version }} make test-ci
+            make test-cluster
 
       - name: Dump Docker logs on failure
         if: failure()
@@ -95,6 +117,7 @@ jobs:
   release:
     name: Deploy Legacy Frontend
     needs: test
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'skipped')
 
     env:
       FORCE_COLOR: 1
