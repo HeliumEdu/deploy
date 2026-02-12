@@ -1,8 +1,8 @@
 <p align="center"><img src="https://www.heliumedu.com/assets/img/logo_full_blue.png" /></p>
 
 ![Python Versions](https://img.shields.io/badge/python-%203.12%20-blue)
-[![Build](https://img.shields.io/github/actions/workflow/status/HeliumEdu/deploy/build.yml)](https://github.com/HeliumEdu/deploy/actions/workflows/build.yml)
-![GitHub License](https://img.shields.io/github/license/heliumedu/deploy)
+[![Build](https://img.shields.io/github/actions/workflow/status/HeliumEdu/infra/build.yml)](https://github.com/HeliumEdu/infra/actions/workflows/build.yml)
+![GitHub License](https://img.shields.io/github/license/heliumedu/infra)
 
 # Helium Infrastructure
 
@@ -27,7 +27,7 @@ provision environments.
 ### Initialize `dev-local` Environment in Terraform
 
 For more information on setting up a minimal (but fully functional) `dev-local` environment, see
-[the `dev-local` Terraform Workspace](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/dev-local#readme).
+[the `dev-local` Terraform Workspace](https://github.com/HeliumEdu/infra/tree/main/terraform/environments/dev-local#readme).
 This is not necessary to develop locally with Docker, but certain features (like emails and text messages)
 will not be available without this.
 
@@ -36,7 +36,7 @@ will not be available without this.
 Here is a minimal set of commands that will get a Docker environment setup locally.
 
 ```sh
-git clone https://github.com/HeliumEdu/deploy.git helium
+git clone https://github.com/HeliumEdu/infra.git helium
 cd helium
 make
 ```
@@ -64,4 +64,4 @@ instead, set `PLATFORM=amd64`.
 ### Initialize `prod`-like Environment in Terraform
 
 For more information on deploying a hosted, fully functional `prod`-like environment, see
-[the `prod` Terraform Workspace](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme).
+[the `prod` Terraform Workspace](https://github.com/HeliumEdu/infra/tree/main/terraform/environments/prod#readme).
