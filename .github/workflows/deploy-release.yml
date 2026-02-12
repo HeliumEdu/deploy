@@ -24,7 +24,7 @@ on:
         type: boolean
         required: true
         default: false
-        description: "Cut the release tag for the `deploy` repo. Usually only needed if manually re-deploying a \"Build and Deploy Release\" pipeline that failed."
+        description: "Cut the release tag for the `infra` repo. Usually only needed if manually re-deploying a \"Build and Deploy Release\" pipeline that failed."
   workflow_call:
     inputs:
       version:
@@ -46,7 +46,7 @@ permissions:
   pull-requests: none
 
 concurrency:
-  group: "helium-deploy-${{inputs.environment}}"
+  group: "helium-infra-${{inputs.environment}}"
 
 jobs:
   test:
