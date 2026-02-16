@@ -17,7 +17,10 @@ resource "aws_route53_record" "heliumedu_com_spf" {
   name    = var.route53_heliumedu_com_zone_name
   type    = "TXT"
   ttl     = "3600"
-  records = ["v=spf1 include:spf.privateemail.com include:_spf.firebasemail.com ~all"]
+  records = [
+    "v=spf1 include:spf.privateemail.com include:_spf.firebasemail.com ~all",
+    "firebase=helium-edu"
+  ]
 }
 
 resource "aws_route53_record" "heliumedu_com_dkim" {
@@ -33,17 +36,6 @@ resource "aws_route53_record" "heliumedu_com_dkim" {
       substr(var.dkim_public_key, 255, 255),
     ])
   ]
-}
-
-// Firebase domain verification
-resource "aws_route53_record" "heliumedu_com_firebase_verification" {
-  count = var.environment == "prod" ? 1 : 0
-
-  zone_id = var.route53_heliumedu_com_zone_id
-  name    = var.route53_heliumedu_com_zone_name
-  type    = "TXT"
-  ttl     = "3600"
-  records = ["firebase=helium-edu"]
 }
 
 // Firebase DKIM records for custom email domain
