@@ -275,8 +275,8 @@ resource "aws_route53_record" "support_heliumedu_com" {
 
 resource "aws_cloudfront_distribution" "app_heliumedu_com" {
   enabled             = true
-  aliases             = ["${var.environment_prefix}app.heliumedu.com"]
-  comment             = "${var.environment_prefix}app.heliumedu.com"
+  aliases             = ["app.${var.route53_heliumedu_com_zone_name}"]
+  comment             = "app.${var.route53_heliumedu_com_zone_name}"
   default_root_object = "index.html"
   price_class         = "PriceClass_100"
 
@@ -343,7 +343,7 @@ resource "aws_cloudfront_distribution" "app_heliumedu_com" {
 
 resource "aws_route53_record" "app_heliumedu_com" {
   zone_id = var.route53_heliumedu_com_zone_id
-  name    = "${var.environment_prefix}app.heliumedu.com"
+  name    = "app.${var.route53_heliumedu_com_zone_name}"
   type    = "A"
 
   alias {
