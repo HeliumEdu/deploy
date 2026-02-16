@@ -166,3 +166,9 @@ module "twilio" {
   helium_twiml_handler_url = var.HELIUM_TWIML_HANDLER_URL
   ci_twiml_handler_url     = var.CI_TWIML_HANDLER_URL
 }
+
+module "firebase" {
+  source = "../../modules/firebase"
+
+  firebase_project_id = var.FIREBASE_PROJECT_ID
+}
