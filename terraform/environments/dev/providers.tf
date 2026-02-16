@@ -9,7 +9,7 @@ provider "aws" {
   }
 }
 
-provider "google" {
+provider "google-beta" {
   project = var.FIREBASE_PROJECT_ID
   credentials = jsonencode({
     type                        = "service_account"
