@@ -16,6 +16,14 @@ resource "aws_route53_record" "api_heliumedu_com_lb_cname" {
   records = [aws_lb.helium.dns_name]
 }
 
+resource "aws_route53_record" "auth_heliumedu_com_lb_cname" {
+  zone_id = var.route53_heliumedu_com_zone_id
+  name    = "auth.${var.route53_heliumedu_com_zone_name}"
+  type    = "CNAME"
+  ttl     = "86400"
+  records = [aws_lb.helium.dns_name]
+}
+
 resource "aws_lb_listener" "http_redirect" {
   load_balancer_arn = aws_lb.helium.arn
   port              = "80"
@@ -77,6 +85,23 @@ resource "aws_lb_listener_rule" "platform" {
   condition {
     host_header {
       values = ["api.${var.route53_heliumedu_com_zone_name}"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "platform_auth" {
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 3
+
+  action {
+    type = "forward"
+
+    target_group_arn = aws_lb_target_group.platform.arn
+  }
+
+  condition {
+    host_header {
+      values = ["auth.${var.route53_heliumedu_com_zone_name}"]
     }
   }
 }
