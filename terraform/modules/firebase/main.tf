@@ -1,7 +1,7 @@
 terraform {
   required_providers {
-    google = {
-      source  = "hashicorp/google"
+    google-beta = {
+      source  = "hashicorp/google-beta"
       version = "~> 6.0"
     }
   }
@@ -9,12 +9,13 @@ terraform {
 
 # Firebase project (import existing)
 data "google_project" "helium" {
+  provider   = google-beta
   project_id = var.firebase_project_id
 }
 
 # Firebase Web App
 resource "google_firebase_web_app" "helium_web" {
-  provider     = google
+  provider     = google-beta
   project      = var.firebase_project_id
   display_name = "Helium Web App"
 
@@ -25,14 +26,14 @@ resource "google_firebase_web_app" "helium_web" {
 
 # Get Web App config
 data "google_firebase_web_app_config" "helium_web" {
-  provider   = google
+  provider   = google-beta
   project    = var.firebase_project_id
   web_app_id = google_firebase_web_app.helium_web.app_id
 }
 
 # Firebase Android App
 resource "google_firebase_android_app" "helium_android" {
-  provider     = google
+  provider     = google-beta
   project      = var.firebase_project_id
   display_name = "Helium Android App"
   package_name = var.android_package_name
@@ -44,14 +45,14 @@ resource "google_firebase_android_app" "helium_android" {
 
 # Get Android App config (includes google-services.json data)
 data "google_firebase_android_app_config" "helium_android" {
-  provider   = google
+  provider   = google-beta
   project    = var.firebase_project_id
   app_id     = google_firebase_android_app.helium_android.app_id
 }
 
 # Firebase iOS App
 resource "google_firebase_apple_app" "helium_ios" {
-  provider     = google
+  provider     = google-beta
   project      = var.firebase_project_id
   display_name = "Helium iOS App"
   bundle_id    = var.ios_bundle_id
@@ -64,7 +65,7 @@ resource "google_firebase_apple_app" "helium_ios" {
 
 # Get iOS App config (includes GoogleService-Info.plist data)
 data "google_firebase_apple_app_config" "helium_ios" {
-  provider   = google
+  provider   = google-beta
   project    = var.firebase_project_id
   app_id     = google_firebase_apple_app.helium_ios.app_id
 }
