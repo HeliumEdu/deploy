@@ -8,8 +8,3 @@ provider "aws" {
     }
   }
 }
-
-provider "google-beta" {
-  project = var.FIREBASE_PROJECT_ID
-  # Credentials from GOOGLE_CREDENTIALS environment variable
-}
