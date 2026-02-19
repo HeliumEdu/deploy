@@ -24,7 +24,7 @@ on:
 jobs:
   build:
     name: Build
-    uses: ./.github/workflows/build-release.yml
+    uses: ./.github/workflows/release.yml
     secrets: inherit
     with:
       version: ${{ inputs.version }}
@@ -32,7 +32,7 @@ jobs:
   deploy:
     name: Deploy Legacy Frontend
     needs: build
-    uses: ./.github/workflows/deploy-release.yml
+    uses: ./.github/workflows/deploy.yml
     secrets: inherit
     with:
       version: ${{ inputs.version }}
