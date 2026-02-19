@@ -29,8 +29,12 @@ start:
 stop:
 	make -C projects/platform stop-docker
 	make -C projects/frontend stop-docker
+	make -C projects/frontend-legacy stop-docker
 
 restart: stop start
+
+start-legacy:
+	cd projects/frontend-legacy && ./bin/runserver
 
 test-cluster-legacy:
 	@if [[ -z "${PLATFORM_EMAIL_HOST_USER}" ]] || \
