@@ -16,7 +16,7 @@ on:
         - dev
         - prod
       run_cluster_tests:
-        description: 'Run cluster tests before deploying'
+        description: 'Run cluster tests for frontend-legacy before deploying'
         required: true
         type: boolean
         default: true
