@@ -29,10 +29,9 @@ ENVIRONMENT_PREFIX = f'{ENVIRONMENT}.' if 'prod' not in ENVIRONMENT else ''
 BASE_URL = f'https://www.{ENVIRONMENT_PREFIX}heliumedu.com'
 
 if not VERSION or not ENVIRONMENT or not TERRAFORM_API_TOKEN or not FRONTEND_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN or \
-        not os.environ.get("AWS_ACCOUNT_ID") or not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get(
-    "AWS_SECRET_ACCESS_KEY"):
+        not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get("AWS_SECRET_ACCESS_KEY"):
     print(
-        "ERROR: Set all required env vars: VERSION, ENVIRONMENT, TERRAFORM_API_TOKEN, FRONTEND_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN, AWS_ACCOUNT_ID, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.")
+        "ERROR: Set all required env vars: VERSION, ENVIRONMENT, TERRAFORM_API_TOKEN, FRONTEND_ROLLBAR_SERVER_ITEM_ACCESS_TOKEN, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY.")
     sys.exit(1)
 
 INFO_URI = "https://{}.heliumedu.com/info".format("api" if ENVIRONMENT == "prod" else f"api.{ENVIRONMENT}")
