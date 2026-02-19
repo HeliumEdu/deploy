@@ -6,7 +6,7 @@ HELIUMCLI_PROJECTS ?= '["platform", "frontend", "cluster-tests", "frontend-legac
 SKIP_UPDATE ?= 'false'
 DEV_LOCAL_AWS_REGION ?= 'us-east-2'
 PLATFORM ?= arm64
-PROJECT_APP_HOST ?= http://localhost:3000
+PROJECT_APP_LEGACY_HOST ?= http://localhost:3000
 
 all: install start
 
@@ -63,7 +63,7 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 	make -C projects/frontend-legacy run-docker
 
 	ENVIRONMENT=dev-local \
-	PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
+	PROJECT_APP_HOST=$(PROJECT_APP_LEGACY_HOST) \
     PROJECT_API_HOST=http://localhost:8000 \
     AWS_REGION=$(DEV_LOCAL_AWS_REGION) \
     make -C projects/cluster-tests test
