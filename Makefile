@@ -1,4 +1,4 @@
-.PHONY: all install-reqs install build start test-cluster
+.PHONY: all install-reqs install build start test-cluster-legacy
 
 SHELL := /usr/bin/env bash
 PYTHON_BIN := python
@@ -6,8 +6,7 @@ HELIUMCLI_PROJECTS ?= '["platform", "frontend", "cluster-tests", "frontend-legac
 SKIP_UPDATE ?= 'false'
 DEV_LOCAL_AWS_REGION ?= 'us-east-2'
 PLATFORM ?= arm64
-FRONTEND_PROJECT ?= frontend
-PROJECT_APP_HOST ?= http://localhost:8080
+PROJECT_APP_HOST ?= http://localhost:3000
 
 all: install start
 
@@ -33,7 +32,7 @@ stop:
 
 restart: stop start
 
-test-cluster:
+test-cluster-legacy:
 	@if [[ -z "${PLATFORM_EMAIL_HOST_USER}" ]] || \
 		[[ -z "${PLATFORM_EMAIL_HOST_PASSWORD}" ]] || \
 		[[ -z "${PLATFORM_TWILIO_ACCOUNT_SID}" ]] || \
@@ -57,7 +56,7 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 	./projects/platform/bin/provision-dot-env.sh
 
 	make -C projects/platform run-docker
-	make -C projects/$(FRONTEND_PROJECT) run-docker
+	make -C projects/frontend-legacy run-docker
 
 	ENVIRONMENT=dev-local \
 	PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
