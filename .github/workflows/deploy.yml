@@ -129,7 +129,7 @@ jobs:
           timeout_minutes: 4
           retry_wait_seconds: 15
           max_attempts: 2
-          command: make test-cluster
+          command: FRONTEND_PROJECT=frontend-legacy PROJECT_APP_HOST=http://localhost:3000 make test-cluster
 
       - name: Dump Docker logs on failure
         if: failure()
