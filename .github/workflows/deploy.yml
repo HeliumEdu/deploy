@@ -118,7 +118,7 @@ jobs:
           echo "PLATFORM_RESOURCE_IMAGE=public.ecr.aws/heliumedu/helium/platform-resource:amd64-${PLATFORM_TAG}" >> $GITHUB_ENV
           echo "PLATFORM_API_IMAGE=public.ecr.aws/heliumedu/helium/platform-api:amd64-${PLATFORM_TAG}" >> $GITHUB_ENV
           echo "PLATFORM_WORKER_IMAGE=public.ecr.aws/heliumedu/helium/platform-worker:amd64-${PLATFORM_TAG}" >> $GITHUB_ENV
-          echo "FRONTEND_IMAGE=public.ecr.aws/heliumedu/helium/frontend:amd64-${FRONTEND_TAG}" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=public.ecr.aws/heliumedu/helium/frontend:frontend-legacy-amd64-${FRONTEND_TAG}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: make install
