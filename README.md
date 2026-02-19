@@ -46,7 +46,7 @@ are now setup for you.
 
 If `dev-local` was not provisioned, you'll want to set `PROJECT_DISABLE_EMAILS=True` and `PROJECT_DISABLE_TEXTS=True`
 in [`platforms'`s `.env` file](https://github.com/HeliumEdu/platform/blob/main/.env.docker.example) (and restart Docker
-with `make restart`). Helium is now accessible at http://localhost:3000, and you should be able to register for an
+with `make restart`). Helium is now accessible at http://localhost:8080, and you should be able to register for an
 account. Or have a look at [the `platform`'s README](https://github.com/HeliumEdu/platform?tab=readme-ov-file#docker-setup)
 for steps to create a superuser with access to [the admin site](http://localhost:8000/admin).
 
