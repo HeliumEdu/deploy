@@ -60,27 +60,6 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend_web" {
   }
 }
 
-resource "aws_ecr_lifecycle_policy" "frontend_web_untagged_expiration_policy" {
-  repository = aws_ecrpublic_repository.repository_helium_frontend_web.id
-  policy = jsonencode({
-    rules = [
-      {
-        rulePriority = 1,
-        description  = "Expire untagged images",
-        selection = {
-          tagStatus   = "untagged",
-          countType   = "sinceImagePushed",
-          countUnit   = "days",
-          countNumber = 1
-        },
-        action = {
-          type = "expire"
-        }
-      }
-    ]
-  })
-}
-
 resource "aws_ecrpublic_repository" "repository_helium_platform_resource" {
   repository_name = "helium/platform-resource"
 
