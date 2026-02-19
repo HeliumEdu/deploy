@@ -1,4 +1,4 @@
-.PHONY: all install-reqs install build start test-cluster publish
+.PHONY: all install-reqs install build start test-cluster
 
 SHELL := /usr/bin/env bash
 PYTHON_BIN := python
@@ -19,15 +19,15 @@ install: install-reqs
 
 build: install
 	PLATFORM=$(PLATFORM) make -C projects/platform build-docker
-	PLATFORM=$(PLATFORM) make -C projects/frontend build-web
+	PLATFORM=$(PLATFORM) make -C projects/frontend build-docker
 
 start:
 	cd projects/platform && ./bin/runserver
-	# TODO: clean this up to be Dockerized
-	cd projects/frontend && make run
+	cd projects/frontend && ./bin/runserver
 
 stop:
 	make -C projects/platform stop-docker
+	make -C projects/frontend stop-docker
 
 restart: stop start
 
@@ -55,13 +55,10 @@ CI_TWILIO_RECIPIENT_PHONE_NUMBER]"; \
 	./projects/platform/bin/provision-dot-env.sh
 
 	make -C projects/platform run-docker
-	make -C projects/frontend-legacy run-docker
+	make -C projects/frontend run-docker
 
 	ENVIRONMENT=dev-local \
-	PROJECT_APP_HOST=http://localhost:3000 \
+	PROJECT_APP_HOST=http://localhost:8080 \
     PROJECT_API_HOST=http://localhost:8000 \
     AWS_REGION=$(DEV_LOCAL_AWS_REGION) \
     make -C projects/cluster-tests test
-
-publish:
-	TAG_VERSION=$(TAG_VERSION) make -C projects/frontend-legacy publish

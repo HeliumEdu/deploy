@@ -64,7 +64,7 @@ jobs:
       - name: Build frontend-legacy
         run: TAG_VERSION=${{ inputs.version }} helium-cli build-release ${{ inputs.version }} --projects frontend-legacy
       - name: Publish frontend-legacy artifacts
-        run: TAG_VERSION=${{ inputs.version }} make publish
+        run: TAG_VERSION=${{ inputs.version }} make -C projects/frontend-legacy publish
       - name: Dump Docker logs on failure
         if: failure()
         uses: jwalton/gh-docker-logs@v2

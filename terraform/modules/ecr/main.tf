@@ -10,9 +10,9 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend" {
     operating_systems = ["Linux"]
     architectures     = ["x86-64"]
     logo_image_blob   = filebase64("${path.module}/../../resources/logo.png")
-    description       = "Images for the frontend's containers."
+    description       = "Images for the frontend-legacy containers."
     about_text        = local.about_text
-    usage_text        = "HeliumEdu is open source, and usage details for this image be found at https://github.com/heliumedu/frontend."
+    usage_text        = "HeliumEdu is open source, and usage details for this image be found at https://github.com/heliumedu/frontend-legacy."
   }
 
   tags = {
@@ -23,6 +23,45 @@ resource "aws_ecrpublic_repository" "repository_helium_frontend" {
 
 resource "aws_ecr_lifecycle_policy" "frontend_untagged_expiration_policy" {
   repository = aws_ecrpublic_repository.repository_helium_frontend.id
+  policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1,
+        description  = "Expire untagged images",
+        selection = {
+          tagStatus   = "untagged",
+          countType   = "sinceImagePushed",
+          countUnit   = "days",
+          countNumber = 1
+        },
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_ecrpublic_repository" "repository_helium_frontend_web" {
+  repository_name = "helium/frontend-web"
+
+  catalog_data {
+    operating_systems = ["Linux"]
+    architectures     = ["x86-64"]
+    logo_image_blob   = filebase64("${path.module}/../../resources/logo.png")
+    description       = "Images for the frontend web containers."
+    about_text        = local.about_text
+    usage_text        = "HeliumEdu is open source, and usage details for this image be found at https://github.com/heliumedu/frontend."
+  }
+
+  tags = {
+    Environment = "N/A"
+    Service     = "HeliumEdu"
+  }
+}
+
+resource "aws_ecr_lifecycle_policy" "frontend_web_untagged_expiration_policy" {
+  repository = aws_ecrpublic_repository.repository_helium_frontend_web.id
   policy = jsonencode({
     rules = [
       {
