@@ -89,10 +89,8 @@ resource "aws_route53_record" "status_heliumedu_com_cname" {
 }
 
 resource "aws_route53_record" "auth_heliumedu_com_cname" {
-  count = var.environment == "prod" ? 1 : 0
-
   zone_id = aws_route53_zone.heliumedu_com_zone.id
-  name    = "auth.${aws_route53_zone.heliumedu_com_zone.name}"
+  name    = "auth.${var.environment_prefix}heliumedu.com"
   type    = "CNAME"
   ttl     = "300"
   records = ["helium-edu.web.app"]
