@@ -74,6 +74,10 @@ resource "aws_ecs_task_definition" "platform_resource_task" {
         {
           name  = "USE_AWS_SECRETS_MANAGER"
           value = "True"
+        },
+        {
+          name  = "TZ"
+          value = "UTC"
         }
       ]
       logConfiguration = {
@@ -128,6 +132,10 @@ resource "aws_ecs_task_definition" "platform_service" {
         {
           name  = "USE_AWS_SECRETS_MANAGER"
           value = "True"
+        },
+        {
+          name  = "TZ"
+          value = "UTC"
         }
       ]
       logConfiguration = {
@@ -154,6 +162,10 @@ resource "aws_ecs_task_definition" "platform_service" {
         {
           name  = "USE_AWS_SECRETS_MANAGER"
           value = "True"
+        },
+        {
+          name  = "TZ"
+          value = "UTC"
         }
       ]
       logConfiguration = {
@@ -221,6 +233,10 @@ resource "aws_ecs_task_definition" "platform_beat_service" {
         {
           name  = "PLATFORM_BEAT_MODE"
           value = "True"
+        },
+        {
+          name  = "TZ"
+          value = "UTC"
         }
       ]
       logConfiguration = {
