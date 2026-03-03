@@ -51,7 +51,7 @@ concurrency:
 jobs:
   test:
     name: Test Release
-    if: ${{ github.event.inputs.run_cluster_tests == 'true' }}
+    if: ${{ inputs.run_cluster_tests }}
 
     env:
       FORCE_COLOR: 1
