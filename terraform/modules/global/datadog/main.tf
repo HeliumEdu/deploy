@@ -241,13 +241,13 @@ resource "datadog_dashboard" "helium_heads_up" {
 
       widget {
         timeseries_definition {
-          title         = "API Memory Usage"
+          title         = "API Memory Utilization"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:ecs.fargate.mem.usage{cluster_name:helium_$env.value, task_definition_family:*api*}"
+            q            = "avg:aws.ecs.memory_utilization{cluster_name:helium_$env.value, servicename:*api*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -255,13 +255,13 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "API CPU Usage"
+          title         = "API CPU Utilization"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:ecs.fargate.cpu.percent{cluster_name:helium_$env.value, task_definition_family:*api*}"
+            q            = "avg:aws.ecs.cpuutilization{cluster_name:helium_$env.value, servicename:*api*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -269,56 +269,14 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "API Task Count"
+          title         = "API Running Tasks"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "sum:ecs.fargate.task.count{cluster_name:helium_$env.value, task_definition_family:*api*}"
+            q            = "avg:aws.ecs.running_tasks_count{cluster_name:helium_$env.value, servicename:*api*}"
             display_type = "area"
-            style { palette = "cool" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "API Task Restarts"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:ecs.fargate.task.restart.count{cluster_name:helium_$env.value, task_definition_family:*api*}.as_count()"
-            display_type = "bars"
-            style { palette = "warm" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Gunicorn Request Duration (Avg)"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:gunicorn.request.duration.avg{$env}"
-            display_type = "line"
-            style { palette = "purple" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Gunicorn Requests/Sec"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:gunicorn.requests{$env}.as_rate()"
-            display_type = "line"
             style { palette = "cool" }
           }
         }
@@ -432,13 +390,13 @@ resource "datadog_dashboard" "helium_heads_up" {
 
       widget {
         timeseries_definition {
-          title         = "Worker Memory Usage"
+          title         = "Worker Memory Utilization"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:ecs.fargate.mem.usage{cluster_name:helium_$env.value, task_definition_family:*worker*}"
+            q            = "avg:aws.ecs.memory_utilization{cluster_name:helium_$env.value, servicename:*worker*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -446,13 +404,13 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Worker CPU Usage"
+          title         = "Worker CPU Utilization"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:ecs.fargate.cpu.percent{cluster_name:helium_$env.value, task_definition_family:*worker*}"
+            q            = "avg:aws.ecs.cpuutilization{cluster_name:helium_$env.value, servicename:*worker*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -460,56 +418,14 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Worker Task Count"
+          title         = "Worker Running Tasks"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "sum:ecs.fargate.task.count{cluster_name:helium_$env.value, task_definition_family:*worker*}"
+            q            = "avg:aws.ecs.running_tasks_count{cluster_name:helium_$env.value, servicename:*worker*}"
             display_type = "area"
-            style { palette = "cool" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Worker Task Restarts"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:ecs.fargate.task.restart.count{cluster_name:helium_$env.value, task_definition_family:*worker*}.as_count()"
-            display_type = "bars"
-            style { palette = "warm" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Celery Queue Depth"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:celery.queue.length{$env} by {queue}"
-            display_type = "area"
-            style { palette = "warm" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Celery Active Workers"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:celery.workers{$env}"
-            display_type = "line"
             style { palette = "cool" }
           }
         }
