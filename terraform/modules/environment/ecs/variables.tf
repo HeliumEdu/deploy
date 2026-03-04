@@ -87,3 +87,9 @@ variable "platform_target_group" {
   description = "The platform LB target group"
   type        = string
 }
+
+variable "datadog_api_key" {
+  description = "DataDog API key for DogStatsD sidecar"
+  type        = string
+  sensitive   = true
+}

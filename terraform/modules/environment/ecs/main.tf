@@ -148,6 +148,32 @@ resource "aws_ecs_task_definition" "platform_api_service" {
           awslogs-create-group  = "true"
         }
       }
+    },
+    {
+      name      = "datadog-statsd"
+      image     = "datadog/dogstatsd:latest"
+      cpu       = 0
+      essential = false
+      environment = [
+        {
+          name  = "DD_API_KEY"
+          value = var.datadog_api_key
+        },
+        {
+          name  = "DD_SITE"
+          value = "datadoghq.com"
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/helium_platform_${var.environment}"
+          mode                  = "non-blocking"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+          awslogs-create-group  = "true"
+        }
+      }
     }
   ])
 
@@ -200,6 +226,32 @@ resource "aws_ecs_task_definition" "platform_worker_service" {
         }
       }
     },
+    {
+      name      = "datadog-statsd"
+      image     = "datadog/dogstatsd:latest"
+      cpu       = 0
+      essential = false
+      environment = [
+        {
+          name  = "DD_API_KEY"
+          value = var.datadog_api_key
+        },
+        {
+          name  = "DD_SITE"
+          value = "datadoghq.com"
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/helium_platform_${var.environment}"
+          mode                  = "non-blocking"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+          awslogs-create-group  = "true"
+        }
+      }
+    }
   ])
 
   cpu    = "256"
