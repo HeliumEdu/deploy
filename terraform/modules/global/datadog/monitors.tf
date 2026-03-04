@@ -322,9 +322,9 @@ resource "datadog_monitor" "worker_memory_high" {
 resource "datadog_monitor" "api_autoscale_triggered" {
   name     = "API Autoscaling Triggered"
   type     = "query alert"
-  query    = "avg(last_5m):avg:aws.ecs.service.running{clustername:helium_prod, servicename:*api*} > 1"
+  query    = "avg(last_5m):avg:aws.ecs.service.running{clustername:helium_prod, servicename:*api*} > 2"
   message  = <<-EOT
-    API service has scaled to {{ value }} tasks (above baseline of 1). This is informational.
+    API service has scaled to {{ value }} tasks (above baseline of 2). This is informational.
 
     @support@heliumedu.com
   EOT
@@ -335,7 +335,7 @@ resource "datadog_monitor" "api_autoscale_triggered" {
   require_full_window = false
 
   monitor_thresholds {
-    critical = 1
+    critical = 2
   }
 
   tags = ["managed_by:terraform", "alert_type:informational"]
