@@ -241,6 +241,90 @@ resource "datadog_dashboard" "helium_heads_up" {
 
       widget {
         timeseries_definition {
+          title         = "API Memory Usage"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:ecs.fargate.mem.usage{cluster_name:helium_$env.value, task_definition_family:*api*}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "API CPU Usage"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:ecs.fargate.cpu.percent{cluster_name:helium_$env.value, task_definition_family:*api*}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "API Task Count"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:ecs.fargate.task.count{cluster_name:helium_$env.value, task_definition_family:*api*}"
+            display_type = "area"
+            style { palette = "cool" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "API Task Restarts"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:ecs.fargate.task.restart.count{cluster_name:helium_$env.value, task_definition_family:*api*}.as_count()"
+            display_type = "bars"
+            style { palette = "warm" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Gunicorn Request Duration (Avg)"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:gunicorn.request.duration.avg{$env}"
+            display_type = "line"
+            style { palette = "purple" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Gunicorn Requests/Sec"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:gunicorn.requests{$env}.as_rate()"
+            display_type = "line"
+            style { palette = "cool" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
           title         = "/planner 200s"
           show_legend   = true
           legend_layout = "auto"
@@ -346,6 +430,90 @@ resource "datadog_dashboard" "helium_heads_up" {
       show_title       = true
       layout_type      = "ordered"
 
+      widget {
+        timeseries_definition {
+          title         = "Worker Memory Usage"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:ecs.fargate.mem.usage{cluster_name:helium_$env.value, task_definition_family:*worker*}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Worker CPU Usage"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:ecs.fargate.cpu.percent{cluster_name:helium_$env.value, task_definition_family:*worker*}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Worker Task Count"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:ecs.fargate.task.count{cluster_name:helium_$env.value, task_definition_family:*worker*}"
+            display_type = "area"
+            style { palette = "cool" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Worker Task Restarts"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:ecs.fargate.task.restart.count{cluster_name:helium_$env.value, task_definition_family:*worker*}.as_count()"
+            display_type = "bars"
+            style { palette = "warm" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Celery Queue Depth"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:celery.queue.length{$env} by {queue}"
+            display_type = "area"
+            style { palette = "warm" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Celery Active Workers"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:celery.workers{$env}"
+            display_type = "line"
+            style { palette = "cool" }
+          }
+        }
+      }
       widget {
         timeseries_definition {
           title         = "Feed Reindex Time"
@@ -485,83 +653,18 @@ resource "datadog_dashboard" "helium_heads_up" {
     }
   }
 
-  # AWS Metrics Group
+  # AWS Metrics (Actionable) - 15 min lag from CloudWatch
   widget {
     group_definition {
-      title            = "AWS Metrics"
+      title            = "AWS Metrics (Actionable)"
       background_color = "vivid_orange"
       show_title       = true
       layout_type      = "ordered"
 
       widget {
         timeseries_definition {
-          title       = "Average memory usage per container"
+          title       = "CloudFront Error Rate"
           title_size  = "16"
-          title_align = "left"
-          show_legend = false
-          request {
-            q            = "avg:ecs.fargate.mem.usage{cluster_name:helium_$env.value} by {container_id}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "CPU percent usage per container"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = false
-          request {
-            q            = "avg:ecs.fargate.cpu.percent{cluster_name:helium_$env.value} by {container_id}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "Cloudfront Requests"
-          title_size  = "13"
-          title_align = "left"
-          show_legend = true
-          request {
-            q            = "sum:aws.cloudfront.requests{environment:$env.value}.as_count()"
-            display_type = "bars"
-            style { palette = "green" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "Average bytes sent per container"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = false
-          request {
-            q            = "avg:ecs.fargate.net.bytes_sent{cluster_name:helium_$env.value} by {container_id}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "Average bytes received per container"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = false
-          request {
-            q            = "avg:ecs.fargate.net.bytes_rcvd{cluster_name:helium_$env.value} by {container_id}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "Cloudfront Error Rate"
-          title_size  = "13"
           title_align = "left"
           show_legend = true
           request {
@@ -574,7 +677,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       widget {
         timeseries_definition {
           title       = "RDS Connections"
-          title_size  = "13"
+          title_size  = "16"
           title_align = "left"
           show_legend = true
           request {
@@ -586,7 +689,98 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
+          title       = "RDS CPU Utilization"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "avg:aws.rds.cpuutilization{name:helium-$env.value}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "RDS Available RAM"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "avg:aws.rds.freeable_memory{name:helium-$env.value}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "Redis Connections"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "sum:aws.elasticache.curr_connections{name:helium-$env.value}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "Redis CPU Utilization"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "avg:aws.elasticache.cpuutilization{name:helium-$env.value}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "Redis Available RAM"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "avg:aws.elasticache.freeable_memory{name:helium-$env.value}"
+            display_type = "line"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+    }
+  }
+
+  # AWS Metrics (Retrospective)
+  widget {
+    group_definition {
+      title            = "AWS Metrics (Retrospective)"
+      background_color = "gray"
+      show_title       = true
+      layout_type      = "ordered"
+
+      widget {
+        timeseries_definition {
+          title       = "CloudFront Requests"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "sum:aws.cloudfront.requests{environment:$env.value}.as_count()"
+            display_type = "bars"
+            style { palette = "green" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
           title       = "RDS Network Throughput"
+          title_size  = "16"
+          title_align = "left"
           show_legend = true
           request {
             q            = "avg:aws.rds.network_transmit_throughput{name:helium-$env.value}"
@@ -602,49 +796,10 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "RDS CPU Utilization"
-          title_size  = "13"
-          title_align = "left"
-          show_legend = true
-          request {
-            q            = "avg:aws.rds.cpuutilization{name:helium-$env.value}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "RDS Available RAM"
-          title_size  = "13"
-          title_align = "left"
-          show_legend = true
-          request {
-            q            = "avg:aws.rds.freeable_memory{name:helium-$env.value}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "Redis Connections"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = false
-          request {
-            q            = "sum:aws.elasticache.curr_connections{name:helium-$env.value}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
           title       = "Redis Network Throughput"
           title_size  = "16"
           title_align = "left"
-          show_legend = false
+          show_legend = true
           request {
             q            = "sum:aws.elasticache.network_bytes_in{name:helium-$env.value}.as_rate()"
             display_type = "line"
@@ -659,12 +814,13 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "Redis CPU Utilization"
+          title       = "Average Bytes Sent By Service"
           title_size  = "16"
           title_align = "left"
-          show_legend = false
+          show_legend = true
+          legend_layout = "auto"
           request {
-            q            = "avg:aws.elasticache.cpuutilization{name:helium-$env.value}"
+            q            = "avg:ecs.fargate.net.bytes_sent{cluster_name:helium_$env.value} by {task_definition_family}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -672,12 +828,13 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "Redis Available RAM"
-          title_size  = "13"
+          title       = "Average Bytes Received By Service"
+          title_size  = "16"
           title_align = "left"
           show_legend = true
+          legend_layout = "auto"
           request {
-            q            = "avg:aws.elasticache.freeable_memory{name:helium-$env.value}"
+            q            = "avg:ecs.fargate.net.bytes_rcvd{cluster_name:helium_$env.value} by {task_definition_family}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
