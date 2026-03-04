@@ -392,6 +392,7 @@ resource "aws_ecs_service" "helium_platform_worker" {
 
   network_configuration {
     subnets          = [for id in var.subnet_ids : id]
+    security_groups  = [var.http_platform]
     assign_public_ip = true
   }
 
