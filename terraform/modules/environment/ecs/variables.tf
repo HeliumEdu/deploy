@@ -15,7 +15,7 @@ variable "platform_host_count" {
 variable "platform_host_min" {
   description = "Minimum number of platform API hosts for autoscaling"
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "platform_host_max" {
