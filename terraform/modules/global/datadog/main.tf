@@ -162,7 +162,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           autoscale = false
           precision = 0
           request {
-            q          = "sum:platform.action.email.failed{$env}.as_count() + sum:platform.action.push.failed{$env}.as_count() + sum:platform.external.firebase.failed{$env}.as_count() + sum:platform.feed.ical.failed{$env}.as_count() + sum:platform.task.failed{$env}.as_count()"
+            q          = "default_zero(sum:platform.action.email.failed{$env}.as_count() + sum:platform.action.push.failed{$env}.as_count() + sum:platform.external.firebase.failed{$env}.as_count() + sum:platform.feed.ical.failed{$env}.as_count() + sum:platform.task.failed{$env}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -275,7 +275,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.running_tasks_count{clustername:helium_$env.value, servicename:*api*}"
+            q            = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*api*}"
             display_type = "area"
             style { palette = "cool" }
           }
@@ -424,7 +424,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.running_tasks_count{clustername:helium_$env.value, servicename:*worker*}"
+            q            = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "area"
             style { palette = "cool" }
           }
