@@ -79,7 +79,6 @@ module "ecs" {
   environment_prefix               = var.environment_prefix
   aws_account_id                   = local.aws_account_id
   aws_region                       = var.aws_region
-  datadog_api_key                  = var.DD_API_KEY
   http_platform                    = module.vpc.http_sg_platform
   platform_target_group            = module.alb.platform_target_group
   subnet_ids                       = module.vpc.subnet_ids

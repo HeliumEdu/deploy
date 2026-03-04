@@ -148,36 +148,6 @@ resource "aws_ecs_task_definition" "platform_api_service" {
           awslogs-create-group  = "true"
         }
       }
-    },
-    {
-      name      = "datadog-agent"
-      image     = "public.ecr.aws/datadog/agent:latest"
-      cpu       = 0
-      essential = false
-      environment = [
-        {
-          name  = "ECS_FARGATE"
-          value = "true"
-        },
-        {
-          name  = "DD_API_KEY"
-          value = var.datadog_api_key
-        },
-        {
-          name  = "DD_DOGSTATSD_NON_LOCAL_TRAFFIC"
-          value = "true"
-        },
-        {
-          name  = "DD_DOGSTATSD_TAG_CARDINALITY"
-          value = "orchestrator"
-        }
-      ]
-      portMappings = [
-        {
-          containerPort = 8125
-          protocol      = "udp"
-        }
-      ]
     }
   ])
 
@@ -230,36 +200,6 @@ resource "aws_ecs_task_definition" "platform_worker_service" {
         }
       }
     },
-    {
-      name      = "datadog-agent"
-      image     = "public.ecr.aws/datadog/agent:latest"
-      cpu       = 0
-      essential = false
-      environment = [
-        {
-          name  = "ECS_FARGATE"
-          value = "true"
-        },
-        {
-          name  = "DD_API_KEY"
-          value = var.datadog_api_key
-        },
-        {
-          name  = "DD_DOGSTATSD_NON_LOCAL_TRAFFIC"
-          value = "true"
-        },
-        {
-          name  = "DD_DOGSTATSD_TAG_CARDINALITY"
-          value = "orchestrator"
-        }
-      ]
-      portMappings = [
-        {
-          containerPort = 8125
-          protocol      = "udp"
-        }
-      ]
-    }
   ])
 
   cpu    = "256"

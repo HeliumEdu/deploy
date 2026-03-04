@@ -49,11 +49,6 @@ variable "aws_account_id" {
   type        = string
 }
 
-variable "datadog_api_key" {
-  description = "The DataDog API key"
-  type        = string
-}
-
 variable "subnet_ids" {
   description = "The list of subnets"
   type        = list(string)
