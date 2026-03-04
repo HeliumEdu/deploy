@@ -289,7 +289,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:helium.gunicorn.request.duration{$env}"
+            q            = "avg:helium.gunicorn.request.duration.avg{$env}"
             display_type = "line"
             style { palette = "purple" }
           }
