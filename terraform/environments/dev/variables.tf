@@ -1,3 +1,9 @@
+variable "env_enabled" {
+  description = "Set to false to disable this environment (plans will fail fast)"
+  type        = bool
+  default     = false
+}
+
 variable "helium_version" {
   description = "The container version. Bumping this will trigger a deploy."
   default     = "latest"

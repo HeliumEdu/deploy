@@ -1,3 +1,12 @@
+resource "terraform_data" "env_enabled_check" {
+  lifecycle {
+    precondition {
+      condition     = var.env_enabled
+      error_message = "Dev environment is disabled. Set env_enabled = true to enable."
+    }
+  }
+}
+
 data "aws_caller_identity" "current" {}
 
 locals {
