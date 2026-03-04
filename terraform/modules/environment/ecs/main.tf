@@ -162,6 +162,20 @@ resource "aws_ecs_task_definition" "platform_api_service" {
         {
           name  = "DD_API_KEY"
           value = var.datadog_api_key
+        },
+        {
+          name  = "DD_DOGSTATSD_NON_LOCAL_TRAFFIC"
+          value = "true"
+        },
+        {
+          name  = "DD_DOGSTATSD_TAG_CARDINALITY"
+          value = "orchestrator"
+        }
+      ]
+      portMappings = [
+        {
+          containerPort = 8125
+          protocol      = "udp"
         }
       ]
     }
@@ -229,6 +243,20 @@ resource "aws_ecs_task_definition" "platform_worker_service" {
         {
           name  = "DD_API_KEY"
           value = var.datadog_api_key
+        },
+        {
+          name  = "DD_DOGSTATSD_NON_LOCAL_TRAFFIC"
+          value = "true"
+        },
+        {
+          name  = "DD_DOGSTATSD_TAG_CARDINALITY"
+          value = "orchestrator"
+        }
+      ]
+      portMappings = [
+        {
+          containerPort = 8125
+          protocol      = "udp"
         }
       ]
     }
