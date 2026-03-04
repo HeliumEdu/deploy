@@ -247,7 +247,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.memory_utilization{cluster_name:helium_$env.value, servicename:*api*}"
+            q            = "avg:aws.ecs.memory_utilization{clustername:helium_$env.value, servicename:*api*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -261,7 +261,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.cpuutilization{cluster_name:helium_$env.value, servicename:*api*}"
+            q            = "avg:aws.ecs.cpuutilization{clustername:helium_$env.value, servicename:*api*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -275,7 +275,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.running_tasks_count{cluster_name:helium_$env.value, servicename:*api*}"
+            q            = "avg:aws.ecs.running_tasks_count{clustername:helium_$env.value, servicename:*api*}"
             display_type = "area"
             style { palette = "cool" }
           }
@@ -396,7 +396,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.memory_utilization{cluster_name:helium_$env.value, servicename:*worker*}"
+            q            = "avg:aws.ecs.memory_utilization{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -410,7 +410,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.cpuutilization{cluster_name:helium_$env.value, servicename:*worker*}"
+            q            = "avg:aws.ecs.cpuutilization{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -424,7 +424,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:aws.ecs.running_tasks_count{cluster_name:helium_$env.value, servicename:*worker*}"
+            q            = "avg:aws.ecs.running_tasks_count{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "area"
             style { palette = "cool" }
           }
@@ -736,7 +736,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend = true
           legend_layout = "auto"
           request {
-            q            = "avg:ecs.fargate.net.bytes_sent{cluster_name:helium_$env.value} by {task_definition_family}"
+            q            = "avg:ecs.fargate.net.bytes_sent{clustername:helium_$env.value} by {task_definition_family}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
@@ -750,7 +750,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend = true
           legend_layout = "auto"
           request {
-            q            = "avg:ecs.fargate.net.bytes_rcvd{cluster_name:helium_$env.value} by {task_definition_family}"
+            q            = "avg:ecs.fargate.net.bytes_rcvd{clustername:helium_$env.value} by {task_definition_family}"
             display_type = "line"
             style { palette = "dog_classic" }
           }
