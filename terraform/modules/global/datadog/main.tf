@@ -283,6 +283,34 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
+          title         = "Gunicorn Request Duration"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:helium.gunicorn.request.duration{$env}"
+            display_type = "line"
+            style { palette = "purple" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Gunicorn Requests"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:helium.gunicorn.requests{$env}.as_count()"
+            display_type = "bars"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
           title         = "/planner 200s"
           show_legend   = true
           legend_layout = "auto"
