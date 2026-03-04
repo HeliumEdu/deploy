@@ -728,34 +728,6 @@ resource "datadog_dashboard" "helium_heads_up" {
           }
         }
       }
-      widget {
-        timeseries_definition {
-          title       = "Average Bytes Sent By Service"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:ecs.fargate.net.bytes_sent{clustername:helium_$env.value} by {task_definition_family}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "Average Bytes Received By Service"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:ecs.fargate.net.bytes_rcvd{clustername:helium_$env.value} by {task_definition_family}"
-            display_type = "line"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
     }
   }
 }
