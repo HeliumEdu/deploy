@@ -8,13 +8,37 @@ variable "default_arch" {
 }
 
 variable "platform_host_count" {
-  description = "The number of platform API hosts desired in the cluster"
+  description = "The initial number of platform API hosts desired in the cluster"
   type        = number
 }
 
-variable "platform_worker_count" {
-  description = "The number of platform worker hosts desired in the cluster"
+variable "platform_host_min" {
+  description = "Minimum number of platform API hosts for autoscaling"
   type        = number
+  default     = 1
+}
+
+variable "platform_host_max" {
+  description = "Maximum number of platform API hosts for autoscaling"
+  type        = number
+  default     = 4
+}
+
+variable "platform_worker_count" {
+  description = "The initial number of platform worker hosts desired in the cluster"
+  type        = number
+}
+
+variable "platform_worker_min" {
+  description = "Minimum number of platform worker hosts for autoscaling"
+  type        = number
+  default     = 1
+}
+
+variable "platform_worker_max" {
+  description = "Maximum number of platform worker hosts for autoscaling"
+  type        = number
+  default     = 4
 }
 
 variable "platform_resource_repository_uri" {

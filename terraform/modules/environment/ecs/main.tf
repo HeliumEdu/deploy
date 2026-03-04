@@ -271,6 +271,10 @@ resource "aws_ecs_service" "helium_platform_api" {
   triggers = {
     redeployment = plantimestamp()
   }
+
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
 }
 
 resource "aws_ecs_service" "helium_platform_worker" {
@@ -296,5 +300,61 @@ resource "aws_ecs_service" "helium_platform_worker" {
   force_new_deployment = true
   triggers = {
     redeployment = plantimestamp()
+  }
+
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+}
+
+# Auto Scaling for Platform API
+resource "aws_appautoscaling_target" "platform_api" {
+  max_capacity       = var.platform_host_max
+  min_capacity       = var.platform_host_min
+  resource_id        = "service/${aws_ecs_cluster.helium.name}/${aws_ecs_service.helium_platform_api.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "platform_api_cpu" {
+  name               = "helium-${var.environment}-api-cpu-scaling"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.platform_api.resource_id
+  scalable_dimension = aws_appautoscaling_target.platform_api.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.platform_api.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+    target_value       = 70.0
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 60
+  }
+}
+
+# Auto Scaling for Platform Worker
+resource "aws_appautoscaling_target" "platform_worker" {
+  max_capacity       = var.platform_worker_max
+  min_capacity       = var.platform_worker_min
+  resource_id        = "service/${aws_ecs_cluster.helium.name}/${aws_ecs_service.helium_platform_worker.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
+}
+
+resource "aws_appautoscaling_policy" "platform_worker_cpu" {
+  name               = "helium-${var.environment}-worker-cpu-scaling"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.platform_worker.resource_id
+  scalable_dimension = aws_appautoscaling_target.platform_worker.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.platform_worker.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ECSServiceAverageCPUUtilization"
+    }
+    target_value       = 70.0
+    scale_in_cooldown  = 300
+    scale_out_cooldown = 60
   }
 }

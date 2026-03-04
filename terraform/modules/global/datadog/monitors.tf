@@ -225,3 +225,135 @@ resource "datadog_monitor" "task_failures" {
 
   tags = ["managed_by:terraform"]
 }
+
+resource "datadog_monitor" "api_cpu_high" {
+  name    = "API CPU Utilization High"
+  type    = "query alert"
+  query   = "avg(last_15m):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*api*} > 85"
+  message = <<-EOT
+    API CPU utilization is above {{ threshold }}%. Tasks may be under heavy load or autoscaling may be needed.
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 70
+    critical = 85
+  }
+
+  tags = ["managed_by:terraform"]
+}
+
+resource "datadog_monitor" "api_memory_high" {
+  name    = "API Memory Utilization High"
+  type    = "query alert"
+  query   = "avg(last_15m):avg:aws.ecs.memory_utilization{clustername:helium_prod, servicename:*api*} > 85"
+  message = <<-EOT
+    API memory utilization is above {{ threshold }}%. Tasks may be at risk of OOM. Consider increasing task memory or investigating memory usage.
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 70
+    critical = 85
+  }
+
+  tags = ["managed_by:terraform"]
+}
+
+resource "datadog_monitor" "worker_cpu_high" {
+  name    = "Worker CPU Utilization High"
+  type    = "query alert"
+  query   = "avg(last_15m):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*worker*} > 85"
+  message = <<-EOT
+    Worker CPU utilization is above {{ threshold }}%. Tasks may be under heavy load or autoscaling may be needed.
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 70
+    critical = 85
+  }
+
+  tags = ["managed_by:terraform"]
+}
+
+resource "datadog_monitor" "worker_memory_high" {
+  name    = "Worker Memory Utilization High"
+  type    = "query alert"
+  query   = "avg(last_15m):avg:aws.ecs.memory_utilization{clustername:helium_prod, servicename:*worker*} > 85"
+  message = <<-EOT
+    Worker memory utilization is above {{ threshold }}%. Tasks may be at risk of OOM. Consider increasing task memory or investigating memory usage.
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 70
+    critical = 85
+  }
+
+  tags = ["managed_by:terraform"]
+}
+
+resource "datadog_monitor" "api_autoscale_triggered" {
+  name     = "API Autoscaling Triggered"
+  type     = "query alert"
+  query    = "avg(last_5m):avg:aws.ecs.running_tasks_count{clustername:helium_prod, servicename:*api*} > 1"
+  message  = <<-EOT
+    API service has scaled to {{ value }} tasks (above baseline of 1). This is informational.
+
+    @support@heliumedu.com
+  EOT
+  priority = 5
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    critical = 1
+  }
+
+  tags = ["managed_by:terraform", "alert_type:informational"]
+}
+
+resource "datadog_monitor" "worker_autoscale_triggered" {
+  name     = "Worker Autoscaling Triggered"
+  type     = "query alert"
+  query    = "avg(last_5m):avg:aws.ecs.running_tasks_count{clustername:helium_prod, servicename:*worker*} > 1"
+  message  = <<-EOT
+    Worker service has scaled to {{ value }} tasks (above baseline of 1). This is informational.
+
+    @support@heliumedu.com
+  EOT
+  priority = 5
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    critical = 1
+  }
+
+  tags = ["managed_by:terraform", "alert_type:informational"]
+}
