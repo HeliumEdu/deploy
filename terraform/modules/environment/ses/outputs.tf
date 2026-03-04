@@ -1,6 +1,6 @@
 output "smtp_username" {
   sensitive = true
-  value = aws_iam_access_key.smtp_access_key.id
+  value     = aws_iam_access_key.smtp_access_key.id
 }
 
 output "smtp_password" {

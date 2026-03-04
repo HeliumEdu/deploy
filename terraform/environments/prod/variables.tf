@@ -42,8 +42,13 @@ variable "default_arch" {
 }
 
 variable "platform_host_count" {
-  description = "The number of platform hosts desired in the cluster"
-  default     = 3
+  description = "The number of platform API hosts desired in the cluster"
+  default     = 2
+}
+
+variable "platform_worker_count" {
+  description = "The number of platform worker hosts desired in the cluster"
+  default     = 2
 }
 
 variable "db_multi_az" {
