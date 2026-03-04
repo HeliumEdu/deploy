@@ -167,7 +167,7 @@ resource "aws_ecs_task_definition" "platform_api_service" {
     }
   ])
 
-  cpu    = "512"
+  cpu    = "256"
   memory = "1024"
 
   task_role_arn      = aws_iam_role.ecs_role.arn
@@ -234,7 +234,7 @@ resource "aws_ecs_task_definition" "platform_worker_service" {
     }
   ])
 
-  cpu    = "512"
+  cpu    = "256"
   memory = "1024"
 
   task_role_arn      = aws_iam_role.ecs_role.arn
