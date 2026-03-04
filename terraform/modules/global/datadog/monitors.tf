@@ -1,10 +1,11 @@
 resource "datadog_monitor" "low_email_traffic" {
-  name    = "Low Email Traffic"
-  type    = "query alert"
-  query   = "sum(last_4h):sum:platform.action.email.sent{env:prod}.as_count() < 5"
-  message = <<-EOT
+  name     = "Low Email Traffic"
+  type     = "query alert"
+  query    = "sum(last_4h):sum:platform.action.email.sent{env:prod}.as_count() < 5"
+  message  = <<-EOT
     Emails sent are below {{ threshold }} in the last 4 hours. The Helium platform or AWS SES service may need investigation.
   EOT
+  priority = 5
 
   include_tags        = false
   on_missing_data     = "default"
@@ -15,16 +16,17 @@ resource "datadog_monitor" "low_email_traffic" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:informational"]
 }
 
 resource "datadog_monitor" "token_api_low_traffic" {
-  name    = "Low Login Traffic (/token)"
-  type    = "query alert"
-  query   = "sum(last_4h):sum:platform.request{env:prod, status_code:200, method:post, path:auth.token}.as_count() < 5"
-  message = <<-EOT
+  name     = "Low Login Traffic (/token)"
+  type     = "query alert"
+  query    = "sum(last_4h):sum:platform.request{env:prod, status_code:200, method:post, path:auth.token}.as_count() < 5"
+  message  = <<-EOT
     Successful logins on /token are below {{ threshold }} in the last 4 hours.
   EOT
+  priority = 5
 
   include_tags        = false
   on_missing_data     = "default"
@@ -35,18 +37,19 @@ resource "datadog_monitor" "token_api_low_traffic" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:informational"]
 }
 
 resource "datadog_monitor" "feed_reindex_time_exceeded" {
-  name    = "Feed Reindex Time Exceeded Threshold"
-  type    = "query alert"
-  query   = "sum(last_1h):max:platform.task.timing.avg{env:prod, name:feed.reindex} / 1000 > 300"
-  message = <<-EOT
+  name     = "Feed Reindex Time Exceeded Threshold"
+  type     = "query alert"
+  query    = "sum(last_1h):max:platform.task.timing.avg{env:prod, name:feed.reindex} / 1000 > 300"
+  message  = <<-EOT
     Reindex of Feeds in the cache exceeded {{ threshold }} seconds.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 5
 
   include_tags        = false
   on_missing_data     = "default"
@@ -57,16 +60,17 @@ resource "datadog_monitor" "feed_reindex_time_exceeded" {
     critical = 300
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:informational"]
 }
 
 resource "datadog_monitor" "token_refresh_api_low_traffic" {
-  name    = "Low Session Refresh Traffic (/token/refresh)"
-  type    = "query alert"
-  query   = "sum(last_4h):sum:platform.request{env:prod, status_code:200, method:post, path:auth.token.refresh}.as_count() < 5"
-  message = <<-EOT
+  name     = "Low Session Refresh Traffic (/token/refresh)"
+  type     = "query alert"
+  query    = "sum(last_4h):sum:platform.request{env:prod, status_code:200, method:post, path:auth.token.refresh}.as_count() < 5"
+  message  = <<-EOT
     Successful session refreshes on /token/refresh are below {{ threshold }} in the last 4 hours.
   EOT
+  priority = 5
 
   include_tags        = false
   on_missing_data     = "default"
@@ -77,16 +81,17 @@ resource "datadog_monitor" "token_refresh_api_low_traffic" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:informational"]
 }
 
 resource "datadog_monitor" "low_push_notification_traffic" {
-  name    = "Low Push Notification Traffic"
-  type    = "query alert"
-  query   = "sum(last_4h):sum:platform.action.push.sent{env:prod}.as_count() < 5"
-  message = <<-EOT
+  name     = "Low Push Notification Traffic"
+  type     = "query alert"
+  query    = "sum(last_4h):sum:platform.action.push.sent{env:prod}.as_count() < 5"
+  message  = <<-EOT
     Push notifications sent are below {{ threshold }} in the last 4 hours. The Helium platform or Firebase service may need investigation.
   EOT
+  priority = 5
 
   include_tags        = false
   on_missing_data     = "default"
@@ -97,7 +102,7 @@ resource "datadog_monitor" "low_push_notification_traffic" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:informational"]
 }
 
 resource "datadog_monitor" "email_delivery_failures" {
