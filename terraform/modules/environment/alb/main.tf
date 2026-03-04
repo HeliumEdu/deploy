@@ -39,7 +39,11 @@ resource "aws_lb_target_group" "platform" {
   vpc_id      = var.helium_vpc_id
 
   health_check {
-    path = "/status/"
+    path                = "/status/?subset=core"
+    timeout             = 10
+    interval            = 30
+    healthy_threshold   = 2
+    unhealthy_threshold = 3
   }
 
   depends_on = [aws_lb.helium]
