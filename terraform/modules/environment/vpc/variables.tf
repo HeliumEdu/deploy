@@ -8,7 +8,7 @@ variable "aws_region" {
   type        = string
 }
 
-variable region_azs {
+variable "region_azs" {
   description = "Map of AZ details"
-  type = map(map(string))
+  type        = map(map(string))
 }

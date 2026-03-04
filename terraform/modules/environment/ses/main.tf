@@ -139,7 +139,7 @@ resource "aws_route53_record" "heliumedu_dev_amazonses_dkim_record" {
 
 resource "aws_route53_record" "heliumedu_dev_inbound_mx" {
   zone_id = var.route53_heliumedu_dev_zone_id
-  name    = "${var.route53_heliumedu_dev_zone_name}"
+  name    = var.route53_heliumedu_dev_zone_name
   type    = "MX"
   ttl     = "3600"
   records = ["10 inbound-smtp.${var.aws_region}.amazonaws.com"]

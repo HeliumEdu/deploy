@@ -1,10 +1,10 @@
 data "aws_iam_policy_document" "ecs_assume_role_policy" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
       identifiers = ["ecs-tasks.amazonaws.com"]
-      type = "Service"
+      type        = "Service"
     }
   }
 }
@@ -150,6 +150,43 @@ resource "aws_ecs_task_definition" "platform_service" {
       }
     },
     {
+      name      = "datadog-agent"
+      image     = "public.ecr.aws/datadog/agent:latest"
+      cpu       = 0
+      essential = false
+      environment = [
+        {
+          name  = "ECS_FARGATE"
+          value = "true"
+        },
+        {
+          name  = "DD_API_KEY"
+          value = var.datadog_api_key
+        }
+      ]
+    }
+  ])
+
+  cpu    = "512"
+  memory = "1024"
+
+  task_role_arn      = aws_iam_role.ecs_role.arn
+  execution_role_arn = aws_iam_role.ecs_role.arn
+  network_mode       = "awsvpc"
+  requires_compatibilities = [
+    "FARGATE"
+  ]
+
+  runtime_platform {
+    cpu_architecture        = var.default_arch
+    operating_system_family = "LINUX"
+  }
+}
+
+resource "aws_ecs_task_definition" "platform_worker_service" {
+  family = "helium_platform_worker_${var.environment}"
+  container_definitions = jsonencode([
+    {
       name      = "helium_platform_worker"
       image     = "${var.platform_worker_repository_uri}:amd64-${var.helium_version}"
       cpu       = 0
@@ -197,8 +234,8 @@ resource "aws_ecs_task_definition" "platform_service" {
     }
   ])
 
-  cpu    = "1024"
-  memory = "2048"
+  cpu    = "256"
+  memory = "512"
 
   task_role_arn      = aws_iam_role.ecs_role.arn
   execution_role_arn = aws_iam_role.ecs_role.arn
@@ -323,7 +360,7 @@ resource "aws_ecs_service" "helium_platform" {
 
   network_configuration {
     subnets          = [for id in var.subnet_ids : id]
-    security_groups = [var.http_platform]
+    security_groups  = [var.http_platform]
     assign_public_ip = true
   }
 
@@ -339,10 +376,35 @@ resource "aws_ecs_service" "helium_platform" {
   }
 }
 
+resource "aws_ecs_service" "helium_platform_worker" {
+  name                               = "helium_platform_worker"
+  cluster                            = aws_ecs_cluster.helium.id
+  task_definition                    = aws_ecs_task_definition.platform_worker_service.arn
+  desired_count                      = var.platform_worker_count
+  deployment_minimum_healthy_percent = 100
+  deployment_maximum_percent         = 200
+
+  capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = "FARGATE"
+  }
+
+  network_configuration {
+    subnets          = [for id in var.subnet_ids : id]
+    assign_public_ip = true
+  }
+
+  force_new_deployment = true
+  triggers = {
+    redeployment = plantimestamp()
+  }
+}
+
 # This service can never be autoscaled, only one Beat scheduler should ever be running at a time
 resource "aws_ecs_service" "helium_platform_beat" {
-  name                       = "helium_platform_beat"
-  cluster                    = aws_ecs_cluster.helium.id
+  name            = "helium_platform_beat"
+  cluster         = aws_ecs_cluster.helium.id
   task_definition = aws_ecs_task_definition.platform_beat_service.arn
   # Never set to more than 1, as only one Beat scheduler can be deployed at a time to ensure no duplication of tasks
   desired_count = 1

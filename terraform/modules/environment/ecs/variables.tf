@@ -8,7 +8,12 @@ variable "default_arch" {
 }
 
 variable "platform_host_count" {
-  description = "The number of platform hosts desired in the cluster"
+  description = "The number of platform API hosts desired in the cluster"
+  type        = number
+}
+
+variable "platform_worker_count" {
+  description = "The number of platform worker hosts desired in the cluster"
   type        = number
 }
 
@@ -51,7 +56,7 @@ variable "datadog_api_key" {
 
 variable "subnet_ids" {
   description = "The list of subnets"
-  type = list(string)
+  type        = list(string)
 }
 
 variable "http_platform" {

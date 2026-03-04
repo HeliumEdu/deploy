@@ -64,6 +64,7 @@ module "ecs" {
   helium_version                   = var.helium_version
   default_arch                     = var.default_arch
   platform_host_count              = var.platform_host_count
+  platform_worker_count            = var.platform_worker_count
   platform_resource_repository_uri = module.ecr.platform_resource_repository_uri
   platform_api_repository_uri      = module.ecr.platform_api_repository_uri
   platform_worker_repository_uri   = module.ecr.platform_worker_repository_uri
