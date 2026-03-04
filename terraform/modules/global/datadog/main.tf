@@ -289,7 +289,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:helium.gunicorn.request.duration.avg{$env}"
+            q            = "avg:helium.gunicorn.request.duration{cluster_name:helium_$env.value}"
             display_type = "line"
             style { palette = "purple" }
           }
@@ -303,7 +303,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "sum:helium.gunicorn.requests{$env}.as_count()"
+            q            = "sum:helium.gunicorn.requests{cluster_name:helium_$env.value}.as_count()"
             display_type = "bars"
             style { palette = "dog_classic" }
           }
