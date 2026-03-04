@@ -162,6 +162,10 @@ resource "aws_ecs_task_definition" "platform_api_service" {
         {
           name  = "DD_SITE"
           value = "datadoghq.com"
+        },
+        {
+          name  = "DD_ENV"
+          value = var.environment
         }
       ]
       logConfiguration = {
@@ -239,6 +243,10 @@ resource "aws_ecs_task_definition" "platform_worker_service" {
         {
           name  = "DD_SITE"
           value = "datadoghq.com"
+        },
+        {
+          name  = "DD_ENV"
+          value = var.environment
         }
       ]
       logConfiguration = {
