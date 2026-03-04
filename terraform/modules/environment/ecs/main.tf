@@ -109,8 +109,8 @@ resource "aws_ecs_task_definition" "platform_resource_task" {
   }
 }
 
-resource "aws_ecs_task_definition" "platform_service" {
-  family = "helium_platform_${var.environment}"
+resource "aws_ecs_task_definition" "platform_api_service" {
+  family = "helium_platform_api_${var.environment}"
   container_definitions = jsonencode([
     {
       name      = "helium_platform_api"
@@ -343,10 +343,10 @@ data "aws_ecs_task_execution" "helium_platform_resource" {
   }
 }
 
-resource "aws_ecs_service" "helium_platform" {
-  name                               = "helium_platform"
+resource "aws_ecs_service" "helium_platform_api" {
+  name                               = "helium_platform_api"
   cluster                            = aws_ecs_cluster.helium.id
-  task_definition                    = aws_ecs_task_definition.platform_service.arn
+  task_definition                    = aws_ecs_task_definition.platform_api_service.arn
   desired_count                      = var.platform_host_count
   health_check_grace_period_seconds  = 10
   deployment_minimum_healthy_percent = 100
