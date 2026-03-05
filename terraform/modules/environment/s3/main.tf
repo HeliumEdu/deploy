@@ -254,6 +254,19 @@ resource "aws_s3_bucket_policy" "helium_alb_logs_allow_elb_delivery" {
   depends_on = [aws_s3_bucket_public_access_block.helium_alb_logs_block_public]
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "helium_alb_logs_lifecycle" {
+  bucket = aws_s3_bucket.helium_alb_logs.id
+
+  rule {
+    id     = "expire-old-logs"
+    status = "Enabled"
+
+    expiration {
+      days = 30
+    }
+  }
+}
+
 // Buckets only created once, for production
 
 resource "aws_s3_bucket" "heliumedu" {
