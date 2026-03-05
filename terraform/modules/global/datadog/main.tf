@@ -303,20 +303,6 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Gunicorn Request Duration"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:helium.gunicorn.request.duration.avg{cluster_name:helium_$env.value}"
-            display_type = "line"
-            style { palette = "purple" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
           title         = "Endpoint Response Time (Top 5 Slowest)"
           title_size    = "16"
           title_align   = "left"
@@ -326,56 +312,6 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "top(avg:platform.request.timing.avg{$env, $staff, $authenticated, $version, $user_agent} by {path}, 5, 'mean', 'desc')"
             display_type = "line"
             style { palette = "warm" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Gunicorn Requests"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:helium.gunicorn.requests{cluster_name:helium_$env.value}.as_count()"
-            display_type = "bars"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "/planner 200s"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.request{status_code:200 , $env, $staff, $authenticated, $version, $user_agent, path:planner.*}.as_count()"
-            display_type = "bars"
-            style { palette = "green" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "/token 200s"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.request{$env,method:post,status_code:200,$version, $user_agent, path:auth.token}.as_count()"
-            display_type = "bars"
-            style { palette = "green" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "/token/refresh 200s"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.request{$env,status_code:200,method:post, $user_agent, $version, path:auth.token.refresh}.as_count()"
-            display_type = "bars"
-            style { palette = "green" }
           }
         }
       }
@@ -412,6 +348,20 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.request{status_code:429, $env, $staff, $authenticated, $version, $user_agent} by {path}.as_count()"
             display_type = "bars"
             style { palette = "orange" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Requests by Route (Top 10)"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "top(sum:platform.request{$env, $staff, $authenticated, $version, $user_agent} by {path}.as_count(), 10, 'sum', 'desc')"
+            display_type = "bars"
+            style { palette = "dog_classic" }
           }
         }
       }
@@ -698,6 +648,19 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.applicationelb.healthy_host_count{name:helium-$env.value}"
             display_type = "area"
             style { palette = "cool" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "ALB Active Connections"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "avg:aws.applicationelb.active_connection_count{name:helium-$env.value}"
+            display_type = "line"
+            style { palette = "purple" }
           }
         }
       }
