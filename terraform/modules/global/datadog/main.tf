@@ -261,7 +261,7 @@ resource "datadog_dashboard" "helium_heads_up" {
 
       widget {
         timeseries_definition {
-          title         = "API Memory Utilization"
+          title         = "API Memory Utilization (%)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
@@ -275,7 +275,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "API CPU Utilization"
+          title         = "API CPU Utilization (%)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
@@ -317,7 +317,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Endpoint Response Time (Top 5 Slowest)"
+          title         = "Endpoint Response Time (Top 5 Slowest, ms)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
@@ -402,7 +402,7 @@ resource "datadog_dashboard" "helium_heads_up" {
 
       widget {
         timeseries_definition {
-          title         = "Worker Memory Utilization"
+          title         = "Worker Memory Utilization (%)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
@@ -416,7 +416,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Worker CPU Utilization"
+          title         = "Worker CPU Utilization (%)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
@@ -555,7 +555,7 @@ resource "datadog_dashboard" "helium_heads_up" {
 
       widget {
         timeseries_definition {
-          title       = "CloudFront Error Rate"
+          title       = "CloudFront Error Rate (%)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
@@ -643,7 +643,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "RDS CPU Utilization"
+          title       = "RDS CPU Utilization (%)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
@@ -656,7 +656,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "RDS Available RAM"
+          title       = "RDS Available RAM (bytes)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
@@ -682,7 +682,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "Redis CPU Utilization"
+          title       = "Redis CPU Utilization (%)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
@@ -695,7 +695,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "Redis Available RAM"
+          title       = "Redis Available RAM (bytes)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
@@ -732,7 +732,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "RDS Network Throughput"
+          title       = "RDS Network Throughput (bytes/s)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
@@ -750,7 +750,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "Redis Network Throughput"
+          title       = "Redis Network Throughput (bytes/s)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
