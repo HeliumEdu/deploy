@@ -424,6 +424,20 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
+          title         = "Celery Queue Depth"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:platform.celery.queue.depth{$env}"
+            display_type = "line"
+            style { palette = "orange" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
           title         = "Task Runtime by Name (p95 ms)"
           title_size    = "16"
           title_align   = "left"
