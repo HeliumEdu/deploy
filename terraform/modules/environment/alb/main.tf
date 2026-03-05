@@ -47,7 +47,7 @@ resource "aws_lb_target_group" "platform" {
   health_check {
     path                = "/status/?subset=core"
     timeout             = 10
-    interval            = 60
+    interval            = 30
     healthy_threshold   = 2
     unhealthy_threshold = 3
   }
