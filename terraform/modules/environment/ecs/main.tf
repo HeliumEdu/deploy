@@ -305,7 +305,7 @@ resource "aws_ecs_service" "helium_platform_api" {
   cluster                            = aws_ecs_cluster.helium.id
   task_definition                    = aws_ecs_task_definition.platform_api_service.arn
   desired_count                      = var.platform_host_count
-  health_check_grace_period_seconds  = 30
+  health_check_grace_period_seconds  = 120
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
 
