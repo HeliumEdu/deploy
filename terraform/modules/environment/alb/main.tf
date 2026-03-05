@@ -6,6 +6,12 @@ resource "aws_lb" "helium" {
   subnets            = [for id in var.subnet_ids : id]
 
   enable_deletion_protection = true
+
+  access_logs {
+    bucket  = var.alb_access_logs_bucket
+    prefix  = "alb/${var.environment}"
+    enabled = true
+  }
 }
 
 resource "aws_route53_record" "api_heliumedu_com_lb_cname" {

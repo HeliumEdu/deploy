@@ -24,3 +24,7 @@ output "heliumedu_s3_frontend_app_bucket_name" {
 output "heliumedu_s3_frontend_app_website_endpoint" {
   value = aws_s3_bucket_website_configuration.heliumedu_frontend_app.website_endpoint
 }
+
+output "heliumedu_s3_alb_logs_bucket_name" {
+  value = aws_s3_bucket.helium_alb_logs.bucket
+}

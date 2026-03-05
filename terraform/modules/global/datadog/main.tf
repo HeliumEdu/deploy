@@ -620,12 +620,12 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "ALB 5XX Errors (ELB)"
+          title       = "ALB 5XX Count (ELB)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
           request {
-            q            = "sum:aws.applicationelb.httpcode_elb_5xx{loadbalancer:app/helium-$env.value/*}.as_count()"
+            q            = "sum:aws.applicationelb.httpcode_elb_5xx{loadbalancername:helium-$env.value}.as_count()"
             display_type = "bars"
             style { palette = "red" }
           }
@@ -633,12 +633,12 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "ALB 5XX Errors (Target)"
+          title       = "ALB 5XX Count (Target)"
           title_size  = "16"
           title_align = "left"
           show_legend = true
           request {
-            q            = "sum:aws.applicationelb.httpcode_target_5xx{loadbalancer:app/helium-$env.value/*}.as_count()"
+            q            = "sum:aws.applicationelb.httpcode_target_5xx{loadbalancername:helium-$env.value,targetgroupname:helium-platform-http}.as_count()"
             display_type = "bars"
             style { palette = "red" }
           }
@@ -651,7 +651,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_align = "left"
           show_legend = true
           request {
-            q            = "sum:aws.applicationelb.target_connection_error_count{loadbalancer:app/helium-$env.value/*}.as_count()"
+            q            = "sum:aws.applicationelb.target_connection_error_count{loadbalancername:helium-$env.value,targetgroupname:helium-platform-http}.as_count()"
             display_type = "bars"
             style { palette = "orange" }
           }
@@ -664,7 +664,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_align = "left"
           show_legend = true
           request {
-            q            = "avg:aws.applicationelb.healthy_host_count{loadbalancer:app/helium-$env.value/*}"
+            q            = "avg:aws.applicationelb.healthy_host_count{loadbalancername:helium-$env.value,targetgroupname:helium-platform-http}"
             display_type = "area"
             style { palette = "cool" }
           }
