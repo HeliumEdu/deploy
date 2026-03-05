@@ -87,7 +87,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           text_align  = "center"
           precision   = 0
           request {
-            q          = "avg:platform.request{$env, $staff, $authenticated, $version ,user_agent:mozilla/*iphone*}.as_count() + avg:platform.request{$env, $staff, $authenticated, $version ,user_agent:mozilla/*android*}.as_count()"
+            q          = "avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_browser_ios}.as_count() + avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_browser_android}.as_count()"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -102,7 +102,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           text_align  = "center"
           precision   = 0
           request {
-            q          = "avg:platform.request{$env, $staff, $authenticated, $version ,user_agent:dart*}.as_count()"
+            q          = "avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_app_flutter}.as_count()"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
