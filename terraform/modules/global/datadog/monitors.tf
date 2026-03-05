@@ -231,12 +231,17 @@ resource "datadog_monitor" "task_failures" {
   tags = ["managed_by:terraform"]
 }
 
-resource "datadog_monitor" "api_cpu_high" {
-  name    = "API CPU Utilization High"
+resource "datadog_monitor" "api_undersized" {
+  name    = "API Tasks Undersized"
   type    = "query alert"
-  query   = "avg(last_15m):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*api*} > 85"
+  query   = "avg(last_1d):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*api*} > 60"
   message = <<-EOT
-    API CPU utilization is above {{ threshold }}%. Tasks may be under heavy load or autoscaling may be needed.
+    API CPU utilization has averaged above {{ threshold }}% for the last 24 hours.
+
+    This sustained high utilization indicates your API tasks are undersized. Consider:
+    - Increasing task CPU allocation in ECS task definition
+    - Increasing Gunicorn workers/threads if memory allows
+    - Raising platform_host_min for more baseline capacity
 
     Notify: @support@heliumedu.com
   EOT
@@ -246,19 +251,24 @@ resource "datadog_monitor" "api_cpu_high" {
   require_full_window = false
 
   monitor_thresholds {
-    warning  = 70
-    critical = 85
+    warning  = 50
+    critical = 60
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:config"]
 }
 
-resource "datadog_monitor" "api_memory_high" {
-  name    = "API Memory Utilization High"
+resource "datadog_monitor" "worker_undersized" {
+  name    = "Worker Tasks Undersized"
   type    = "query alert"
-  query   = "avg(last_15m):avg:aws.ecs.memory_utilization{clustername:helium_prod, servicename:*api*} > 85"
+  query   = "avg(last_1d):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*worker*} > 60"
   message = <<-EOT
-    API memory utilization is above {{ threshold }}%. Tasks may be at risk of OOM. Consider increasing task memory or investigating memory usage.
+    Worker CPU utilization has averaged above {{ threshold }}% for the last 24 hours.
+
+    This sustained high utilization indicates your worker tasks are undersized. Consider:
+    - Increasing task CPU allocation in ECS task definition
+    - Increasing Celery concurrency if memory allows
+    - Raising platform_worker_min for more baseline capacity
 
     Notify: @support@heliumedu.com
   EOT
@@ -268,55 +278,11 @@ resource "datadog_monitor" "api_memory_high" {
   require_full_window = false
 
   monitor_thresholds {
-    warning  = 70
-    critical = 85
+    warning  = 50
+    critical = 60
   }
 
-  tags = ["managed_by:terraform"]
-}
-
-resource "datadog_monitor" "worker_cpu_high" {
-  name    = "Worker CPU Utilization High"
-  type    = "query alert"
-  query   = "avg(last_15m):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*worker*} > 85"
-  message = <<-EOT
-    Worker CPU utilization is above {{ threshold }}%. Tasks may be under heavy load or autoscaling may be needed.
-
-    Notify: @support@heliumedu.com
-  EOT
-
-  include_tags        = false
-  on_missing_data     = "default"
-  require_full_window = false
-
-  monitor_thresholds {
-    warning  = 70
-    critical = 85
-  }
-
-  tags = ["managed_by:terraform"]
-}
-
-resource "datadog_monitor" "worker_memory_high" {
-  name    = "Worker Memory Utilization High"
-  type    = "query alert"
-  query   = "avg(last_15m):avg:aws.ecs.memory_utilization{clustername:helium_prod, servicename:*worker*} > 85"
-  message = <<-EOT
-    Worker memory utilization is above {{ threshold }}%. Tasks may be at risk of OOM. Consider increasing task memory or investigating memory usage.
-
-    Notify: @support@heliumedu.com
-  EOT
-
-  include_tags        = false
-  on_missing_data     = "default"
-  require_full_window = false
-
-  monitor_thresholds {
-    warning  = 70
-    critical = 85
-  }
-
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:config"]
 }
 
 resource "datadog_monitor" "api_autoscale_triggered" {
@@ -361,4 +327,112 @@ resource "datadog_monitor" "worker_autoscale_triggered" {
   }
 
   tags = ["managed_by:terraform", "alert_type:informational"]
+}
+
+resource "datadog_monitor" "api_slow_responses" {
+  name    = "API Response Times Degraded"
+  type    = "query alert"
+  query   = "avg(last_1d):avg:platform.request.timing.95percentile{env:prod} / 1000 > 3000"
+  message = <<-EOT
+    API p95 response time has averaged above {{ threshold }}ms for the last 24 hours.
+
+    Sustained slow responses indicate a configuration or optimization issue:
+    - Database queries need optimization (check Sentry for N+1, slow queries)
+    - API tasks may be undersized
+    - Missing database indexes
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 2000
+    critical = 3000
+  }
+
+  tags = ["managed_by:terraform", "alert_type:config"]
+}
+
+resource "datadog_monitor" "api_capacity_config" {
+  name    = "API Capacity Configuration Wrong"
+  type    = "query alert"
+  query   = "avg(last_1d):avg:aws.applicationelb.active_connection_count{name:helium-prod} / avg:aws.ecs.service.running{clustername:helium_prod, servicename:*api*} > 12"
+  message = <<-EOT
+    Average connections per API task has been above {{ threshold }} for the last 24 hours.
+
+    With 18 concurrent connections per task (3 workers × 6 threads), sustained high utilization means your capacity configuration needs adjustment:
+    - Increase platform_host_min for more baseline capacity
+    - Increase Gunicorn workers/threads per task
+    - Increase task CPU/memory to support more workers
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 10
+    critical = 12
+  }
+
+  tags = ["managed_by:terraform", "alert_type:config"]
+}
+
+resource "datadog_monitor" "redis_needs_upgrade" {
+  name    = "Redis Instance Needs Upgrade"
+  type    = "query alert"
+  query   = "avg(last_1d):100 - (avg:aws.elasticache.freeable_memory{name:helium-prod} / 1000000000 * 100) > 70"
+  message = <<-EOT
+    Redis memory utilization has averaged above {{ threshold }}% for the last 24 hours.
+
+    Sustained high memory usage indicates configuration changes needed:
+    - Review cache TTL settings (items not expiring)
+    - Check for Celery queue backlog
+    - Consider upgrading ElastiCache instance size
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 60
+    critical = 70
+  }
+
+  tags = ["managed_by:terraform", "alert_type:config"]
+}
+
+resource "datadog_monitor" "rds_connection_config" {
+  name    = "RDS Connection Configuration Wrong"
+  type    = "query alert"
+  query   = "avg(last_1d):avg:aws.rds.database_connections{name:helium-prod} > 100"
+  message = <<-EOT
+    RDS connections have averaged above {{ threshold }} for the last 24 hours (max ~150 for db.t4g.small).
+
+    Sustained high connection count indicates configuration changes needed:
+    - Add connection pooling (PgBouncer or Django CONN_MAX_AGE)
+    - Check for connection leaks in application code
+    - Consider upgrading RDS instance size
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 80
+    critical = 100
+  }
+
+  tags = ["managed_by:terraform", "alert_type:config"]
 }
