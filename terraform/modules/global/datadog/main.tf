@@ -620,40 +620,37 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title       = "ALB 5XX Count (ELB)"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = true
+          title         = "ALB Errors"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
           request {
-            q            = "sum:aws.applicationelb.httpcode_elb_5xx{loadbalancername:helium-$env.value}.as_count()"
+            q            = "sum:aws.applicationelb.httpcode_elb_5xx{name:helium-$env.value}.as_count()"
             display_type = "bars"
-            style { palette = "red" }
+            style { palette = "warm" }
+            metadata {
+              expression = "sum:aws.applicationelb.httpcode_elb_5xx{name:helium-$env.value}.as_count()"
+              alias_name = "ELB 5xx"
+            }
           }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "ALB 5XX Count (Target)"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = true
           request {
-            q            = "sum:aws.applicationelb.httpcode_target_5xx{loadbalancername:helium-$env.value,targetgroupname:helium-platform-http}.as_count()"
+            q            = "sum:aws.applicationelb.httpcode_target_5xx{name:helium-$env.value}.as_count()"
             display_type = "bars"
-            style { palette = "red" }
+            style { palette = "warm" }
+            metadata {
+              expression = "sum:aws.applicationelb.httpcode_target_5xx{name:helium-$env.value}.as_count()"
+              alias_name = "Target 5xx"
+            }
           }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title       = "ALB Target Connection Errors"
-          title_size  = "16"
-          title_align = "left"
-          show_legend = true
           request {
-            q            = "sum:aws.applicationelb.target_connection_error_count{loadbalancername:helium-$env.value,targetgroupname:helium-platform-http}.as_count()"
+            q            = "sum:aws.applicationelb.target_connection_error_count{name:helium-$env.value}.as_count()"
             display_type = "bars"
-            style { palette = "orange" }
+            style { palette = "warm" }
+            metadata {
+              expression = "sum:aws.applicationelb.target_connection_error_count{name:helium-$env.value}.as_count()"
+              alias_name = "Connection Errors"
+            }
           }
         }
       }
@@ -664,7 +661,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_align = "left"
           show_legend = true
           request {
-            q            = "avg:aws.applicationelb.healthy_host_count{loadbalancername:helium-$env.value,targetgroupname:helium-platform-http}"
+            q            = "avg:aws.applicationelb.healthy_host_count{name:helium-$env.value}"
             display_type = "area"
             style { palette = "cool" }
           }
