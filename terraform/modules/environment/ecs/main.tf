@@ -181,8 +181,8 @@ resource "aws_ecs_task_definition" "platform_api_service" {
     }
   ])
 
-  cpu    = "256"
-  memory = "1024"
+  cpu    = "1024"
+  memory = "2048"
 
   task_role_arn      = aws_iam_role.ecs_role.arn
   execution_role_arn = aws_iam_role.ecs_role.arn
@@ -263,7 +263,7 @@ resource "aws_ecs_task_definition" "platform_worker_service" {
   ])
 
   cpu    = "256"
-  memory = "1024"
+  memory = "512"
 
   task_role_arn      = aws_iam_role.ecs_role.arn
   execution_role_arn = aws_iam_role.ecs_role.arn
@@ -387,9 +387,7 @@ resource "aws_appautoscaling_policy" "platform_api_cpu" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
-    target_value       = 70.0
-    scale_in_cooldown  = 300
-    scale_out_cooldown = 60
+    target_value = 70.0
   }
 }
 
@@ -404,9 +402,7 @@ resource "aws_appautoscaling_policy" "platform_api_memory" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
-    target_value       = 70.0
-    scale_in_cooldown  = 300
-    scale_out_cooldown = 60
+    target_value = 70.0
   }
 }
 
@@ -430,9 +426,7 @@ resource "aws_appautoscaling_policy" "platform_worker_cpu" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
-    target_value       = 70.0
-    scale_in_cooldown  = 300
-    scale_out_cooldown = 60
+    target_value = 70.0
   }
 }
 
@@ -447,8 +441,6 @@ resource "aws_appautoscaling_policy" "platform_worker_memory" {
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageMemoryUtilization"
     }
-    target_value       = 70.0
-    scale_in_cooldown  = 300
-    scale_out_cooldown = 60
+    target_value = 70.0
   }
 }
