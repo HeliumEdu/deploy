@@ -145,6 +145,26 @@ resource "datadog_dashboard" "helium_heads_up" {
           }
         }
       }
+      widget {
+        toplist_definition {
+          title       = "Slowest Endpoints (Avg ms)"
+          title_size  = "16"
+          title_align = "left"
+          request {
+            q = "top(avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $staff, $version} by {path}, 10, 'mean', 'desc')"
+          }
+        }
+      }
+      widget {
+        toplist_definition {
+          title       = "Slowest Endpoints (p95 ms)"
+          title_size  = "16"
+          title_align = "left"
+          request {
+            q = "top(avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $staff, $version} by {path}, 10, 'mean', 'desc')"
+          }
+        }
+      }
     }
   }
 
@@ -292,6 +312,20 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:helium.gunicorn.request.duration.avg{cluster_name:helium_$env.value}"
             display_type = "line"
             style { palette = "purple" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Endpoint Response Time (Top 5 Slowest)"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "top(avg:platform.request.timing.avg{$env, $staff, $authenticated, $version, $user_agent} by {path}, 5, 'mean', 'desc')"
+            display_type = "line"
+            style { palette = "warm" }
           }
         }
       }
