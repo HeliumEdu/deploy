@@ -421,6 +421,54 @@ resource "datadog_monitor" "redis_needs_upgrade" {
   tags = ["managed_by:terraform", "alert_type:config"]
 }
 
+resource "datadog_monitor" "api_5xx_spike" {
+  name    = "API 5xx Error Spike"
+  type    = "query alert"
+  query   = "sum(last_5m):(sum:aws.applicationelb.httpcode_elb_5xx{name:helium-prod}.as_count() + sum:aws.applicationelb.httpcode_target_5xx{name:helium-prod}.as_count()) > 5"
+  message = <<-EOT
+    More than {{ threshold }} ALB 5xx errors in the last 5 minutes. Investigate:
+    - ELB 5xx: ALB-generated errors (502/503/504) — ECS targets may be unhealthy or unreachable
+    - Target 5xx: backend returning 5xx as seen by the ALB
+
+    Notify: @support@heliumedu.com
+  EOT
+  priority = 2
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 1
+    critical = 5
+  }
+
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
+}
+
+resource "datadog_monitor" "frontend_5xx_spike" {
+  name    = "Frontend 5xx Error Rate Elevated"
+  type    = "query alert"
+  query   = "avg(last_5m):sum:aws.cloudfront.5xx_error_rate{environment:prod}.weighted() > 5"
+  message = <<-EOT
+    CloudFront 5xx error rate has exceeded {{ threshold }}% in the last 5 minutes. The frontend S3 origin may be unavailable or misconfigured.
+
+    Notify: @support@heliumedu.com
+  EOT
+  priority = 2
+
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+
+  monitor_thresholds {
+    warning  = 1
+    critical = 5
+  }
+
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
+}
+
 resource "datadog_monitor" "rds_connection_config" {
   name     = "RDS Connection Configuration Wrong"
   type     = "query alert"
