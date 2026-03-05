@@ -453,7 +453,11 @@ resource "datadog_dashboard" "helium_heads_up" {
           request {
             q            = "sum:platform.action.push.sent{$env, $version}.as_count()"
             display_type = "line"
-            style { palette = "purple" line_type = "solid" line_width = "thick" }
+            style {
+              palette    = "purple"
+              line_type  = "solid"
+              line_width = "thick"
+            }
             metadata {
               expression = "sum:platform.action.push.sent{$env, $version}.as_count()"
               alias_name = "Push"
