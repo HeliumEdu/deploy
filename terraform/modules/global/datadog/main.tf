@@ -151,7 +151,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $staff, $version} by {path}"
+            q = "avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $version} by {path}"
           }
         }
       }
@@ -161,7 +161,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $staff, $version} by {path}"
+            q = "avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $version} by {path}"
           }
         }
       }
@@ -323,7 +323,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "top(avg:platform.request.timing.avg{$env, $staff, $authenticated, $version, $user_agent} by {path}, 5, 'mean', 'desc')"
+            q            = "top(avg:platform.request.timing.avg{$env, $authenticated, $version, $user_agent} by {path}, 5, 'mean', 'desc')"
             display_type = "line"
             style { palette = "warm" }
           }
@@ -335,7 +335,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "sum:platform.request{status_code:500, $env, $staff, $authenticated, $version, $user_agent} by {path}.as_count()"
+            q            = "sum:platform.request{status_code:500, $env, $authenticated, $version, $user_agent} by {path}.as_count()"
             display_type = "bars"
             style { palette = "red" }
           }
