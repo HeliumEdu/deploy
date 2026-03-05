@@ -38,7 +38,7 @@ variable "platform_worker_min" {
 variable "platform_worker_max" {
   description = "Maximum number of platform worker hosts for autoscaling"
   type        = number
-  default     = 4
+  default     = 1
 }
 
 variable "platform_resource_repository_uri" {
