@@ -620,6 +620,58 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
+          title       = "ALB 5XX Errors (ELB)"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "sum:aws.applicationelb.httpcode_elb_5xx{loadbalancer:app/helium-$env.value/*}.as_count()"
+            display_type = "bars"
+            style { palette = "red" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "ALB 5XX Errors (Target)"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "sum:aws.applicationelb.httpcode_target_5xx{loadbalancer:app/helium-$env.value/*}.as_count()"
+            display_type = "bars"
+            style { palette = "red" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "ALB Target Connection Errors"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "sum:aws.applicationelb.target_connection_error_count{loadbalancer:app/helium-$env.value/*}.as_count()"
+            display_type = "bars"
+            style { palette = "orange" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title       = "ALB Healthy Targets"
+          title_size  = "16"
+          title_align = "left"
+          show_legend = true
+          request {
+            q            = "avg:aws.applicationelb.healthy_host_count{loadbalancer:app/helium-$env.value/*}"
+            display_type = "area"
+            style { palette = "cool" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
           title       = "RDS Connections"
           title_size  = "16"
           title_align = "left"
