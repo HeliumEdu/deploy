@@ -46,7 +46,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           autoscale   = false
           precision   = 0
           request {
-            q          = "avg:platform.action.user.login{$env, $staff, $authenticated, $version, $user_agent}.as_count()"
+            q          = "default_zero(avg:platform.action.user.login{$env, $staff, $authenticated, $version, $user_agent}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -58,7 +58,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           autoscale = false
           precision = 0
           request {
-            q          = "sum:platform.action.user.verified{$env,$version, $user_agent, staff:false}.as_count()"
+            q          = "default_zero(sum:platform.action.user.verified{$env,$version, $user_agent, staff:false}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -72,7 +72,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           autoscale   = false
           precision   = 0
           request {
-            q          = "avg:platform.action.email.sent{$env, $version}.as_count() + avg:platform.action.push.sent{$env, $version}.as_count()"
+            q          = "default_zero(avg:platform.action.email.sent{$env, $version}.as_count() + avg:platform.action.push.sent{$env, $version}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -87,7 +87,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           text_align  = "center"
           precision   = 0
           request {
-            q          = "avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_browser_ios}.as_count() + avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_browser_android}.as_count()"
+            q          = "default_zero(avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_browser_ios}.as_count() + avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_browser_android}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -102,7 +102,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           text_align  = "center"
           precision   = 0
           request {
-            q          = "avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_app_flutter}.as_count()"
+            q          = "default_zero(avg:platform.request{$env, $staff, $authenticated, $version, user_agent:mobile_app_flutter}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -114,7 +114,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           autoscale = false
           precision = 0
           request {
-            q          = "sum:platform.task{$env,$version, $user_agent,staff:false,name:user.delete}.as_count()"
+            q          = "default_zero(sum:platform.task{$env,$version, $user_agent,staff:false,name:user.delete}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -129,7 +129,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           text_align  = "center"
           precision   = 0
           request {
-            q          = "avg:platform.request{$env, $staff, $authenticated, $version, $user_agent}.as_count()"
+            q          = "default_zero(avg:platform.request{$env, $staff, $authenticated, $version, $user_agent}.as_count())"
             aggregator = "sum"
           }
           timeseries_background { type = "bars" }
@@ -141,7 +141,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "sum:platform.request{$env, $user_agent, $authenticated, $staff, $version} by {path}.as_count()"
+            q = "default_zero(sum:platform.request{$env, $user_agent, $authenticated, $staff, $version} by {path}.as_count())"
           }
         }
       }
