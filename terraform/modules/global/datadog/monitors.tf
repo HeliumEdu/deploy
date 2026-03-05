@@ -106,14 +106,15 @@ resource "datadog_monitor" "low_push_notification_traffic" {
 }
 
 resource "datadog_monitor" "email_delivery_failures" {
-  name    = "Email Delivery Failure Spike"
-  type    = "query alert"
-  query   = "sum(last_1h):sum:platform.action.email.failed{env:prod}.as_count() > 5"
-  message = <<-EOT
+  name     = "Email Delivery Failure Spike"
+  type     = "query alert"
+  query    = "sum(last_1h):sum:platform.action.email.failed{env:prod}.as_count() > 5"
+  message  = <<-EOT
     More than {{ threshold }} email delivery failures detected. AWS SES or the email sending service should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
@@ -123,18 +124,19 @@ resource "datadog_monitor" "email_delivery_failures" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
 
 resource "datadog_monitor" "push_delivery_failures" {
-  name    = "Push Notification Delivery Failure Spike"
-  type    = "query alert"
-  query   = "sum(last_1h):sum:platform.action.push.failed{env:prod}.as_count() > 5"
-  message = <<-EOT
+  name     = "Push Notification Delivery Failure Spike"
+  type     = "query alert"
+  query    = "sum(last_1h):sum:platform.action.push.failed{env:prod}.as_count() > 5"
+  message  = <<-EOT
     More than {{ threshold }} push notification delivery failures detected. Firebase Cloud Messaging should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
@@ -144,18 +146,19 @@ resource "datadog_monitor" "push_delivery_failures" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
 
 resource "datadog_monitor" "server_error_spike" {
-  name    = "500 Error Spike"
-  type    = "query alert"
-  query   = "sum(last_5m):sum:platform.request{env:prod, status_code:500}.as_count() > 10"
-  message = <<-EOT
+  name     = "500 Error Spike"
+  type     = "query alert"
+  query    = "sum(last_5m):sum:platform.request{env:prod, status_code:500}.as_count() > 10"
+  message  = <<-EOT
     More than {{ threshold }} 500 errors in the last 5 minutes. The platform may be experiencing issues.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
@@ -165,18 +168,19 @@ resource "datadog_monitor" "server_error_spike" {
     critical = 10
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
 
 resource "datadog_monitor" "calendar_sync_failures" {
-  name    = "Calendar Sync Failure Spike"
-  type    = "query alert"
-  query   = "sum(last_1h):sum:platform.feed.ical.failed{env:prod}.as_count() > 5"
-  message = <<-EOT
+  name     = "Calendar Sync Failure Spike"
+  type     = "query alert"
+  query    = "sum(last_1h):sum:platform.feed.ical.failed{env:prod}.as_count() > 5"
+  message  = <<-EOT
     More than {{ threshold }} calendar sync failures detected. iCal feed fetching should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
@@ -186,18 +190,19 @@ resource "datadog_monitor" "calendar_sync_failures" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
 
 resource "datadog_monitor" "firebase_oauth_failures" {
-  name    = "Firebase/OAuth Failure Spike"
-  type    = "query alert"
-  query   = "sum(last_1h):sum:platform.external.firebase.failed{env:prod}.as_count() > 5"
-  message = <<-EOT
+  name     = "Firebase/OAuth Failure Spike"
+  type     = "query alert"
+  query    = "sum(last_1h):sum:platform.external.firebase.failed{env:prod}.as_count() > 5"
+  message  = <<-EOT
     More than {{ threshold }} Firebase/OAuth failures detected. OAuth integration should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
@@ -207,18 +212,19 @@ resource "datadog_monitor" "firebase_oauth_failures" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
 
 resource "datadog_monitor" "task_failures" {
-  name    = "Background Task Failure Spike"
-  type    = "query alert"
-  query   = "sum(last_1h):sum:platform.task.failed{env:prod}.as_count() > 5"
-  message = <<-EOT
+  name     = "Background Task Failure Spike"
+  type     = "query alert"
+  query    = "sum(last_1h):sum:platform.task.failed{env:prod}.as_count() > 5"
+  message  = <<-EOT
     More than {{ threshold }} background task failures detected. Celery workers and task processing should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
@@ -228,14 +234,14 @@ resource "datadog_monitor" "task_failures" {
     critical = 5
   }
 
-  tags = ["managed_by:terraform"]
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
 
 resource "datadog_monitor" "api_undersized" {
-  name    = "API Tasks Undersized"
-  type    = "query alert"
-  query   = "avg(last_1d):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*api*} > 60"
-  message = <<-EOT
+  name     = "API Tasks Undersized"
+  type     = "query alert"
+  query    = "avg(last_1d):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*api*} > 60"
+  message  = <<-EOT
     API CPU utilization has averaged above {{ threshold }}% for the last 24 hours.
 
     This sustained high utilization indicates your API tasks are undersized. Consider:
@@ -245,6 +251,7 @@ resource "datadog_monitor" "api_undersized" {
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 4
 
   include_tags        = false
   on_missing_data     = "default"
@@ -259,10 +266,10 @@ resource "datadog_monitor" "api_undersized" {
 }
 
 resource "datadog_monitor" "worker_undersized" {
-  name    = "Worker Tasks Undersized"
-  type    = "query alert"
-  query   = "avg(last_1d):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*worker*} > 60"
-  message = <<-EOT
+  name     = "Worker Tasks Undersized"
+  type     = "query alert"
+  query    = "avg(last_1d):avg:aws.ecs.cpuutilization{clustername:helium_prod, servicename:*worker*} > 60"
+  message  = <<-EOT
     Worker CPU utilization has averaged above {{ threshold }}% for the last 24 hours.
 
     This sustained high utilization indicates your worker tasks are undersized. Consider:
@@ -272,6 +279,7 @@ resource "datadog_monitor" "worker_undersized" {
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 4
 
   include_tags        = false
   on_missing_data     = "default"
@@ -330,10 +338,10 @@ resource "datadog_monitor" "worker_autoscale_triggered" {
 }
 
 resource "datadog_monitor" "api_slow_responses" {
-  name    = "API Response Times Degraded"
-  type    = "query alert"
-  query   = "avg(last_1d):avg:platform.request.timing.95percentile{env:prod} / 1000 > 3000"
-  message = <<-EOT
+  name     = "API Response Times Degraded"
+  type     = "query alert"
+  query    = "avg(last_1d):avg:platform.request.timing.95percentile{env:prod} / 1000 > 3000"
+  message  = <<-EOT
     API p95 response time has averaged above {{ threshold }}ms for the last 24 hours.
 
     Sustained slow responses indicate a configuration or optimization issue:
@@ -343,6 +351,7 @@ resource "datadog_monitor" "api_slow_responses" {
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 4
 
   include_tags        = false
   on_missing_data     = "default"
@@ -357,10 +366,10 @@ resource "datadog_monitor" "api_slow_responses" {
 }
 
 resource "datadog_monitor" "api_capacity_config" {
-  name    = "API Capacity Configuration Wrong"
-  type    = "query alert"
-  query   = "avg(last_1d):avg:aws.applicationelb.active_connection_count{name:helium-prod} / avg:aws.ecs.service.running{clustername:helium_prod, servicename:*api*} > 12"
-  message = <<-EOT
+  name     = "API Capacity Configuration Wrong"
+  type     = "query alert"
+  query    = "avg(last_1d):avg:aws.applicationelb.active_connection_count{name:helium-prod} / avg:aws.ecs.service.running{clustername:helium_prod, servicename:*api*} > 12"
+  message  = <<-EOT
     Average connections per API task has been above {{ threshold }} for the last 24 hours.
 
     With 18 concurrent connections per task (3 workers × 6 threads), sustained high utilization means your capacity configuration needs adjustment:
@@ -370,6 +379,7 @@ resource "datadog_monitor" "api_capacity_config" {
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 4
 
   include_tags        = false
   on_missing_data     = "default"
@@ -384,10 +394,10 @@ resource "datadog_monitor" "api_capacity_config" {
 }
 
 resource "datadog_monitor" "redis_needs_upgrade" {
-  name    = "Redis Instance Needs Upgrade"
-  type    = "query alert"
-  query   = "avg(last_1d):100 - (avg:aws.elasticache.freeable_memory{name:helium-prod} / 1000000000 * 100) > 70"
-  message = <<-EOT
+  name     = "Redis Instance Needs Upgrade"
+  type     = "query alert"
+  query    = "avg(last_1d):100 - (avg:aws.elasticache.freeable_memory{name:helium-prod} / 1000000000 * 100) > 70"
+  message  = <<-EOT
     Redis memory utilization has averaged above {{ threshold }}% for the last 24 hours.
 
     Sustained high memory usage indicates configuration changes needed:
@@ -397,6 +407,7 @@ resource "datadog_monitor" "redis_needs_upgrade" {
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 4
 
   include_tags        = false
   on_missing_data     = "default"
@@ -411,10 +422,10 @@ resource "datadog_monitor" "redis_needs_upgrade" {
 }
 
 resource "datadog_monitor" "rds_connection_config" {
-  name    = "RDS Connection Configuration Wrong"
-  type    = "query alert"
-  query   = "avg(last_1d):avg:aws.rds.database_connections{name:helium-prod} > 100"
-  message = <<-EOT
+  name     = "RDS Connection Configuration Wrong"
+  type     = "query alert"
+  query    = "avg(last_1d):avg:aws.rds.database_connections{name:helium-prod} > 100"
+  message  = <<-EOT
     RDS connections have averaged above {{ threshold }} for the last 24 hours (max ~150 for db.t4g.small).
 
     Sustained high connection count indicates configuration changes needed:
@@ -424,6 +435,7 @@ resource "datadog_monitor" "rds_connection_config" {
 
     Notify: @support@heliumedu.com
   EOT
+  priority = 4
 
   include_tags        = false
   on_missing_data     = "default"
