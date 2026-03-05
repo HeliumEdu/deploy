@@ -214,6 +214,41 @@ resource "aws_s3_bucket_website_configuration" "heliumedu_frontend_app" {
   }
 }
 
+// ALB access logs bucket
+resource "aws_s3_bucket" "helium_alb_logs" {
+  bucket = "heliumedu.${var.environment}.alb.logs"
+}
+
+resource "aws_s3_bucket_public_access_block" "helium_alb_logs_block_public" {
+  bucket = aws_s3_bucket.helium_alb_logs.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+data "aws_iam_policy_document" "helium_alb_logs_allow_elb_delivery" {
+  statement {
+    sid = "AllowALBLogDelivery"
+
+    principals {
+      type        = "Service"
+      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
+    }
+
+    actions = ["s3:PutObject"]
+    resources = [
+      "arn:aws:s3:::${aws_s3_bucket.helium_alb_logs.bucket}/alb/${var.environment}/AWSLogs/${var.aws_account_id}/*"
+    ]
+  }
+}
+
+resource "aws_s3_bucket_policy" "helium_alb_logs_allow_elb_delivery" {
+  bucket = aws_s3_bucket.helium_alb_logs.id
+  policy = data.aws_iam_policy_document.helium_alb_logs_allow_elb_delivery.json
+}
+
 // Buckets only created once, for production
 
 resource "aws_s3_bucket" "heliumedu" {
@@ -236,4 +271,3 @@ resource "aws_s3_bucket_public_access_block" "heliumedu_block_public" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
-

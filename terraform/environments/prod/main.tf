@@ -42,6 +42,7 @@ module "alb" {
   subnet_ids                      = module.vpc.subnet_ids
   helium_vpc_id                   = module.vpc.vpc_id
   heliumedu_com_cert_arn          = module.certificatemanager.heliumedu_com_cert_arn
+  alb_access_logs_bucket          = module.s3.heliumedu_s3_alb_logs_bucket_name
 }
 
 module "rds" {

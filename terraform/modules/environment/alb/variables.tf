@@ -32,3 +32,8 @@ variable "heliumedu_com_cert_arn" {
   description = "The ARN of the <env>heliumedu.com SSL certificate"
   type        = string
 }
+
+variable "alb_access_logs_bucket" {
+  description = "The S3 bucket name for ALB access logs"
+  type        = string
+}
