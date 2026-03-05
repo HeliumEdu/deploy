@@ -137,16 +137,6 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         toplist_definition {
-          title       = "Slowest Endpoints (Avg ms)"
-          title_size  = "16"
-          title_align = "left"
-          request {
-            q = "avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $version, !path:planner.courseschedules.events} by {path}"
-          }
-        }
-      }
-      widget {
-        toplist_definition {
           title       = "Slowest Endpoints (p95 ms)"
           title_size  = "16"
           title_align = "left"
@@ -313,7 +303,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "top(avg:platform.request.timing.avg{$env, $authenticated, $version, $user_agent, !path:planner.courseschedules.events} by {path}, 5, 'mean', 'desc')"
+            q            = "top(avg:platform.request.timing.95percentile{$env, $authenticated, $version, $user_agent, !path:planner.courseschedules.events} by {path}, 5, 'mean', 'desc')"
             display_type = "line"
             style { palette = "warm" }
           }
@@ -429,20 +419,6 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "area"
             style { palette = "cool" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Task Runtime by Name (Avg ms)"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "avg:platform.task.timing.avg{$env} by {name}"
-            display_type = "line"
-            style { palette = "purple" }
           }
         }
       }
