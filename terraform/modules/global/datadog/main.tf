@@ -151,7 +151,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "top(avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $staff, $version} by {path}, 10, 'mean', 'desc')"
+            q = "avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $staff, $version} by {path}"
           }
         }
       }
@@ -161,7 +161,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "top(avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $staff, $version} by {path}, 10, 'mean', 'desc')"
+            q = "avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $staff, $version} by {path}"
           }
         }
       }
@@ -303,6 +303,20 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
+          title         = "Requests by Route (Top 10)"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "top(sum:platform.request{$env, $staff, $authenticated, $version, $user_agent} by {path}.as_count(), 10, 'sum', 'desc')"
+            display_type = "bars"
+            style { palette = "dog_classic" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
           title         = "Endpoint Response Time (Top 5 Slowest)"
           title_size    = "16"
           title_align   = "left"
@@ -348,20 +362,6 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.request{status_code:429, $env, $staff, $authenticated, $version, $user_agent} by {path}.as_count()"
             display_type = "bars"
             style { palette = "orange" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Requests by Route (Top 10)"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "top(sum:platform.request{$env, $staff, $authenticated, $version, $user_agent} by {path}.as_count(), 10, 'sum', 'desc')"
-            display_type = "bars"
-            style { palette = "dog_classic" }
           }
         }
       }
@@ -444,13 +444,13 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Feed Reindex Time"
+          title         = "Task Runtime by Name (Avg ms)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:platform.task.timing.avg{$env, name:feed.reindex}"
+            q            = "avg:platform.task.timing.avg{$env} by {name}"
             display_type = "line"
             style { palette = "purple" }
           }
@@ -458,13 +458,13 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Purge Refresh Tokens Time"
+          title         = "Task Runtime by Name (p95 ms)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:platform.task.timing.avg{$env, name:token.refresh.purge}"
+            q            = "avg:platform.task.timing.95percentile{$env} by {name}"
             display_type = "line"
             style { palette = "purple" }
           }
@@ -539,42 +539,6 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.task{$env, $version, name:user.unverified.purge}.as_count()"
             display_type = "bars"
             style { palette = "blue" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Category Grade Calculation"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.grade.recalculate.category{$env, $version, $staff}.as_count()"
-            display_type = "bars"
-            style { palette = "orange" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Course Grade Calculation"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.grade.recalculate.course{$env, $version, $staff}.as_count()"
-            display_type = "bars"
-            style { palette = "orange" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Course Group Grade Calculation"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.grade.recalculate.course_group{$env, $version, $staff}.as_count()"
-            display_type = "bars"
-            style { palette = "orange" }
           }
         }
       }
