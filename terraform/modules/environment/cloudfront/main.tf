@@ -271,6 +271,41 @@ resource "aws_route53_record" "support_heliumedu_com" {
   }
 }
 
+// CloudFront access logs bucket
+resource "aws_s3_bucket" "cloudfront_logs" {
+  bucket = "heliumedu.${var.environment}.cloudfront.logs"
+}
+
+resource "aws_s3_bucket_ownership_controls" "cloudfront_logs" {
+  bucket = aws_s3_bucket.cloudfront_logs.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "cloudfront_logs_block_public" {
+  bucket = aws_s3_bucket.cloudfront_logs.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "cloudfront_logs_lifecycle" {
+  bucket = aws_s3_bucket.cloudfront_logs.id
+
+  rule {
+    id     = "expire-old-logs"
+    status = "Enabled"
+
+    expiration {
+      days = 30
+    }
+  }
+}
+
 // Flutter app frontend (app.heliumedu.com)
 
 resource "aws_cloudfront_distribution" "app_heliumedu_com" {
@@ -279,6 +314,12 @@ resource "aws_cloudfront_distribution" "app_heliumedu_com" {
   comment             = "app.${var.route53_heliumedu_com_zone_name}"
   default_root_object = "index.html"
   price_class         = "PriceClass_100"
+
+  logging_config {
+    bucket          = aws_s3_bucket.cloudfront_logs.bucket_domain_name
+    prefix          = "app/"
+    include_cookies = false
+  }
 
   origin {
     origin_id   = "${var.s3_frontend_app_bucket}-origin"
