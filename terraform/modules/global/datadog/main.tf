@@ -151,7 +151,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $version, !path:planner.courseschedules.*.events} by {path}"
+            q = "avg:platform.request.timing.avg{$env, $user_agent, $authenticated, $version, !path:planner.courseschedules.events} by {path}"
           }
         }
       }
@@ -161,7 +161,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           title_size  = "16"
           title_align = "left"
           request {
-            q = "avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $version, !path:planner.courseschedules.*.events} by {path}"
+            q = "avg:platform.request.timing.95percentile{$env, $user_agent, $authenticated, $version, !path:planner.courseschedules.events} by {path}"
           }
         }
       }
@@ -323,7 +323,7 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "top(avg:platform.request.timing.avg{$env, $authenticated, $version, $user_agent, !path:planner.courseschedules.*.events} by {path}, 5, 'mean', 'desc')"
+            q            = "top(avg:platform.request.timing.avg{$env, $authenticated, $version, $user_agent, !path:planner.courseschedules.events} by {path}, 5, 'mean', 'desc')"
             display_type = "line"
             style { palette = "warm" }
           }
