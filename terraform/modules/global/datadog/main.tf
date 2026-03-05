@@ -137,16 +137,6 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         toplist_definition {
-          title       = "Most Used Routes"
-          title_size  = "16"
-          title_align = "left"
-          request {
-            q = "default_zero(sum:platform.request{$env, $user_agent, $authenticated, $staff, $version} by {path}.as_count())"
-          }
-        }
-      }
-      widget {
-        toplist_definition {
           title       = "Slowest Endpoints (Avg ms)"
           title_size  = "16"
           title_align = "left"
@@ -472,61 +462,51 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Push Notifications Sent"
-          show_legend   = true
-          legend_layout = "auto"
-          request {
-            q            = "sum:platform.action.push.sent{$env, $version}.as_count()"
-            display_type = "bars"
-            style { palette = "dog_classic" }
-          }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Emails Sent"
+          title         = "Notifications Sent"
           show_legend   = true
           legend_layout = "auto"
           request {
             q            = "sum:platform.action.email.sent{$env, $version}.as_count()"
             display_type = "bars"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "sum:platform.action.email.sent{$env, $version}.as_count()"
+              alias_name = "Emails"
+            }
           }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Reminders Queued"
-          show_legend   = true
-          legend_layout = "auto"
           request {
-            q            = "sum:platform.task{$env, $staff, $version, name:reminder.queue.*} by {name}.as_count()"
+            q            = "sum:platform.action.push.sent{$env, $version}.as_count()"
             display_type = "bars"
-            style { palette = "dog_classic" }
+            style { palette = "purple" }
+            metadata {
+              expression = "sum:platform.action.push.sent{$env, $version}.as_count()"
+              alias_name = "Push"
+            }
           }
         }
       }
       widget {
         timeseries_definition {
-          title         = "Refresh Tokens Blacklisted"
+          title         = "Refresh Tokens"
           show_legend   = true
           legend_layout = "auto"
           request {
             q            = "sum:platform.task{$env, $version, name:token.refresh.blacklist}.as_count()"
             display_type = "bars"
             style { palette = "blue" }
+            metadata {
+              expression = "sum:platform.task{$env, $version, name:token.refresh.blacklist}.as_count()"
+              alias_name = "Blacklisted"
+            }
           }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Refresh Tokens Purged"
-          show_legend   = true
-          legend_layout = "auto"
           request {
             q            = "sum:platform.task{$env, $version, name:token.refresh.purge}.as_count()"
             display_type = "bars"
-            style { palette = "blue" }
+            style { palette = "orange" }
+            metadata {
+              expression = "sum:platform.task{$env, $version, name:token.refresh.purge}.as_count()"
+              alias_name = "Purged"
+            }
           }
         }
       }
