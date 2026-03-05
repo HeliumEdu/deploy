@@ -369,7 +369,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "/feed/externalcalendars/*/events 200s"
+          title         = "/feed/externalcalendars/events 200s"
           show_legend   = true
           legend_layout = "auto"
           request {
@@ -476,8 +476,8 @@ resource "datadog_dashboard" "helium_heads_up" {
           }
           request {
             q            = "sum:platform.action.push.sent{$env, $version}.as_count()"
-            display_type = "bars"
-            style { palette = "purple" }
+            display_type = "line"
+            style { palette = "purple" line_type = "solid" line_width = "thick" }
             metadata {
               expression = "sum:platform.action.push.sent{$env, $version}.as_count()"
               alias_name = "Push"
@@ -491,22 +491,9 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "sum:platform.task{$env, $version, name:token.refresh.blacklist}.as_count()"
+            q            = "sum:platform.task{$env, $version, name:token.refresh.*} by {name}.as_count()"
             display_type = "bars"
-            style { palette = "blue" }
-            metadata {
-              expression = "sum:platform.task{$env, $version, name:token.refresh.blacklist}.as_count()"
-              alias_name = "Blacklisted"
-            }
-          }
-          request {
-            q            = "sum:platform.task{$env, $version, name:token.refresh.purge}.as_count()"
-            display_type = "bars"
-            style { palette = "orange" }
-            metadata {
-              expression = "sum:platform.task{$env, $version, name:token.refresh.purge}.as_count()"
-              alias_name = "Purged"
-            }
+            style { palette = "dog_classic" }
           }
         }
       }
