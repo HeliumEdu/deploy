@@ -223,18 +223,21 @@ resource "aws_s3_bucket_public_access_block" "helium_alb_logs_block_public" {
   bucket = aws_s3_bucket.helium_alb_logs.id
 
   block_public_acls       = true
-  block_public_policy     = true
+  block_public_policy     = false
   ignore_public_acls      = true
-  restrict_public_buckets = true
+  restrict_public_buckets = false
 }
+
+// Get the ELB service account for the current region
+data "aws_elb_service_account" "main" {}
 
 data "aws_iam_policy_document" "helium_alb_logs_allow_elb_delivery" {
   statement {
     sid = "AllowALBLogDelivery"
 
     principals {
-      type        = "Service"
-      identifiers = ["logdelivery.elasticloadbalancing.amazonaws.com"]
+      type        = "AWS"
+      identifiers = [data.aws_elb_service_account.main.arn]
     }
 
     actions = ["s3:PutObject"]
@@ -247,6 +250,8 @@ data "aws_iam_policy_document" "helium_alb_logs_allow_elb_delivery" {
 resource "aws_s3_bucket_policy" "helium_alb_logs_allow_elb_delivery" {
   bucket = aws_s3_bucket.helium_alb_logs.id
   policy = data.aws_iam_policy_document.helium_alb_logs_allow_elb_delivery.json
+
+  depends_on = [aws_s3_bucket_public_access_block.helium_alb_logs_block_public]
 }
 
 // Buckets only created once, for production
