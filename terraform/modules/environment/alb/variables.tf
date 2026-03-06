@@ -37,3 +37,9 @@ variable "alb_access_logs_bucket" {
   description = "The S3 bucket name for ALB access logs"
   type        = string
 }
+
+variable "request_timeout_seconds" {
+  description = "Max request duration in seconds. Used for deregistration delay."
+  type        = number
+  default     = 60
+}

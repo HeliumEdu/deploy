@@ -43,6 +43,7 @@ module "alb" {
   helium_vpc_id                   = module.vpc.vpc_id
   heliumedu_com_cert_arn          = module.certificatemanager.heliumedu_com_cert_arn
   alb_access_logs_bucket          = module.s3.heliumedu_s3_alb_logs_bucket_name
+  request_timeout_seconds         = var.request_timeout_seconds
 }
 
 module "rds" {
@@ -77,6 +78,7 @@ module "ecs" {
   platform_target_group            = module.alb.platform_target_group
   subnet_ids                       = module.vpc.subnet_ids
   datadog_api_key                  = var.DD_API_KEY
+  request_timeout_seconds          = var.request_timeout_seconds
 }
 
 module "elasticache" {

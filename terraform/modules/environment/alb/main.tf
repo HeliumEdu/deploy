@@ -44,8 +44,8 @@ resource "aws_lb_target_group" "platform" {
   target_type = "ip"
   vpc_id      = var.helium_vpc_id
 
-  # Wait for in-flight requests to complete (max 60s matches Gunicorn timeout)
-  deregistration_delay = 60
+  # Wait for in-flight requests to complete (should match Gunicorn timeout)
+  deregistration_delay = var.request_timeout_seconds
 
   health_check {
     path                = "/status/?subset=core"
