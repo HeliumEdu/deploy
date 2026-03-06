@@ -422,7 +422,7 @@ resource "datadog_monitor" "api_5xx_alb_child" {
   type    = "query alert"
   query   = "sum(last_5m):(sum:aws.applicationelb.httpcode_elb_5xx{name:helium-prod}.as_count() + sum:aws.applicationelb.httpcode_target_5xx{name:helium-prod}.as_count()) > 5"
   message = "ALB 5xx child monitor - see 'API 5xx Error Spike' composite monitor for alerts."
-  priority = 2
+  priority = 3
 
   include_tags        = false
   on_missing_data     = "default"
