@@ -77,6 +77,11 @@ variable "cache_instance_size" {
   default     = "cache.t4g.micro"
 }
 
+variable "request_timeout_seconds" {
+  description = "Max request duration in seconds. Used for Gunicorn timeout, ALB deregistration delay, and ECS health check grace period."
+  default     = 60
+}
+
 variable "helium_area_code" {
   description = "The area code for the Helium phone number"
   default     = "320"

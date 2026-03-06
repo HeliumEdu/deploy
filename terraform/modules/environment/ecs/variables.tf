@@ -93,3 +93,9 @@ variable "datadog_api_key" {
   type        = string
   sensitive   = true
 }
+
+variable "request_timeout_seconds" {
+  description = "Max request duration in seconds. Health check grace period is derived as 2x this value."
+  type        = number
+  default     = 60
+}
