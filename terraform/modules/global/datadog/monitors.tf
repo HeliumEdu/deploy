@@ -425,7 +425,7 @@ resource "datadog_monitor" "api_5xx_alb_child" {
   priority = 3
 
   include_tags        = false
-  on_missing_data     = "default"
+  on_missing_data     = "resolve"
   require_full_window = false
 
   monitor_thresholds {
