@@ -150,14 +150,10 @@ resource "datadog_monitor" "push_delivery_failures" {
 }
 
 resource "datadog_monitor" "server_error_spike" {
-  name     = "500 Error Spike"
+  name     = "API 5xx Error Spike - App (child)"
   type     = "query alert"
   query    = "sum(last_5m):sum:platform.request{env:prod, status_code:500}.as_count() > 10"
-  message  = <<-EOT
-    More than {{ threshold }} 500 errors in the last 5 minutes. The platform may be experiencing issues.
-
-    Notify: @support@heliumedu.com
-  EOT
+  message  = "App-level 500s child monitor - see 'API 5xx Error Spike' composite monitor for alerts."
   priority = 3
 
   include_tags        = false
@@ -421,17 +417,11 @@ resource "datadog_monitor" "redis_needs_upgrade" {
   tags = ["managed_by:terraform", "alert_type:config"]
 }
 
-resource "datadog_monitor" "api_5xx_spike" {
-  name    = "API 5xx Error Spike"
+resource "datadog_monitor" "api_5xx_alb_child" {
+  name    = "API 5xx Error Spike - ALB (child)"
   type    = "query alert"
   query   = "sum(last_5m):(sum:aws.applicationelb.httpcode_elb_5xx{name:helium-prod}.as_count() + sum:aws.applicationelb.httpcode_target_5xx{name:helium-prod}.as_count()) > 5"
-  message = <<-EOT
-    More than {{ threshold }} ALB 5xx errors in the last 5 minutes. Investigate:
-    - ELB 5xx: ALB-generated errors (502/503/504) — ECS targets may be unhealthy or unreachable
-    - Target 5xx: backend returning 5xx as seen by the ALB
-
-    Notify: @support@heliumedu.com
-  EOT
+  message = "ALB 5xx child monitor - see 'API 5xx Error Spike' composite monitor for alerts."
   priority = 2
 
   include_tags        = false
@@ -442,6 +432,23 @@ resource "datadog_monitor" "api_5xx_spike" {
     warning  = 1
     critical = 5
   }
+
+  tags = ["managed_by:terraform", "alert_type:diagnostic"]
+}
+
+resource "datadog_monitor" "api_5xx_spike" {
+  name    = "API 5xx Error Spike"
+  type    = "composite"
+  query   = "${datadog_monitor.server_error_spike.id} || ${datadog_monitor.api_5xx_alb_child.id}"
+  message = <<-EOT
+    API 5xx error spike detected. Investigate:
+    - App-level 500s: the platform may be experiencing errors (check Sentry)
+    - ALB ELB 5xx: ALB-generated errors (502/503/504) — ECS targets may be unhealthy or unreachable
+    - ALB Target 5xx: backend returning 5xx as seen by the ALB
+
+    Notify: @support@heliumedu.com
+  EOT
+  priority = 2
 
   tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
