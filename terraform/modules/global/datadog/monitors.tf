@@ -448,7 +448,8 @@ resource "datadog_monitor" "api_5xx_spike" {
 
     Notify: @support@heliumedu.com
   EOT
-  priority = 2
+  priority        = 2
+  on_missing_data = "resolve"
 
   tags = ["managed_by:terraform", "alert_type:diagnostic"]
 }
