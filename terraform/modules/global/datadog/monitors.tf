@@ -152,12 +152,12 @@ resource "datadog_monitor" "push_delivery_failures" {
 resource "datadog_monitor" "server_error_spike" {
   name     = "API 5xx Error Spike - App (child)"
   type     = "query alert"
-  query    = "sum(last_5m):sum:platform.request{env:prod, status_code:500}.as_count() > 10"
+  query    = "sum(last_5m):default_zero(sum:platform.request{env:prod, status_code:500}.as_count()) > 10"
   message  = "App-level 500s child monitor - see 'API 5xx Error Spike' composite monitor for alerts."
   priority = 3
 
   include_tags        = false
-  on_missing_data     = "resolve"
+  on_missing_data     = "default"
   require_full_window = false
 
   monitor_thresholds {
