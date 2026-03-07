@@ -492,7 +492,7 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
       widget {
         timeseries_definition {
-          title         = "Task Queue Wait Time by Name (p95 ms)"
+          title         = "Task Queue Wait Time (p95 ms)"
           title_size    = "16"
           title_align   = "left"
           show_legend   = true
@@ -502,31 +502,22 @@ resource "datadog_dashboard" "helium_heads_up" {
             display_type = "line"
             style { palette = "orange" }
           }
-        }
-      }
-      widget {
-        timeseries_definition {
-          title         = "Task Queue Wait Time by Priority (p95 ms)"
-          title_size    = "16"
-          title_align   = "left"
-          show_legend   = true
-          legend_layout = "auto"
           request {
             q            = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
             display_type = "line"
-            style { palette = "semantic_red" }
+            style { palette = "semantic_red" line_type = "dashed" line_width = "thick" }
             metadata {
               expression = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
-              alias_name = "High Priority"
+              alias_name = "High Priority (all)"
             }
           }
           request {
             q            = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
             display_type = "line"
-            style { palette = "cool" }
+            style { palette = "cool" line_type = "dashed" line_width = "thick" }
             metadata {
               expression = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
-              alias_name = "Low Priority"
+              alias_name = "Low Priority (all)"
             }
           }
         }
