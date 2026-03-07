@@ -189,6 +189,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.external.firebase.failed{$env, $version}.as_count()"
             display_type = "bars"
             style { palette = "red" }
+            metadata {
+              expression = "sum:platform.external.firebase.failed{$env, $version}.as_count()"
+              alias_name = "Firebase Failures"
+            }
           }
         }
       }
@@ -201,6 +205,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.action.push.failed{$env, $version}.as_count()"
             display_type = "bars"
             style { palette = "red" }
+            metadata {
+              expression = "sum:platform.action.push.failed{$env, $version}.as_count()"
+              alias_name = "Push Failures"
+            }
           }
         }
       }
@@ -213,6 +221,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.action.email.failed{$env, $version}.as_count()"
             display_type = "bars"
             style { palette = "red" }
+            metadata {
+              expression = "sum:platform.action.email.failed{$env, $version}.as_count()"
+              alias_name = "Email Failures"
+            }
           }
         }
       }
@@ -250,6 +262,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.memory_utilization{clustername:helium_$env.value, servicename:*api*}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.ecs.memory_utilization{clustername:helium_$env.value, servicename:*api*}"
+              alias_name = "Memory %"
+            }
           }
         }
       }
@@ -264,6 +280,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.cpuutilization{clustername:helium_$env.value, servicename:*api*}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.ecs.cpuutilization{clustername:helium_$env.value, servicename:*api*}"
+              alias_name = "CPU %"
+            }
           }
         }
       }
@@ -278,6 +298,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*api*}"
             display_type = "area"
             style { palette = "cool" }
+            metadata {
+              expression = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*api*}"
+              alias_name = "Running Tasks"
+            }
           }
         }
       }
@@ -391,6 +415,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.memory_utilization{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.ecs.memory_utilization{clustername:helium_$env.value, servicename:*worker*}"
+              alias_name = "Memory %"
+            }
           }
         }
       }
@@ -405,6 +433,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.cpuutilization{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.ecs.cpuutilization{clustername:helium_$env.value, servicename:*worker*}"
+              alias_name = "CPU %"
+            }
           }
         }
       }
@@ -419,6 +451,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*worker*}"
             display_type = "area"
             style { palette = "cool" }
+            metadata {
+              expression = "avg:aws.ecs.service.running{clustername:helium_$env.value, servicename:*worker*}"
+              alias_name = "Running Tasks"
+            }
           }
         }
       }
@@ -433,6 +469,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:platform.celery.queue.depth{$env}"
             display_type = "line"
             style { palette = "orange" }
+            metadata {
+              expression = "avg:platform.celery.queue.depth{$env}"
+              alias_name = "Queue Depth"
+            }
           }
         }
       }
@@ -447,6 +487,47 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:platform.task.timing.95percentile{$env} by {name}"
             display_type = "line"
             style { palette = "purple" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Task Queue Wait Time by Name (p95 ms)"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:platform.task.queue_time.95percentile{$env} by {name}"
+            display_type = "line"
+            style { palette = "orange" }
+          }
+        }
+      }
+      widget {
+        timeseries_definition {
+          title         = "Task Queue Wait Time by Priority (p95 ms)"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
+            display_type = "line"
+            style { palette = "semantic_red" }
+            metadata {
+              expression = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
+              alias_name = "High Priority"
+            }
+          }
+          request {
+            q            = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
+            display_type = "line"
+            style { palette = "cool" }
+            metadata {
+              expression = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
+              alias_name = "Low Priority"
+            }
           }
         }
       }
@@ -496,6 +577,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.task{$env, $version, name:user.unverified.purge}.as_count()"
             display_type = "bars"
             style { palette = "blue" }
+            metadata {
+              expression = "sum:platform.task{$env, $version, name:user.unverified.purge}.as_count()"
+              alias_name = "Users Purged"
+            }
           }
         }
       }
@@ -520,6 +605,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:aws.cloudfront.5xx_error_rate{environment:$env.value}.weighted()"
             display_type = "bars"
             style { palette = "red" }
+            metadata {
+              expression = "sum:aws.cloudfront.5xx_error_rate{environment:$env.value}.weighted()"
+              alias_name = "5xx Error Rate"
+            }
           }
         }
       }
@@ -569,6 +658,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.applicationelb.healthy_host_count{name:helium-$env.value}"
             display_type = "area"
             style { palette = "cool" }
+            metadata {
+              expression = "avg:aws.applicationelb.healthy_host_count{name:helium-$env.value}"
+              alias_name = "Healthy Targets"
+            }
           }
         }
       }
@@ -582,6 +675,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.applicationelb.active_connection_count{name:helium-$env.value}"
             display_type = "line"
             style { palette = "purple" }
+            metadata {
+              expression = "avg:aws.applicationelb.active_connection_count{name:helium-$env.value}"
+              alias_name = "Active Connections"
+            }
           }
         }
       }
@@ -595,6 +692,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:aws.rds.database_connections{name:helium-$env.value}.weighted()"
             display_type = "area"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "sum:aws.rds.database_connections{name:helium-$env.value}.weighted()"
+              alias_name = "DB Connections"
+            }
           }
         }
       }
@@ -608,6 +709,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.rds.cpuutilization{name:helium-$env.value}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.rds.cpuutilization{name:helium-$env.value}"
+              alias_name = "CPU %"
+            }
           }
         }
       }
@@ -621,6 +726,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.rds.freeable_memory{name:helium-$env.value}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.rds.freeable_memory{name:helium-$env.value}"
+              alias_name = "Freeable Memory"
+            }
           }
         }
       }
@@ -634,6 +743,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:aws.elasticache.curr_connections{name:helium-$env.value}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "sum:aws.elasticache.curr_connections{name:helium-$env.value}"
+              alias_name = "Connections"
+            }
           }
         }
       }
@@ -647,6 +760,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.elasticache.cpuutilization{name:helium-$env.value}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.elasticache.cpuutilization{name:helium-$env.value}"
+              alias_name = "CPU %"
+            }
           }
         }
       }
@@ -660,6 +777,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.elasticache.freeable_memory{name:helium-$env.value}"
             display_type = "line"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "avg:aws.elasticache.freeable_memory{name:helium-$env.value}"
+              alias_name = "Freeable Memory"
+            }
           }
         }
       }
@@ -684,6 +805,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:aws.cloudfront.requests{environment:$env.value}.as_count()"
             display_type = "bars"
             style { palette = "green" }
+            metadata {
+              expression = "sum:aws.cloudfront.requests{environment:$env.value}.as_count()"
+              alias_name = "Requests"
+            }
           }
         }
       }
@@ -697,11 +822,19 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "avg:aws.rds.network_transmit_throughput{name:helium-$env.value}"
             display_type = "line"
             style { palette = "purple" }
+            metadata {
+              expression = "avg:aws.rds.network_transmit_throughput{name:helium-$env.value}"
+              alias_name = "Transmit"
+            }
           }
           request {
             q            = "avg:aws.rds.network_receive_throughput{name:helium-$env.value}"
             display_type = "line"
-            style { palette = "purple" }
+            style { palette = "cool" }
+            metadata {
+              expression = "avg:aws.rds.network_receive_throughput{name:helium-$env.value}"
+              alias_name = "Receive"
+            }
           }
         }
       }
@@ -715,11 +848,19 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:aws.elasticache.network_bytes_in{name:helium-$env.value}.as_rate()"
             display_type = "line"
             style { palette = "purple" }
+            metadata {
+              expression = "sum:aws.elasticache.network_bytes_in{name:helium-$env.value}.as_rate()"
+              alias_name = "Bytes In"
+            }
           }
           request {
             q            = "avg:aws.elasticache.network_bytes_out{name:helium-$env.value}.as_rate()"
             display_type = "line"
-            style { palette = "purple" }
+            style { palette = "cool" }
+            metadata {
+              expression = "avg:aws.elasticache.network_bytes_out{name:helium-$env.value}.as_rate()"
+              alias_name = "Bytes Out"
+            }
           }
         }
       }
