@@ -505,7 +505,11 @@ resource "datadog_dashboard" "helium_heads_up" {
           request {
             q            = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
             display_type = "line"
-            style { palette = "semantic_red" line_type = "dashed" line_width = "thick" }
+            style {
+              palette    = "semantic_red"
+              line_type  = "dashed"
+              line_width = "thick"
+            }
             metadata {
               expression = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
               alias_name = "High Priority (all)"
@@ -514,7 +518,11 @@ resource "datadog_dashboard" "helium_heads_up" {
           request {
             q            = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
             display_type = "line"
-            style { palette = "cool" line_type = "dashed" line_width = "thick" }
+            style {
+              palette    = "cool"
+              line_type  = "dashed"
+              line_width = "thick"
+            }
             metadata {
               expression = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
               alias_name = "Low Priority (all)"
