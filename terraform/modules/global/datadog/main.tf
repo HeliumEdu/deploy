@@ -498,21 +498,15 @@ resource "datadog_dashboard" "helium_heads_up" {
           show_legend   = true
           legend_layout = "auto"
           request {
-            q            = "avg:platform.task.queue_time.95percentile{$env} by {name}"
-            display_type = "line"
-            style { palette = "orange" }
-          }
-          request {
             q            = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
             display_type = "line"
             style {
-              palette    = "semantic_red"
-              line_type  = "dashed"
-              line_width = "thick"
+              palette    = "warm"
+              line_width = "normal"
             }
             metadata {
               expression = "avg:platform.task.queue_time.95percentile{$env, priority:high}"
-              alias_name = "High Priority (all)"
+              alias_name = "High Priority"
             }
           }
           request {
@@ -520,12 +514,11 @@ resource "datadog_dashboard" "helium_heads_up" {
             display_type = "line"
             style {
               palette    = "cool"
-              line_type  = "dashed"
-              line_width = "thick"
+              line_width = "normal"
             }
             metadata {
               expression = "avg:platform.task.queue_time.95percentile{$env, priority:low}"
-              alias_name = "Low Priority (all)"
+              alias_name = "Low Priority"
             }
           }
         }
@@ -865,4 +858,35 @@ resource "datadog_dashboard" "helium_heads_up" {
       }
     }
   }
+}
+
+resource "datadog_monitor" "high_priority_queue_wait" {
+  name    = "High Priority Task Queue Wait Time Elevated"
+  type    = "query alert"
+  message = <<-EOT
+    High priority tasks are waiting in the queue for extended periods (p95 above {{ threshold }} ms over the last hour).
+
+    This indicates the worker may be overwhelmed with low-priority tasks,
+    and it may be time to split into separate high/low priority queues.
+
+    Current p95 queue wait time: {{ value }} ms
+
+    Notify: @support@heliumedu.com
+  EOT
+
+  query = "avg(last_1h):avg:platform.task.queue_time.95percentile{env:prod, priority:high} > 60000"
+
+  monitor_thresholds {
+    critical = 60000
+    warning  = 45000
+  }
+
+  priority            = 4
+  include_tags        = false
+  on_missing_data     = "default"
+  require_full_window = false
+  notify_no_data      = false
+  renotify_interval   = 120
+
+  tags = ["managed_by:terraform", "alert_type:config"]
 }

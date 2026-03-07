@@ -110,7 +110,7 @@ resource "datadog_monitor" "email_delivery_failures" {
   type     = "query alert"
   query    = "sum(last_1h):sum:platform.action.email.failed{env:prod}.as_count() > 5"
   message  = <<-EOT
-    More than {{ threshold }} email delivery failures detected. AWS SES or the email sending service should be investigated.
+    More than {{ threshold }} email delivery failures detected in the last hour. AWS SES or the email sending service should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
@@ -132,7 +132,7 @@ resource "datadog_monitor" "push_delivery_failures" {
   type     = "query alert"
   query    = "sum(last_1h):sum:platform.action.push.failed{env:prod}.as_count() > 5"
   message  = <<-EOT
-    More than {{ threshold }} push notification delivery failures detected. Firebase Cloud Messaging should be investigated.
+    More than {{ threshold }} push notification delivery failures detected in the last hour. Firebase Cloud Messaging should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
@@ -172,7 +172,7 @@ resource "datadog_monitor" "calendar_sync_failures" {
   type     = "query alert"
   query    = "sum(last_1h):sum:platform.feed.ical.failed{env:prod}.as_count() > 5"
   message  = <<-EOT
-    More than {{ threshold }} calendar sync failures detected. iCal feed fetching should be investigated.
+    More than {{ threshold }} calendar sync failures detected in the last hour. iCal feed fetching should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
@@ -194,7 +194,7 @@ resource "datadog_monitor" "firebase_oauth_failures" {
   type     = "query alert"
   query    = "sum(last_1h):sum:platform.external.firebase.failed{env:prod}.as_count() > 5"
   message  = <<-EOT
-    More than {{ threshold }} Firebase/OAuth failures detected. OAuth integration should be investigated.
+    More than {{ threshold }} Firebase/OAuth failures detected in the last hour. OAuth integration should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
@@ -216,7 +216,7 @@ resource "datadog_monitor" "task_failures" {
   type     = "query alert"
   query    = "sum(last_1h):sum:platform.task.failed{env:prod}.as_count() > 5"
   message  = <<-EOT
-    More than {{ threshold }} background task failures detected. Celery workers and task processing should be investigated.
+    More than {{ threshold }} background task failures detected in the last hour. Celery workers and task processing should be investigated.
 
     Notify: @support@heliumedu.com
   EOT
