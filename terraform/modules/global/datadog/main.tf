@@ -390,6 +390,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.request{$env,status_code:200, method:get,$user_agent, $version ,path:feed.externalcalendars.events}.as_count()"
             display_type = "bars"
             style { palette = "green" }
+            metadata {
+              expression = "sum:platform.request{$env,status_code:200, method:get,$user_agent, $version ,path:feed.externalcalendars.events}.as_count()"
+              alias_name = "/feed/externalcalendars/events"
+            }
           }
         }
       }
@@ -557,6 +561,10 @@ resource "datadog_dashboard" "helium_heads_up" {
             q            = "sum:platform.task{$env, $version, name:token.refresh.*} by {name}.as_count()"
             display_type = "bars"
             style { palette = "dog_classic" }
+            metadata {
+              expression = "sum:platform.task{$env, $version, name:token.refresh.*} by {name}.as_count()"
+              alias_name = "Refresh Tokens"
+            }
           }
         }
       }
