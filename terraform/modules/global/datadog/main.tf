@@ -121,6 +121,42 @@ resource "datadog_dashboard" "helium_heads_up" {
         }
       }
       widget {
+        timeseries_definition {
+          title         = "Import/Export"
+          title_size    = "16"
+          title_align   = "left"
+          show_legend   = true
+          legend_layout = "auto"
+          request {
+            q            = "sum:platform.request{$env, $version, path:importexport.import}.as_count()"
+            display_type = "bars"
+            style { palette = "blue" }
+            metadata {
+              expression = "sum:platform.request{$env, $version, path:importexport.import}.as_count()"
+              alias_name = "File Import"
+            }
+          }
+          request {
+            q            = "sum:platform.request{$env, $version, path:importexport.export}.as_count()"
+            display_type = "bars"
+            style { palette = "green" }
+            metadata {
+              expression = "sum:platform.request{$env, $version, path:importexport.export}.as_count()"
+              alias_name = "Export"
+            }
+          }
+          request {
+            q            = "sum:platform.request{$env, $version, path:importexport.import.exampleschedule}.as_count()"
+            display_type = "bars"
+            style { palette = "purple" }
+            metadata {
+              expression = "sum:platform.request{$env, $version, path:importexport.import.exampleschedule}.as_count()"
+              alias_name = "Example Schedule"
+            }
+          }
+        }
+      }
+      widget {
         query_value_definition {
           title       = "Total Requests"
           title_size  = "16"
